@@ -1,11 +1,23 @@
 Package: DefraUtils
-Title: What the Package Does (One Line, Title Case)
+Type: Package
+Title: Utility functions for use by Defra analysts.
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    c(person(given = "Tom", 
+             family = "Pearson", 
+             email = "thomas.pearson@defra.gov.uk", 
+             role = c("cre","aut")),
+      person(given = "Josh", 
+             family = "Moatt", 
+             email = "joshua.moatt@defra.gov.uk", 
+             role = c("aut")))
+Description: The DefraUtils package contains a variety of functions that
+ that could be useful for a variety of analysts within Defra. These include 
+ functions to standardise our ways of working (e.g. project templates) and
+ improve consistency in our approaches (e.g. to rounding). This is an open
+ project and all Defra users should feel free to contribute any functions
+ they think will be of wider use to defra. 
+License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
