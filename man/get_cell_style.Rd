@@ -2,12 +2,12 @@
 % Please edit documentation in R/get-cell-style.R
 \name{get_cell_style}
 \alias{get_cell_style}
-\title{Get cell styles for FBS publications}
+\title{Get cell styles for stats publications}
 \usage{
 get_cell_style(
   style1 = c("text", "number", "percent", "custom"),
-  style2 = c("body", "heading", "average", "lastrow"),
-  total = FALSE,
+  style2 = c("body", "heading", "highlight", "lastrow"),
+  bold = FALSE,
   separator = FALSE,
   custom_format = NULL,
   indent = 0
@@ -22,10 +22,10 @@ to a number of decimal places, define \code{style1} to \code{"custom"} and speci
 
 \item{style2}{Where the data is in the table (heading row, body, average row
 or last row). Heading cells are bold, aligned vertically in the middle, and
-get upper and lower borders. All other cells are bottom-aligned. Average
-cells get upper and lower borders, while last cells just get lower borders.}
+get upper and lower borders. All other cells are bottom-aligned. 'Highlight'
+cells get upper and lower borders, while 'last row' cells just get lower borders.}
 
-\item{total}{Is the cell is in a total row? Total rows are bold.}
+\item{bold}{logical, default = \code{FALSE}; should the text be bold?}
 
 \item{separator}{logical, default = \code{FALSE}; should there be a separating
 border to the right of the column?}
@@ -36,5 +36,5 @@ custom number format, e.g., "##0.0\%" rounds a percentage to 1 decimal place.}
 \item{indent}{Numeric, default = 0; Horizontal indentation of cell contents.}
 }
 \description{
-Get cell styles for FBS publications
+Get cell styles for stats publications
 }
