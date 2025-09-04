@@ -33,7 +33,6 @@ Depends:
     R (>= 3.5)
 LazyData: true
 Imports: 
-    aftables,
     bestNormalize,
     dplyr,
     ggplot2,
@@ -43,6 +42,7 @@ Imports:
     moments,
     openxlsx,
     plyr,
+    polite,
     readr,
     rlang,
     rvest,
@@ -51,7 +51,6 @@ Imports:
     survey,
     tibble,
     tidyr,
-    usethis,
     xfun,
     xml2,
     zoo
