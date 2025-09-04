@@ -1,19 +1,30 @@
 #' Tidy up a log created by futile.logger
 #'
-#' The messages you have written using by futile logger should have the
-#' following format: "message: detail". For example:
-#' \code{flog.info("Rows in data: %s", nrow(data))}
-#' Ensure that there is only one colon+space in the message, as ": " is used to
-#' split the columns. This function will separate the log into four columns:
-#' message_type, timestamp, message, and detail. If more than on colon+space is
-#' used, everything after the first colon will end up in the detail column. If
-#' you have not included a colon+space in your log message the detail column
-#' will be populated with NA.
+#' The messages you have written using [futile.logger] should have the
+#' following format: "message: detail", e.g.
+#' \code{flog.info("Rows in data: %s", nrow(data))}.
+#' Or they can be a message without detail, e.g.
+#' \code{flog.warn("Data file not found")}.
 #'
-#' @param log_path the file path where the futile.logger log is saved
-#' @param export_path the path to write the tidy log to
-#' @param export logical; if TRUE (default) will export the tidied log as a csv
+#' Ensure that there is only one `": "` in the message, as this string is used
+#' to split the columns. This function will separate the log into four columns:
+#' * `message_type`
+#' * `timestamp`
+#' * `message`
+#' * `detail`
+#'
+#' If more than one `": "` is used, everything after the first colon will end up
+#' in the detail column. If you have not included `": "` in your log message,
+#' the detail column will be populated with `NA`.
+#'
+#' @param log_path the file path where the futile logger log is saved
+#' @param export_path the path to write the tidy log to; the default is the
+#' current location of the log, i.e., will overwrite the current log
+#' @param export logical; if `TRUE` (default) will export the tidied log as a csv
 #' file, otherwise will return it to the console
+#' @param delim the delimiter used in the futile logger log; the default, `"|"`,
+#' should match any futile logger log, but the option has been given in case
+#' futile.logger changes
 #'
 #' @importFrom readr read_delim write_csv
 #' @importFrom dplyr %>% mutate
