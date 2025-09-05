@@ -79,3 +79,8 @@ test_that("optimise argument works", {
   expect_equal(round_with_commas(111111114, "optimise", optimise_to = "100m"), "100,000,000")
   expect_equal(round_with_commas(1111111114, "optimise", optimise_to = "100m"), "1,100,000,000")
 })
+
+test_that("round_zeros argument works", {
+  expect_equal(round_with_commas(0.01, "optimise"), "0")
+  expect_equal(round_with_commas(0.01, "optimise", round_zeros = F), "0.0")
+})

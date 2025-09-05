@@ -35,6 +35,8 @@
 #' of 10 (including minus powers, e.g. 0.1)
 #' @param optimise_to The maximum value values are rounded to, as a string
 #' (1, or powers of 10 from 100 to 100 million, see details)
+#' @param round_zeros When `method = "optimise"`, should zeros be shown with no
+#' decimal places (`TRUE`), or to 1 decimal place (`FALSE`)?
 #'
 #' @return A rounded value with comma separators
 #'
@@ -42,7 +44,8 @@
 
 round_with_commas <- function(x, method = c("round_to", "optimise"), round_to = NULL,
                               optimise_to = c("1", "100", "1k", "10k",
-                                              "100k", "1m", "10m", "100m")) {
+                                              "100k", "1m", "10m", "100m"),
+                              round_zeros = TRUE) {
 
   method <- arg_match(method)
   optimise_to <- arg_match(optimise_to)
@@ -62,7 +65,7 @@ round_with_commas <- function(x, method = c("round_to", "optimise"), round_to = 
                 !optimise_to %in% optimise_args[1]   & (x <= -100 | x >= 100) ~ round_half_up(x, -2),
                 x <= -10 | x >= 10 ~ round_half_up(x, 0),
                 TRUE ~ round_half_up(x, 1)),
-      accuracy = ifelse(is.na(x) | (x > -0.05 & x < 0.05) | x <= -10 | x >= 10,
+      accuracy = ifelse(is.na(x) | (x > -0.05 & x < 0.05 & round_zeros) | x <= -10 | x >= 10,
                         1, 0.1))
 
   } else {
