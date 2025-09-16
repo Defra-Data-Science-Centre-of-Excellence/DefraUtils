@@ -163,6 +163,21 @@ get_pc_in_words <- function(pc, pc_rnd) {
 }
 
 
+#' @title Adapt scales::cut_long_scale to allow lower case
+#' @seealso [scales::cut_long_scale()]
+#' @export
+cut_long_scale <- function(lower = T, space = FALSE) {
+  out <- c(0, K = 1e3, M = 1e6, B = 1e12, T = 1e18)
+  if (space) {
+    names(out) <- paste0(" ", names(out))
+  }
+  if (lower) {
+    names(out) <- tolower(names(out))
+  }
+  out
+}
+
+
 #' @title Compare two year's worth of data
 #'
 #' @description
