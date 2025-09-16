@@ -8,7 +8,8 @@ round_with_commas(
   x,
   method = c("round_to", "optimise"),
   round_to = NULL,
-  optimise_to = c("1", "100", "1k", "10k", "100k", "1m", "10m", "100m")
+  optimise_to = c("1", "100", "1k", "10k", "100k", "1m", "10m", "100m"),
+  round_zeros = TRUE
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ of 10 (including minus powers, e.g. 0.1)}
 
 \item{optimise_to}{The maximum value values are rounded to, as a string
 (1, or powers of 10 from 100 to 100 million, see details)}
+
+\item{round_zeros}{When \code{method = "optimise"}, should zeros be shown with no
+decimal places (\code{TRUE}), or to 1 decimal place (\code{FALSE})?}
 }
 \value{
 A rounded value with comma separators
