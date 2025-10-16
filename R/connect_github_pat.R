@@ -45,6 +45,15 @@
 #'
 #' @return GitHub credentials and PAT set
 #'
+#' @examples
+#' \dontrun{
+#' # Set GitHub credentials
+#' connect_github_pat(
+#'   username = "my_github_username",
+#'   email = "my_email"
+#' )
+#'}
+#'
 #' @export
 connect_github_pat <- function(
     username,
