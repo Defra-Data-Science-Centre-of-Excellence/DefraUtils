@@ -27,10 +27,10 @@
 #'   with `tryCatch()`. If no error is thrown by `brickster`, the functions read
 #'   in the temporary file into R using an appropriate reader function and
 #'   returns the resulting data frame. If an error is thrown by `brickster`, the
-#'   functions will wait a set time number of seconds (controlled by the
-#'   interval arguement) before retrying. They will repeat the attemtpted data
-#'   load until either the file is read successfully or the maximum number of
-#'   attempts (set by max_tries) is reached—after which it throws an error.
+#'   functions will wait a set number of seconds (controlled by the interval
+#'   argument) before retrying. They will repeat the attempted data load until
+#'   either the file is read successfully or the maximum number of attempts (set
+#'   by max_tries) is reacher - after which it throws an error.
 #'
 #'   In order for these functions to work, you must be working on the Defra DASH
 #'   platform and have set the required brickster environmental variables. These
@@ -66,23 +66,25 @@
 #' read_rds_from_volume(
 #'   path ="/Volumes/prd_dash_lab/<path-to-file>/filename.Rds"
 #' )
-#' 
+#'
 #' # read csv file
 #' read_csv_from_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.csv",
 #'   show_col_types = FALSE
 #' )
-#' 
+#'
 #' # read xlsx file
 #' read_xlsx_from_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
 #'   sheet = "sheet-name"
 #' )
-#' 
+#'
 #' }
 #'
 #' @seealso [readr::read_csv()], [readr::read_rds()], [readxl::read_xlsx()]
+#'
 #' @name read_files_from_volume
+#'
 #' @export
 NULL
 
