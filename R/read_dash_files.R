@@ -62,7 +62,23 @@
 #'
 #' @examples
 #' \dontrun{
-#'
+#' # read Rds file
+#' read_rds_from_volume(
+#'   path ="/Volumes/prd_dash_lab/<path-to-file>/filename.Rds"
+#' )
+#' 
+#' # read csv file
+#' read_csv_from_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.csv",
+#'   show_col_types = FALSE
+#' )
+#' 
+#' # read xlsx file
+#' read_xlsx_from_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
+#'   sheet = "sheet-name"
+#' )
+#' 
 #' }
 #'
 #' @seealso [readr::read_csv()], [readr::read_rds()], [readxl::read_xlsx()]
