@@ -10,9 +10,9 @@
 #'   the DASH platform. However, there are also more specific functions, to save
 #'   data frames a specific file types (.Rd, .csv, .xlsx workbooks). These
 #'   functions use the general function alongside an appropriate write function,
-#'   using the temporary directory to avoid saving anything locally. In order
-#'   for these functions to work, you must be working on the Defra DASH platform
-#'   and have set the required `brickster` environmental variables.
+#'   using a temporary file to avoid saving anything locally. In order for these
+#'   functions to work, you must be working on the Defra DASH platform and have
+#'   set the required `brickster` environmental variables.
 #'
 #' @details These functions are designed to handle the frequent http2 errors
 #'   that occur with `brickster`. From testing, these errors are not code or
