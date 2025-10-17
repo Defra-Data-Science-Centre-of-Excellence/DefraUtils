@@ -25,7 +25,7 @@
 #'
 #'   All of the functions  use the general `dash_volume_write` function. This
 #'   uses `brickster::db_volume_write()`, to attempt to write the data to the
-#'   specified DASH volume. It use a retry loop that catch errors with
+#'   specified DASH volume. It uses a retry loop that catch errors with
 #'   `tryCatch()`. If no error is thrown by `brickster`, the function will end
 #'   as the data has been written. If an error is thrown by `brickster`, the
 #'   function will wait a set number of seconds (controlled by the interval
@@ -56,7 +56,8 @@
 #'   more information on how to do this, see the specific project README.
 #'
 #' @param path A string containing the path on DASH to save the file to. Should
-#'   be the full DASH string starting "/Volumes/..."
+#'   be the full DASH string starting "/Volumes/..." including file name and
+#'   extension. 
 #'
 #' @param data (All function except `dash_volume_write`) Object to be saved.
 #'   Usually this will be a data frame or similar. For `write_xlsx_to_volume`,
@@ -75,7 +76,34 @@
 #'   persistent http errors. Default is 2
 #'
 #' @return Data file saved to DASH volume.
+#' 
+#' @examples
+#' \dontrun{
+#' # write existing file
+#' dash_volume_write(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.docx",
+#'   file = here::here("outputs", "filename.docx")
+#' )
 #'
+#' # write csv file
+#' write_csv_to_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.csv",
+#'   data = my_data_frame
+#' )
+#'
+#' # write xlsx file
+#' write_xlsx_to_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
+#'   data = my_data_frame
+#' )
+#' 
+#' # write Rds file
+#' write_rds_to_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.Rds",
+#'   data = my_data_frame
+#' )
+#' }
+#' 
 #' @name write_files_to_volume
 #'
 #' @export
