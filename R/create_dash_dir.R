@@ -2,12 +2,11 @@
 #'
 #' @author Josh Moatt
 #'
-#' @description Functions to streamline writing files to DASH volumes. These
-#'   functions will help avoid the http2 error which seems to be a frequent
-#'   problem with `brickster`. This Function will streamline creating folders in
-#'   DASH volumes. In order for these functions to work, you must be working on
-#'   the Defra DASH platform and have set the required `brickster` environmental
-#'   variables.
+#' @description Function to streamline creating directories in DASH volumes.
+#'   This function will help avoid the http2 error which seems to be a frequent
+#'   problem with `brickster`. In order for this function to work, you must be
+#'   working on the Defra DASH platform and have set the required `brickster`
+#'   environmental variables.
 #'
 #'
 #' @details This function is designed to handle the frequent http2 errors that
@@ -41,14 +40,15 @@
 #'   persistent http errors. Default is 2
 #'
 #' @return Folder created in DASH catalog.
+#' 
 #' @examples
 #' \dontrun{
-#' # read Rds file
+#' # create directory
 #' create_dash_dir(
 #'   path = "/Volumes/prd_dash_lab/<volume-name>/<new-directory-name>"
 #' )
 #' }
-#' 
+#'
 #' @export
 create_dash_dir <- function(..., max_tries = 5, interval = 2) {
   attempt <- 1
