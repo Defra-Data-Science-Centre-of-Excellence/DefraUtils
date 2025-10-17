@@ -11,10 +11,12 @@
 #'
 #' @return A script will open in RStudio.
 #'
+#' @name script_addins
+#'
 #' @export
 NULL
 
-#' @rdname defra_script_addin
+#' @rdname script_addins
 #' @export
 defra_script_addin <- function() {
   
@@ -73,7 +75,7 @@ defra_script_addin <- function() {
   )
 }
 
-#' @rdname defra_roxygen_addin
+#' @rdname script_addins
 #' @export
 defra_roxygen_addin <- function() {
   
