@@ -32,25 +32,27 @@
 #'
 #' @export
 uc_volume_get <- function(
-    workspace,
-    volume,
-    token,
-    out_file
+  workspace,
+  volume,
+  token,
+  out_file
 ) {
   # set URL
   url <- glue::glue("{workspace}/api/2.0/fs/files/{volume}")
-  
+
   # set header (with DataBricks PAT)
-  headers <- httr::add_headers('Authorization' = glue::glue('Bearer {token}'))
-  
-  
+  headers <- httr::add_headers("Authorization" = glue::glue("Bearer {token}"))
+
+
   # make the GET request
-  response <- httr::GET(url,
-                        headers,
-                        httr::write_disk(out_file,
-                                         overwrite = TRUE))
-  
+  response <- httr::GET(
+    url,
+    headers,
+    httr::write_disk(out_file,
+      overwrite = TRUE
+    )
+  )
+
   # Extract content from the response
   httr::stop_for_status(response)
-  
 }
