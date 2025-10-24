@@ -153,7 +153,7 @@ create_script_template <- function(
       "# Pacman",
       "if (!require(pacman)) {",
       "  install.packages(\"pacman\")",
-      "  library(pacman) # for automatic install of missing packaged through p_load",
+      "  library(pacman) # for automatic install of packageds through p_load",
       "}",
       "",
       "# Packages (add additional packages as needed):",

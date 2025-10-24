@@ -47,7 +47,7 @@ defra_script_addin <- function() {
     "# Pacman \n",
     "if (!require(pacman)) { \n",
     "  install.packages(\"pacman\") \n",
-    "  library(pacman) # for automatic install of missing packaged through p_load \n",
+    "  library(pacman) # for automatic install of packages through p_load \n",
     "} \n",
     "\n",
     "# Common packages (add additional packages as needed): \n",
