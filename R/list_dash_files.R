@@ -50,22 +50,25 @@ list_dash_files <- function(path, max_tries = 5, interval = 2) {
   attempt <- 1
   success <- FALSE
   tmp <- NULL
-  
+
   while (attempt <= max_tries && !success) {
-    tryCatch({
-      tmp <- brickster::db_volume_list(
-        path = path,
-      )
-      success <- TRUE
-    }, error = function(e) {
-      Sys.sleep(interval)
-      attempt <<- attempt + 1
-    })
+    tryCatch(
+      {
+        tmp <- brickster::db_volume_list(
+          path = path,
+        )
+        success <- TRUE
+      },
+      error = function(e) {
+        Sys.sleep(interval)
+        attempt <<- attempt + 1
+      }
+    )
   }
-  
+
   if (!success) {
     stop("Failed to pull list after ", max_tries, " attempts.")
   }
-  
+
   return(tmp)
 }

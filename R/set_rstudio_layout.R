@@ -44,19 +44,16 @@
 #' }
 #'
 #' @export
-set_rstudio_layout <- function(...){
+set_rstudio_layout <- function(...) {
   list_updated_prefs <- rlang::dots_list(...)
-  
-  
+
   # pull a list of current preferences based on the updates we want to make
   list_current_prefs <- names(list_updated_prefs) |>
-    purrr::map(~rstudioapi::readRStudioPreference(.x, default = NULL)) |>
+    purrr::map(~ rstudioapi::readRStudioPreference(.x, default = NULL)) |>
     stats::setNames(names(list_updated_prefs)) |>
     purrr::compact()
-  
+
   # overwirte exisitng preferences and safe
   list_updated_prefs |>
-    purrr::iwalk(~rstudioapi::writeRStudioPreference(name = .y, value = .x))
+    purrr::iwalk(~ rstudioapi::writeRStudioPreference(name = .y, value = .x))
 }
-
-

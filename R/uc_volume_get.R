@@ -28,7 +28,7 @@
 #'   token = "dapid4b3d********************a687f9b",
 #'   out_file = here::here("data", "filename.csv")
 #' )
-#'}
+#' }
 #'
 #' @export
 uc_volume_get <- function(

@@ -24,7 +24,7 @@
 #' @param folder path to file you wish to save, excluding file name and
 #'   extension (string).
 #'
-#' @return file saved on DASH. 
+#' @return file saved on DASH.
 #'
 #' @examples
 #' \dontrun{
@@ -35,30 +35,29 @@
 #'   file = "filename.csv",
 #'   folder = here::here("data")
 #' )
-#'}
+#' }
 #'
 #' @export
 uc_volume_put <- function(
-    workspace,
-    volume,
-    token,
-    file,
-    folder
+  workspace,
+  volume,
+  token,
+  file,
+  folder
 ) {
   # set URL
   url <- glue::glue("{workspace}/api/2.0/fs/files/{volume}/{file}")
-  
+
   # combine folder and file to get out_file
   out_file <- glue::glue("{folder}/{file}")
-  
+
   # write data to data bricks
   response <- httr2::request(url) %>%
     httr2::req_method("PUT") %>% # PUT request seems to work best
     httr2::req_headers(
-      Authorization = glue('Bearer {token}'), # use data bricks PAT
-      `Content-Type` = 'multipart/form-data' # may need to incorporate other file types long-term
+      Authorization = glue("Bearer {token}"), # use data bricks PAT
+      `Content-Type` = "multipart/form-data"
     ) %>%
     httr2::req_body_file(out_file) %>% # specifies file to export
     httr2::req_perform()
 }
-

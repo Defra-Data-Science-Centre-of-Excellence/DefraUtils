@@ -52,49 +52,50 @@
 #'   username = "my_github_username",
 #'   email = "my_email"
 #' )
-#'}
+#' }
 #'
 #' @export
 connect_github_ssh <- function(
-    username,
-    email
+  username,
+  email
 ) {
-  
   # Git config
   system(paste0('git config --global user.name "', username, '"'))
   system(paste0('git config --global user.email "', email, '"'))
-  
+
   # check config
   cli::cli_text("")
   cli::cli_alert_success("GitHub credentials set to:")
-  system('git config --global --list')
+  system("git config --global --list")
   cli::cli_text("")
-  
+
   # Set SSH key path
   ssh_key_path <- "~/.ssh/id_ed25519"
-  
+
   # Create SSH directory
   dir.create("~/.ssh", showWarnings = FALSE, recursive = TRUE)
-  
+
   # Generate SSH key (no prompts)
-  system(sprintf('ssh-keygen -t ed25519 -C "%s" -f %s -N ""', email, ssh_key_path))
-  
+  system(
+    sprintf('ssh-keygen -t ed25519 -C "%s" -f %s -N ""', email, ssh_key_path)
+  )
+
   # messages
   cli::cli_text("")
   cli::cli_alert_success("SSH token created")
   cli::cli_alert_info("Now copy your SSH token below and add it to your SSH keys at https://github.com/settings/keys :")
   cli::cli_text("")
-  
+
   # Show public key (for adding to GitHub)
   system("cat ~/.ssh/id_ed25519.pub")
-  
+
   # Message
   cli::cli_text("")
   cli::cli_alert_success("Adding github.com to known hosts")
-  
+
   # Add GitHub to known_hosts
   system("ssh-keyscan github.com >> ~/.ssh/known_hosts")
-  
+
   {
     tmp <- readline("Have you added your SSH token on GitHub? y/n \n")
     if (tmp == "y") {
@@ -106,5 +107,4 @@ connect_github_ssh <- function(
       cli::cli_alert_info("To complete manually, run `ssh -T git@github.com` in the terminal once SSH token added to GitHub \n")
     }
   }
-  
 }

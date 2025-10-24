@@ -19,35 +19,34 @@
 #' \dontrun{
 #' # set user prompt
 #' set_console_prompt("user")
-#' 
+#'
 #' # set project prompt
 #' set_console_prompt("project")
-#' 
-#'
+#' }
 #' @export
 set_console_prompt <- function(scope) {
   # check correct scope selected
-  if (!scope %in% c("user", "project")){
+  if (!scope %in% c("user", "project")) {
     cli::cli_alert_danger("Invalid scope selected")
     cli::cli_alert_info('Set scope to either "user" or "project"')
     stop("Cancelled: Invalid scope selected!", call = FALSE)
   }
-  
-  # set path based on scope. 
+
+  # set path based on scope.
   if (scope == "user") {
     rprofile_path <- "~/.Rprofile"
   } else if (scope == "project") {
     rprofile_path <- "./.Rprofile"
   }
-  
+
   # read current profile (if present)
   current_profile <- readLines(rprofile_path)
-  
+
   # check for existing prompt in profile
   if (
     any(grepl("\\.First <- function\\(", current_profile)) &&
       any(grepl("my_prompt <- function\\(", current_profile))
-    ) {
+  ) {
     cli::cli_alert_danger("Note: custom profile already present\n")
     cli::cli_alert_info("Edit using `usethis::edit_r_profile()` and try again.")
     stop("Cancelled: Prompt already present!", call = FALSE)
@@ -76,9 +75,8 @@ set_console_prompt <- function(scope) {
 }
 '
   }
-# write to file
-cat(my_prompt, file = rprofile_path, append = TRUE)
+  # write to file
+  cat(my_prompt, file = rprofile_path, append = TRUE)
 
-cli::cli_alert_info("Restart R for prompt changes to take effect")
-
+  cli::cli_alert_info("Restart R for prompt changes to take effect")
 }

@@ -19,7 +19,6 @@ NULL
 #' @rdname script_addins
 #' @export
 defra_script_addin <- function() {
-  
   # make FS header template
   header <- stringr::str_c(
     "## - - - - - - - - - - - - - - \n",
@@ -40,7 +39,7 @@ defra_script_addin <- function() {
     "## \n",
     "## - - - - - - - - - - - - - - \n",
     "## Notes: \n",
-    "## \n" ,
+    "## \n",
     "## \n",
     "## - - - - - - - - - - - - - - \n",
     "## Packages: \n",
@@ -65,7 +64,7 @@ defra_script_addin <- function() {
     "\n",
     "## - - - - - - - - - - - - - - \n"
   )
-  
+
   # Open using Rstudio API
   rstudioapi::documentNew(
     text = header,
@@ -78,7 +77,6 @@ defra_script_addin <- function() {
 #' @rdname script_addins
 #' @export
 defra_roxygen_addin <- function() {
-  
   # make FS header template
   header <- stringr::str_c(
     "#' @title \n",
@@ -95,11 +93,11 @@ defra_roxygen_addin <- function() {
     "#' @param argument description add more as needed \n",
     "#' \n",
     "#' @return \n",
-    "#' what is the output \n" ,
+    "#' what is the output \n",
     "#' \n",
     "#' @export \n"
   )
-  
+
   # Open using Rstudio API
   rstudioapi::documentNew(
     text = header,

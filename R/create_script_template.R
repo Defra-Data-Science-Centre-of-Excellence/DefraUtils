@@ -67,7 +67,7 @@
 #' \dontrun{
 #' # Set to default template on local install
 #' create_script_template()
-#' 
+#'
 #' # create custom template
 #' my_template <- c(
 #'   "## Script name: ",
@@ -78,7 +78,7 @@
 #'   "##",
 #'   "## Date Created: "
 #' )
-#' 
+#'
 #' # apply custom template in dash
 #' create_script_template(
 #'   format = "custom",
@@ -86,15 +86,15 @@
 #'   dash = TRUE
 #' )
 #'
-#' # remove template 
+#' # remove template
 #' create_script_template(format = "blank")
 #' }
 #'
 #' @export
 create_script_template <- function(
-    format = "default",
-    template = NULL,
-    dash = FALSE
+  format = "default",
+  template = NULL,
+  dash = FALSE
 ) {
   # check format choice
   if (!format %in% c("default", "custom", "manual_edit", "blank")) {
@@ -108,23 +108,23 @@ create_script_template <- function(
     ))
     stop("Invalid format")
   }
-  
+
   # set file path
   file_path <- ifelse(
     dash,
     "~/.config/rstudio/templates",
     "~/AppData/Roaming/RStudio/templates"
   )
-  
+
   # Create header based on format
   if (format == "default") {
     ## default
-    
+
     # create template file if it doesn't exist already
     if (!fs::file_exists(file_path)) {
       fs::dir_create(path = file_path)
     }
-    
+
     # make default header template
     header <- c(
       "## - - - - - - - - - - - - - -",
@@ -145,7 +145,7 @@ create_script_template <- function(
       "##",
       "## - - - - - - - - - - - - - -",
       "## Notes:",
-      "##" ,
+      "##",
       "##",
       "## - - - - - - - - - - - - - -",
       "## Packages:",
@@ -171,54 +171,51 @@ create_script_template <- function(
       "## - - - - - - - - - - - - - -",
       ""
     )
-    
+
     # Create default R script template with header
     cat(
       header,
       file = fs::path_expand(paste0(file_path, "/default.R")),
       sep = "\n"
     )
-    
   } else if (format == "custom") {
-    ## custom 
-    
+    ## custom
+
     # check template provided
-    if (is.null(template)){
+    if (is.null(template)) {
       cli::cli_alert_danger("No template provided - aborting!")
       stop("Error: no template provided.")
     }
-    
+
     # create template file if it doesn't exist already
     if (!fs::file_exists(file_path)) {
       fs::dir_create(path = file_path)
     }
-    
+
     # Create default R script template with header provided
     cat(
       template,
       file = fs::path_expand(paste0(file_path, "/default.R")),
       sep = "\n"
     )
-    
   } else if (format == "manual_edit") {
     ## edit template manually
-    
+
     # create template file if it doesn't exist already
     if (!fs::file_exists(file_path)) {
       fs::dir_create(path = file_path)
     }
-    
+
     # Create the default file if doesn't exist already
     if (!fs::file_exists(paste0(file_path, "/default.R"))) {
       fs::file_create(paste0(file_path, "/default.R"))
     }
-    
+
     # Open the file in RStudio to edit it
     usethis::edit_file(paste0(file_path, "/default.R"))
-    
   } else if (format == "blank") {
-    ## remove template 
-    
+    ## remove template
+
     # this removes any pre-existing defaults
     fs::file_delete(paste0(file_path, "/default.R"))
   }

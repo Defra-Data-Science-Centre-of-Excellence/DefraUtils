@@ -57,7 +57,7 @@
 #'
 #' @param path A string containing the path on DASH to save the file to. Should
 #'   be the full DASH string starting "/Volumes/..." including file name and
-#'   extension. 
+#'   extension.
 #'
 #' @param data (All function except `dash_volume_write`) Object to be saved.
 #'   Usually this will be a data frame or similar. For `write_xlsx_to_volume`,
@@ -76,7 +76,7 @@
 #'   persistent http errors. Default is 2
 #'
 #' @return Data file saved to DASH volume.
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # write existing file
@@ -96,31 +96,34 @@
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
 #'   data = my_data_frame
 #' )
-#' 
+#'
 #' # write Rds file
 #' write_rds_to_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.Rds",
 #'   data = my_data_frame
 #' )
 #' }
-#' 
+#'
 #' @name write_files_to_volume
 #'
 #' @export
 dash_volume_write <- function(..., max_tries = 5, interval = 2) {
   attempt <- 1
   success <- FALSE
-  
+
   while (attempt <= max_tries && !success) {
-    tryCatch({
-      brickster::db_volume_write(...)
-      success <- TRUE
-    }, error = function(e) {
-      Sys.sleep(interval)
-      attempt <<- attempt + 1
-    })
+    tryCatch(
+      {
+        brickster::db_volume_write(...)
+        success <- TRUE
+      },
+      error = function(e) {
+        Sys.sleep(interval)
+        attempt <<- attempt + 1
+      }
+    )
   }
-  
+
   if (!success) {
     stop("Failed to write file after ", max_tries, " attempts.")
   }
@@ -129,13 +132,12 @@ dash_volume_write <- function(..., max_tries = 5, interval = 2) {
 #' @rdname write_files_to_volume
 #' @export
 write_xlsx_to_volume <- function(data, path, ...) {
-  
   # Create a temporary .xlsx file
   temp <- tempfile(fileext = ".xlsx")
-  
+
   # Save the workbook to the temporary file
   openxlsx::saveWorkbook(data, file = temp)
-  
+
   # Write the file to Brickster volume
   DefraUtils::dash_volume_write(
     path = path,
@@ -147,13 +149,12 @@ write_xlsx_to_volume <- function(data, path, ...) {
 #' @rdname write_files_to_volume
 #' @export
 write_rds_to_volume <- function(data, path, ...) {
-  
   # Create a temporary .xlsx file
   temp <- tempfile(fileext = ".rds")
-  
+
   # Save the workbook to the temporary file
   saveRDS(data, file = temp)
-  
+
   # Write the file to Brickster volume
   DefraUtils::dash_volume_write(
     path = path,
@@ -166,16 +167,15 @@ write_rds_to_volume <- function(data, path, ...) {
 #' @export
 #' @export
 write_csv_to_volume <- function(data, path, ...) {
-  
   # Create a temporary .xlsx file
   temp <- tempfile(fileext = ".csv")
-  
+
   # Save the workbook to the temporary file
   readr::write_csv(
     data,
     file = temp
   )
-  
+
   # Write the file to Brickster volume
   DefraUtils::dash_volume_write(
     path = path,

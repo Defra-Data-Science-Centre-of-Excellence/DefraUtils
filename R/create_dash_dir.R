@@ -40,7 +40,7 @@
 #'   persistent http errors. Default is 2
 #'
 #' @return Folder created in DASH catalog.
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # create directory
@@ -53,17 +53,20 @@
 create_dash_dir <- function(..., max_tries = 5, interval = 2) {
   attempt <- 1
   success <- FALSE
-  
+
   while (attempt <= max_tries && !success) {
-    tryCatch({
-      brickster::db_volume_dir_create(...)
-      success <- TRUE
-    }, error = function(e) {
-      Sys.sleep(interval)
-      attempt <<- attempt + 1
-    })
+    tryCatch(
+      {
+        brickster::db_volume_dir_create(...)
+        success <- TRUE
+      },
+      error = function(e) {
+        Sys.sleep(interval)
+        attempt <<- attempt + 1
+      }
+    )
   }
-  
+
   if (!success) {
     stop("Failed to write file after ", max_tries, " attempts.")
   }
