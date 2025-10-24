@@ -64,7 +64,7 @@
 #' \dontrun{
 #' # read Rds file
 #' read_rds_from_volume(
-#'   path ="/Volumes/prd_dash_lab/<path-to-file>/filename.Rds"
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.Rds"
 #' )
 #'
 #' # read csv file
@@ -78,7 +78,6 @@
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
 #'   sheet = "sheet-name"
 #' )
-#'
 #' }
 #'
 #' @seealso [readr::read_csv()], [readr::read_rds()], [readxl::read_xlsx()]
@@ -94,26 +93,29 @@ read_file_from_volume <- function(path, ext, max_tries = 5, interval = 2) {
   attempt <- 1
   success <- FALSE
   tmp <- NULL
-  
+
   while (attempt <= max_tries && !success) {
-    tryCatch({
-      tmp <- brickster::db_volume_read(
-        path = path,
-        destination = tempfile(fileext = glue::glue("{ext}"))
-      )
-      success <- TRUE
-    }, error = function(e) {
-      Sys.sleep(interval)
-      attempt <<- attempt + 1
-    })
+    tryCatch(
+      {
+        tmp <- brickster::db_volume_read(
+          path = path,
+          destination = tempfile(fileext = glue::glue("{ext}"))
+        )
+        success <- TRUE
+      },
+      error = function(e) {
+        Sys.sleep(interval)
+        attempt <<- attempt + 1
+      }
+    )
   }
-  
+
   if (!success) {
     stop("Failed to read volume after ", max_tries, " attempts.")
   }
-  
+
   result <- tmp
-  
+
   return(result)
 }
 
@@ -127,9 +129,9 @@ read_csv_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
     max_tries = max_tries,
     interval = interval
   )
-  
+
   result <- readr::read_csv(tmp, ...)
-  
+
   return(result)
 }
 
@@ -143,10 +145,10 @@ read_rds_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
     max_tries = max_tries,
     interval = interval
   )
-  
+
   # This will throw an error if tmp is invalid, and print the message
   result <- readr::read_rds(tmp, ...)
-  
+
   return(result)
 }
 
@@ -160,8 +162,8 @@ read_xlsx_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
     max_tries = max_tries,
     interval = interval
   )
-  
+
   result <- readxl::read_xlsx(tmp, ...)
-  
+
   return(result)
 }
