@@ -34,11 +34,11 @@ Just listing all available functions - I don't think most of these should go in.
 ### FBS functions
 - [x] add_missing_columns
 - [x] commentary_functions
-- [ ] decode_multi_choice
+- [x] decode_multi_choice
 - [x] estimate_band_midpoints - renamed to estimate_band_means
 - [x] fbs_model_functions - renamed to survey_model_functions
 - [x] fbs_round - renamed to round_with_commas
-- [ ] fix_suppression & fix_suppression_circular
+- [x] fix_suppression & fix_suppression_circular - merged into a single function
 - [x] get_cell_style
 - [ ] get_gdp_deflators - renamed to get-ons-series, needs an option to get a snapshot version rather than live
 - [x] overwrite_num_cols
