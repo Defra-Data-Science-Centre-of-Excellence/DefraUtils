@@ -6,10 +6,11 @@
 \usage{
 round_with_commas(
   x,
-  method = c("round_to", "optimise"),
-  round_to = NULL,
+  method = c("optimise", "round_to"),
   optimise_to = c("1", "100", "1k", "10k", "100k", "1m", "10m", "100m"),
-  round_zeros = TRUE
+  round_to = NULL,
+  round_zeros = TRUE,
+  ...
 )
 }
 \arguments{
@@ -19,17 +20,20 @@ round_with_commas(
 (must supply \code{round_to} argument), or \code{"optimise"} for rounding smaller
 numbers to more detail and larger numbers to less detail (see details)}
 
-\item{round_to}{numeric; if method is set to \code{"round_to"}, provide any power
-of 10 (including minus powers, e.g. 0.1)}
-
 \item{optimise_to}{The maximum value values are rounded to, as a string
 (1, or powers of 10 from 100 to 100 million, see details)}
 
+\item{round_to}{numeric; if method is set to \code{"round_to"}, provide any power
+of 10 (including minus powers, e.g. 0.1)}
+
 \item{round_zeros}{When \code{method = "optimise"}, should zeros be shown with no
 decimal places (\code{TRUE}), or to 1 decimal place (\code{FALSE})?}
+
+\item{...}{Optional arguments to \code{\link[scales:comma]{scales::comma()}} (other than \code{accuracy},
+which this function takes care of)}
 }
 \value{
-A rounded value with comma separators
+A rounded value with comma separators, plus optional prefix and suffix
 }
 \description{
 Round values with \code{\link[janitor:round_half_up]{janitor::round_half_up()}} (as opposed to the R default

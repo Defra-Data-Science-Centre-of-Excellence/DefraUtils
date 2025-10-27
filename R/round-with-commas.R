@@ -31,21 +31,23 @@
 #' @param method Either `"round_to"` for rounding all numbers to a power of 10
 #' (must supply `round_to` argument), or `"optimise"` for rounding smaller
 #' numbers to more detail and larger numbers to less detail (see details)
-#' @param round_to numeric; if method is set to `"round_to"`, provide any power
-#' of 10 (including minus powers, e.g. 0.1)
 #' @param optimise_to The maximum value values are rounded to, as a string
 #' (1, or powers of 10 from 100 to 100 million, see details)
+#' @param round_to numeric; if method is set to `"round_to"`, provide any power
+#' of 10 (including minus powers, e.g. 0.1)
 #' @param round_zeros When `method = "optimise"`, should zeros be shown with no
 #' decimal places (`TRUE`), or to 1 decimal place (`FALSE`)?
+#' @param ... Optional arguments to [scales::comma()] (other than `accuracy`,
+#' which this function takes care of)
 #'
-#' @return A rounded value with comma separators
+#' @return A rounded value with comma separators, plus optional prefix and suffix
 #'
 #' @export
 
-round_with_commas <- function(x, method = c("round_to", "optimise"), round_to = NULL,
+round_with_commas <- function(x, method = c("optimise", "round_to"),
                               optimise_to = c("1", "100", "1k", "10k",
                                               "100k", "1m", "10m", "100m"),
-                              round_zeros = TRUE) {
+                              round_to = NULL, round_zeros = TRUE, ...) {
 
   method <- arg_match(method)
   optimise_to <- arg_match(optimise_to)
@@ -66,7 +68,8 @@ round_with_commas <- function(x, method = c("round_to", "optimise"), round_to = 
                 x <= -10 | x >= 10 ~ round_half_up(x, 0),
                 TRUE ~ round_half_up(x, 1)),
       accuracy = ifelse(is.na(x) | (x > -0.05 & x < 0.05 & round_zeros) | x <= -10 | x >= 10,
-                        1, 0.1))
+                        1, 0.1),
+      ...)
 
   } else {
 
@@ -82,7 +85,8 @@ round_with_commas <- function(x, method = c("round_to", "optimise"), round_to = 
 
     rounded <- comma(
       round_half_up(x, digits),
-      accuracy = if_else(round_to > 0 & round_to < 1, round_to, 1))
+      accuracy = if_else(round_to > 0 & round_to < 1, round_to, 1),
+      ...)
 
   }
 

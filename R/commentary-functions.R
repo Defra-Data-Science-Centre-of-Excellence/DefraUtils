@@ -184,8 +184,8 @@ cut_long_scale <- function(lower = T, space = FALSE) {
 #' Data must contain the following four columns: survey_year, grouping_factor,
 #' group, value
 #'
-#' @importFrom dplyr filter group_by mutate select any_of case_when rename_with
-#' @importFrom stringr str_remove
+#' @importFrom dplyr %>% filter group_by mutate select any_of case_when rename_with
+#' @importFrom stringr str_remove str_replace
 #' @importFrom tidyr pivot_wider
 #' @importFrom readr parse_number
 #' @importFrom rlang sym
@@ -211,9 +211,10 @@ cut_long_scale <- function(lower = T, space = FALSE) {
 #' @param extra_vars String; Extra variable(s) to select, e.g. band
 #' @param diff String; Either `"percent"` (default; for difference in %) or
 #' `"points"` (for difference in percentage points)
-#' @param round_to passed to [fbs_round()]
 #' @param prefix Default = `""`; If you are calculating percentage change, you
 #' can add a prefix to the returned values, e.g. `"£"`
+#' @param ... arguments passed to [round_with_commas()] (i.e. `method`,
+#' `round_to`, `optimise_to` and `round_zeros`)
 #'
 #' @family commentary functions
 #'
@@ -221,8 +222,10 @@ cut_long_scale <- function(lower = T, space = FALSE) {
 compare_two_years <- function(df, year_1, year_2, year_col = "survey_year",
                               grouping_col = "grouping_factor", group_col = "group",
                               group_levels = NULL, group_labels = group_levels,
-                              value_col = "value", price_type = NULL, extra_vars = NULL,
-                              diff = "percent", round_to = NULL, prefix = "") {
+                              value_col = "value", price_type = NULL,
+                              extra_vars = NULL, diff = "percent", ...) {
+
+  dots <- match.call(expand.dots = FALSE)$...
 
   # Where current and real prices are present, filter for just one of these
   if (!is.null(price_type) & "prices" %in% colnames(df)) {
@@ -256,37 +259,43 @@ compare_two_years <- function(df, year_1, year_2, year_col = "survey_year",
   # Add rounded figures for use in commentary
   round_diff <- if (diff == "percent") {
 
-    round_prefix <- function(value, round_to, scale = "none") {
+    round_suffix <- function(value, scale) {
+
       divide_by <- case_when(scale == "t" ~ 1e3,
-                             scale == "m" ~ 1e6,
-                             TRUE ~ 1)
+                             scale == "m" ~ 1e6)
       suffix <- case_when(scale == "t" ~ " thousand",
-                          scale == "m" ~ " million",
-                          TRUE ~ "")
-      paste0(prefix, str_remove(fbs_round(value / divide_by, round_to = round_to),
-                                "\\.0$"), suffix)
+                          scale == "m" ~ " million")
+      prefix <- if ("prefix" %in% names(dots)) dots$prefix else ""
+      round_val <- if_else(scale == "t" & value >= 100e3, 1, 0.1)
+
+      round_with_commas(value / divide_by, method = "round_to",
+                        round_to = round_val, suffix = suffix, prefix = prefix) %>%
+        str_replace("\\.0 ", " ")
+
     }
 
     # have to use rowwise otherwise the if_else doesn't work
     rowwise(get_diff) %>%
-      mutate(prev_rnd    = round_prefix(prev, round_to),
-             prev_rnd_t  = round_prefix(prev, if_else(prev < 100e3, 0.1, 1), "t"),
-             prev_rnd_m  = round_prefix(prev, 0.1, "m"),
-             curr_rnd    = round_prefix(curr, round_to),
-             curr_rnd_t  = round_prefix(curr, if_else(prev < 100e3, 0.1, 1), "t"),
-             curr_rnd_m  = round_prefix(curr, 0.1, "m"),
+      mutate(prev_rnd    = round_with_commas(prev, ...),
+             prev_rnd_t  = round_suffix(prev, "t"),
+             prev_rnd_m  = round_suffix(prev, "m"),
+             curr_rnd    = round_with_commas(curr, ...),
+             curr_rnd_t  = round_suffix(curr, "t"),
+             curr_rnd_m  = round_suffix(curr, "m"),
              diff_pc     = diff / prev,
-             diff_pc_rnd = paste0(str_remove(fbs_round(abs(diff_pc) * 100, 1), "\\.0+$"), "%")) %>%
+             diff_pc_rnd = paste0(round_with_commas(abs(diff_pc) * 100,
+                                                    method = "round_to", round_to = 1),
+                                  "%")) %>%
       ungroup()
 
   } else if (diff == "points") {
 
-    round_val <- if (is.null(round_to)) 1 else round_to
+    round_to <- if ("round_to" %in% names(dots)) dots$round_to else 1
 
     mutate(get_diff,
-           prev_rnd = paste0(fbs_round(prev * 100, round_val), "%"),
-           curr_rnd = paste0(fbs_round(curr * 100, round_val), "%"),
-           diff_rnd = str_remove(fbs_round(abs(diff) * 100, round_val), "\\.0+$")) %>%
+           prev_rnd = paste0(round_with_commas(prev * 100, method = "round_to", round_to = round_to), "%"),
+           curr_rnd = paste0(round_with_commas(curr * 100, method = "round_to", round_to = round_to), "%"),
+           diff_rnd = str_remove(round_with_commas(abs(diff) * 100, method = "round_to", round_to = round_to), "\\.0+$")) %>%
       mutate(diff_rnd = paste(diff_rnd, if_else(parse_number(diff_rnd) == 1,
                                                 "percentage point", "percentage points")))
 

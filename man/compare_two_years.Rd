@@ -17,8 +17,7 @@ compare_two_years(
   price_type = NULL,
   extra_vars = NULL,
   diff = "percent",
-  round_to = NULL,
-  prefix = ""
+  ...
 )
 }
 \arguments{
@@ -55,7 +54,8 @@ This requires the data to contain a column called 'prices'.}
 \item{diff}{String; Either \code{"percent"} (default; for difference in \%) or
 \code{"points"} (for difference in percentage points)}
 
-\item{round_to}{passed to \code{\link[=fbs_round]{fbs_round()}}}
+\item{...}{arguments passed to \code{\link[=round_with_commas]{round_with_commas()}} (i.e. \code{method},
+\code{round_to}, \code{optimise_to} and \code{round_zeros})}
 
 \item{prefix}{Default = \code{""}; If you are calculating percentage change, you
 can add a prefix to the returned values, e.g. \code{"£"}}

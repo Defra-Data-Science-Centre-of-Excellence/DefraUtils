@@ -74,7 +74,7 @@ test_that("rounded is done correctly", {
   rounding_result <- filter(test_df, prices == "Current", typology == 2017, group == "A") %>%
     select(survey_year, value) %>%
     mutate(value = value + .2) %>%
-    compare_two_years(2018, 2023, round_to = 0.1)
+    compare_two_years(2018, 2023, method = "round_to", round_to = 0.1)
 
   expect_equal(rounding_result$prev_rnd, "11.2")
   expect_equal(rounding_result$curr_rnd, "12.2")
