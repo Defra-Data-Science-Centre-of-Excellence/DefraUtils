@@ -26,13 +26,16 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Suggests: 
+    futile.logger,
     srvyr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tidyxl
 Config/testthat/edition: 3
 Depends: 
     R (>= 3.5)
 LazyData: true
 Imports: 
+    aftables,
     bestNormalize,
     dplyr,
     ggplot2,
