@@ -24,7 +24,7 @@ Description: The DefraUtils package contains a variety of functions that
 License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Suggests: 
     srvyr,
     testthat (>= 3.0.0)

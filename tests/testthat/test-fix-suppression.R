@@ -47,38 +47,38 @@ test_df_complex <- tibble::tribble(
 # All automatic tests will not save an excel_file
 
 test_that("simple 1 level suppression, and making sure default sample_size_col is working", {
-  expect_named(fix_suppression_circular(df = test_df,groups = list("group_a"), save_excel_file = FALSE ),
+  expect_named(fix_suppression(df = test_df,groups = list("group_a"), save_excel_file = FALSE ),
                c("group_a", "group_b", "group_c", "value", "sample_size",  "nobs"
                ))
-  expect_equal(pull(fix_suppression_circular(df = test_df,groups = list("group_a"), save_excel_file = FALSE ),
+  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_a"), save_excel_file = FALSE ),
                     "sample_size"), c(2, 3, 10, 12, 1, 1, 1, 152))
-  expect_equal(pull(fix_suppression_circular(df = test_df,groups = list("group_b"), save_excel_file = FALSE ),
+  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_b"), save_excel_file = FALSE ),
                     "sample_size"), c(2, 3, 10, 12, 1, 3, 8, 152)) # This one should not change anything
   })
 
 test_that("1 level suppression and there is one orphan level (e.g. only one row for that level)", {
-  expect_named(fix_suppression_circular(df = test_df,groups = list("group_c"), save_excel_file = FALSE ),
+  expect_named(fix_suppression(df = test_df,groups = list("group_c"), save_excel_file = FALSE ),
                c("group_a", "group_b", "group_c", "value", "sample_size",  "nobs"
                ))
-  expect_equal(pull(fix_suppression_circular(df = test_df,groups = list("group_c"), save_excel_file = FALSE ),
+  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_c"), save_excel_file = FALSE ),
                     "sample_size"), c(2, 1, 1, 12, 1, 1, 1, 152))
 })
 
 test_that("simple 2 level suppression", {
-  expect_named(fix_suppression_circular(df = test_df,groups = list("group_a","group_b"), save_excel_file = FALSE ),
+  expect_named(fix_suppression(df = test_df,groups = list("group_a","group_b"), save_excel_file = FALSE ),
                c("group_a", "group_b", "group_c", "value", "sample_size",  "nobs"
                ))
-  expect_equal(pull(fix_suppression_circular(df = test_df,groups = list("group_a","group_b"), save_excel_file = FALSE ),
+  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_a","group_b"), save_excel_file = FALSE ),
                     "sample_size"), c(2, 3, 1, 12, 1, 1, 1, 152))
   })
 
 test_that("simple 2 level suppression, and while using a custom sample_size column name", {
-  expect_named(fix_suppression_circular(df = test_df,groups = list("group_a","group_b"),sample_size_col = "nobs", save_excel_file = FALSE ),
+  expect_named(fix_suppression(df = test_df,groups = list("group_a","group_b"),sample_size_col = "nobs", save_excel_file = FALSE ),
                c("group_a", "group_b", "group_c", "value", "sample_size",  "nobs"
                ))
-  expect_equal(pull(fix_suppression_circular(df = test_df,groups = list("group_a","group_b"), sample_size_col = "nobs", save_excel_file = FALSE ),
+  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_a","group_b"), sample_size_col = "nobs", save_excel_file = FALSE ),
                     "nobs"), c(1, 1, 1, 1, 1, 1, 1, 1))
-  expect_equal(pull(fix_suppression_circular(df = test_df %>% dplyr::rename(test_nobs = sample_size),
+  expect_equal(pull(fix_suppression(df = test_df %>% dplyr::rename(test_nobs = sample_size),
                                              groups = list("group_a","group_b"), 
                                              sample_size_col = "test_nobs", save_excel_file = FALSE),
                     "test_nobs"), c(2, 3, 1, 12, 1, 1, 1, 152))
@@ -86,17 +86,17 @@ test_that("simple 2 level suppression, and while using a custom sample_size colu
 
 
 test_that("2 level suppression, with each group being made of multiple columns", {
-  expect_named(fix_suppression_circular(df = test_df_complex,groups = list(c("group_d","group_c","group_b"),c("group_d","group_c","group_a")), save_excel_file = FALSE ),
+  expect_named(fix_suppression(df = test_df_complex,groups = list(c("group_d","group_c","group_b"),c("group_d","group_c","group_a")), save_excel_file = FALSE ),
                c("group_a", "group_b", "group_c", "group_d","value", "sample_size"
                  ))
-  expect_equal(pull(fix_suppression_circular(df = test_df_complex,groups = list(c("group_d","group_c","group_b"),c("group_d","group_c","group_a")), save_excel_file = FALSE ),
+  expect_equal(pull(fix_suppression(df = test_df_complex,groups = list(c("group_d","group_c","group_b"),c("group_d","group_c","group_a")), save_excel_file = FALSE ),
                     "sample_size"), c(2, 3, 1, 12, 1, 1, 1, 152, 1, 1, 5, 1, 1, 1, 8, 1, 9, 1, 1, 9, 5, 1, 1, 95))
   })
 
 
 # Manual test, will be commented out but this will test that exporting the excel file works
 
-# fix_suppression_circular(df = test_df_complex,
+# fix_suppression(df = test_df_complex,
 #                          groups = list(c("group_d","group_c","group_b"),
 #                                        c("group_d","group_c","group_a")),
 #                          export_path = "C:/Users/fc000033/OneDrive - Defra/Desktop",

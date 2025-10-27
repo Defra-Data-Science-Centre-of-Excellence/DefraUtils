@@ -1,123 +1,228 @@
 #' Fix suppression in tables where totals can be used to calculate suppressed values
 #'
-#' This function finds which figures need to be secondarily suppress and
-#' overwrites their sample size to zero - any subsequent suppression code will
+#' This function finds which figures need to be secondarily suppressed and
+#' overwrites their sample size to one - any subsequent suppression code will
 #' then suppress these figures.
 #'
-#' @importFrom dplyr %>% mutate group_by ungroup summarise bind_rows distinct
-#' left_join join_by arrange filter lag select
-#' @importFrom rlang arg_match
+#' This will loop though the group, or list of groupings, until there are no
+#' more figures which need to be suppressed.
+#'
+#' Sometimes this function can oversuppress, therefore, it also outputs an excel
+#' file for manual checking. This file has the unsuppressed data in twice so that
+#' can manually suppress one while comparing it to the unsuppressed data. The file
+#' also has conditional formatting - values between 1 and 4 are highlighted in red
+#' and values between 5 and 14 are highlighted in yellow.
+#' 
+#' If doing suppression across multiple groups, it is sometimes useful to consider
+#' the order of the groups to minimize oversuppression.
+#'
+#' @importFrom dplyr %>% mutate group_by summarise bind_rows distinct left_join filter between full_join rename all_of across
+#' @importFrom openxlsx createWorkbook writeDataTable conditionalFormatting createStyle writeData saveWorkbook addWorksheet
 #'
 #' @param df Data to fix
-#' @param suppression_type Which table you are fixing
+#' @param groups A list of grouping dimensions, e.g. `list("group", c("band", "grouping_factor"))`
+#' would group by the `group` column in the first dimension and by the `band` and
+#' `grouping_factor` columns in the second dimension
+#' @param sample_size_col Default = `"sample_size"`; The name of the sample size column
+#' @param export_path File path; where the checking files should be saved
+#' @param file_name What should the checking file be called? Don't include file extension
+#' @param pivot_col String; If you want the manual checking table to be pivoted, which
+#' column should it be pivoted on?
+#' @param save_excel_file, default is TRUE, set to FALSE when one does not wish to save an excel file
+#'
 #'
 #' @export
 
-fix_suppression <- function(df, suppression_type = c(
-  "mean_incomes", "outputs_costs", "details", "crop_stock_labour",
-  "income_distributions", "balance_sheets", "liabilities", "total_diversified",
-  "fbi_diversification", "diversified_outputs_incomes",
-  "diversification_output_dist", "agricultural_transition",
-  "ofi_median", "ofi_proportion", "machinery", "custom"),
-  suppression_level = c("values", "sample_size"),
-  sample_size_col = "sample_size", custom_groups = NULL) {
-
-  suppression_type <- rlang::arg_match(suppression_type)
-  suppression_level <- rlang::arg_match(suppression_level)
-
-  rows_to_check <- if (suppression_type %in% c("crop_stock_labour", "balance_sheets")) {
-    filter(df, word(measure, 1) == "Number")
-  } else if (suppression_type == "agricultural_transition") {
-    filter(df, fbs_variable %in% c("retirement.plans_option",
-                                   "management.control.changes_option",
-                                   "sfi.land.changes_option"))
-  } else if (suppression_type == "machinery" & suppression_level == "values") {
-    filter(df, measure == "Percentage of grant-using farms")
-  } else if (suppression_type == "machinery" & suppression_level == "sample_size") {
-    filter(df, str_detect(measure, "Average.*grant"))
-  } else { df }
-
-  # Find which values should be suppressed initially
-  initial_suppression <- rows_to_check %>%
-    mutate(suppress = between(!! sym(sample_size_col), 1, 4))
-
-  # Group the dataset correctly
-  groupings <- if (suppression_type %in% c("mean_incomes", "outputs_costs", "details", "crop_stock_labour")) {
-    c("fbs_year", "farm_type")
-  } else if (suppression_type == "income_distributions") {
-    c("farm_type", "fbs_variable")
-  } else if (suppression_type == "balance_sheets") {
-    c("farm_type", "region", "opening_closing")
-  } else if (suppression_type == "liabilities") {
-    c("farm_type", "tenure_type", "fbs_variable")
-  } else if (suppression_type == "fbi_diversification") {
-    c("survey_year")
-  } else if (suppression_type %in% c("diversified_outputs_incomes")) {
-    c("measure", "diversification_type")
-  } else if (suppression_type %in% c("diversification_output_dist")) {
-    c("measure")
-  } else if (suppression_type == "agricultural_transition") {
-    c("survey_year", "fbs_variable")
-  } else if (suppression_type == "ofi_median") {
-    c("fbs_year", "measure", "grouping_factor")
-  } else if (suppression_type == "ofi_proportion") {
-    c("fbs_year", "measure", "grouping_factor")
-  } else if (suppression_type == "machinery") {
-    c("survey_year", "typology", "prices")
-  } else if (suppression_type == "custom") {
-    custom_groups
+fix_suppression <- function(df, 
+                            groups,
+                            sample_size_col = "sample_size", 
+                            export_path,
+                            file_name,
+                            pivot_col = NULL,
+                            save_excel_file = TRUE) {
+  
+  groups_list <- if (is.list(groups)) {
+    set_names(groups, paste0("grouping_", 1:length(groups)))
+  } else {
+    list(grouping_1 = groups)
   }
 
-  grouped_data <- group_by(initial_suppression, across(all_of(groupings)))
+  # Check if any groups need extra suppression
+  check_suppression <- function(g, d) {
 
-  # Get the number of suppressed values in each group
-  count_suppressed <- grouped_data %>%
-    summarise(n = sum(suppress), .groups = "keep") %>%
-    mutate(supp_type = "n_obs")
+    initial <- mutate(d, suppress = dplyr::between(!! sym(sample_size_col), 1, 4))
+    
+    # total pop of group, this is so that we can later determine if
+    # all the pop of a group is suppressed and also checks to see if there are any groups
+    # that are represented by a single data point
+    total_pop <- group_by(initial, across(all_of(g))) %>%
+      summarise(total_p = sum(sample_size_og), row_n = n(), .groups = "drop")
+    
 
-  # Get the total of the suppressed values in each group
-  total_suppressed <- filter(grouped_data, suppress) %>%
-    summarise(n = sum(!! sym(sample_size_col)), .groups = "keep") %>%
-    mutate(supp_type = "total")
+    # Get the number of suppressed values in each group
+    count_suppressed <- group_by(initial, across(all_of(g))) %>%
+      summarise(n = sum(suppress), .groups = "drop") %>%
+      mutate(supp_type = "n_obs")
 
-  to_fix <- bind_rows(filter(count_suppressed, n == 1),
-                      filter(total_suppressed, n < 5)) %>%
-    distinct(across(1:(ncol(.) - 2)), .keep_all = T)
+    # Get the total of the suppressed values in each group (e.g. the sample size)
+    total_suppressed <- group_by(initial, across(all_of(g))) %>%
+      filter(suppress) %>%
+      summarise(n = sum(sample_size_og), .groups = "drop") %>%
+      mutate(supp_type = "total")
 
-  # If there is only one suppressed value in a group, or all of the
-  # suppressed values do not add up to at least 5, also suppress the
-  # value in the group with the next fewest farms
-  # This is done by re-assigning the sample size column value to be 1 so that
-  # the rounding and suppression code later on will suppress it
-  fixed <- if (nrow(to_fix) > 0) {
+    # Get the total number of rows (with samples) in each group
+    # This allows us to know when we have suppressed the entire group
+    total_in_group <- group_by(initial, across(all_of(g))) %>%
+      mutate(zeros = !! sym(sample_size_col) == 0) %>%
+      summarise(zeros = sum(zeros), total = n(), .groups = "drop")
 
-    fix_col <- left_join(to_fix, rows_to_check, by = groupings) %>%
-      group_by(across(all_of(groupings))) %>%
-      arrange(!! sym(sample_size_col), .by_group = TRUE) %>%
-      # We want to show true zeroes
-      filter(!! sym(sample_size_col) != 0) %>%
-      mutate(sample_size_2 = if_else(
-        # If it's the fewest or next fewest number of farms, return 1
-        lag(!! sym(sample_size_col)) < 5 | is.na(lag(!! sym(sample_size_col))), 1,
-        # Otherwise return the original value
-        !! sym(sample_size_col))) %>%
-      ungroup() %>%
-      select(-c(n, supp_type))
+    # if one one_unsuppressed_and_rest_zeros = TRUE, suppress a zero !!!
 
-    # Join on the new sample size column and replace the original
-    # values where relevant
-    df %>%
-      left_join(fix_col, by = colnames(df)) %>%
-      mutate(sample_size_1 = if_else(is.na(sample_size_2),
-                                     !! sym(sample_size_col),
-                                     sample_size_2)) %>%
-      select(-all_of(c(sample_size_col, "sample_size_2"))) %>%
-      rename({{sample_size_col}} := sample_size_1) %>%
-      select(all_of(colnames(df)))
+    dplyr::full_join(count_suppressed, total_in_group, by = g) %>%
+      mutate(one_suppressed = n == 1, # only one number suppressed therefore another needs suppression
+             unsuppressed = total - n, # just counts the number of unsuppressed 0's in a set
+             one_unsuppressed_and_rest_zeros = zeros > 1 &
+               unsuppressed == 1 &
+               zeros + unsuppressed == total,
+             to_fix_1 = one_suppressed,
+             to_fix_2 = one_unsuppressed_and_rest_zeros) %>%
+      filter(to_fix_1 | to_fix_2) %>%
+      select(colnames(total_suppressed)) %>%
+      bind_rows(filter(total_suppressed, (n < 5 ))
+      ) %>%
+      left_join(total_pop, by = g) %>%
+      filter(row_n != 1) %>%
+      filter(total_p != n) %>%
+      select(-c(row_n,total_p)) %>%
+      distinct(across(1:(ncol(.) - 2)), .keep_all = T)
+    
+  }
 
-    # If the table does not need fixing then return the original df
-  } else { df }
+  suppressed_data <- mutate(df, sample_size_og = !! sym(sample_size_col))
+  to_fix <- lapply(groups_list, check_suppression, suppressed_data)
 
-  return(fixed)
+  # If there are any groups that need extra suppression, start the loop
+  loop <- 0
 
+  # Keep the loop going until no more suppression is required
+  while (any(lapply(to_fix, nrow) > 0)) {
+
+    loop <- loop + 1
+    
+    if(loop>10){
+      stop(paste0("Complete suppression of data has not been achieved after ",
+                  loop-1,
+                  " loops, therefore it is unlikely automatic suppression", "
+                  is possible with the current grouping setup or data"))
+    }
+    
+    print(paste("Suppression loop", loop))
+
+    # Do extra suppression for each group
+    for (i in 1:length(groups_list)) {
+
+      if (nrow(to_fix[[i]]) > 0) {
+
+        fix_col <- left_join(to_fix[[i]], suppressed_data, by = groups_list[[i]]) %>%
+          group_by(across(all_of(groups_list[[i]]))) %>%
+          # We want to show true zeroes unless only one is suppressed and rest are zero
+          # If that is the case, suppress an adjacent zero
+          mutate(zero = sum(!! sym(sample_size_col) == 0),
+                 total = n(),
+                 zero_fix_lag = sample_size_og == 0 & total - zero == n & lag(sample_size_og) > 0,
+                 zero_fix_lead = sample_size_og == 0 & total - zero == n & lead(sample_size_og) > 0) %>%
+          rowwise() %>%
+          mutate(zero_fix_lead_check = isTRUE(zero_fix_lead) & sum(zero_fix_lag + zero_fix_lead, na.rm = T) > 1,
+                 zero_fix = zero_fix_lag | zero_fix_lead_check) %>%
+          group_by(across(all_of(groups_list[[i]]))) %>%
+          arrange(!! sym(sample_size_col), .by_group = TRUE) %>%
+          filter(!! sym(sample_size_col) != 0 | zero_fix) %>%
+          select(-starts_with("zero")) %>%
+          mutate(sample_size_new = if_else(
+            # If it's the fewest or next fewest number of farms, return 1
+            lag(!! sym(sample_size_col)) < 5 | is.na(lag(!! sym(sample_size_col))), 1,
+            # Otherwise return the original value
+            !! sym(sample_size_col))) %>%
+          ungroup() %>%
+          select(-c(n, supp_type))
+
+        # Join on the new sample size column and replace the original
+        # values where relevant
+        suppressed_data <- suppressed_data %>%
+          left_join(fix_col, by = colnames(suppressed_data)) %>%
+          mutate(sample_size_1 = if_else(is.na(sample_size_new),
+                                         !! sym(sample_size_col),
+                                         sample_size_new)) %>%
+          select(-all_of(c(sample_size_col, "sample_size_new"))) %>%
+          dplyr::rename({{sample_size_col}} := sample_size_1) %>%
+          select(all_of(colnames(suppressed_data)))
+
+        rm(fix_col)
+
+      }
+
+      # Check if any groups that *still* need suppression#
+      to_fix <- lapply(groups_list, check_suppression, suppressed_data)
+
+    }
+
+  }
+
+  # Create excel file for manual checking
+  
+  if (save_excel_file == TRUE) {
+  unsuppressed_df <- select(df, all_of(c(unname(unlist(groups_list)), sample_size_col))) %>%
+    { if (!is.null(pivot_col)) pivot_wider(., names_from = all_of(pivot_col),
+                                           values_from = all_of(sample_size_col)) else . }
+
+  suppressed_df <- select(suppressed_data, -sample_size_og) %>%
+    select(all_of(c(unname(unlist(groups_list)), sample_size_col))) %>%
+    { if (!is.null(pivot_col)) pivot_wider(., names_from = all_of(pivot_col),
+                                           values_from = all_of(sample_size_col)) else . }
+
+  wb <- createWorkbook()
+  addWorksheet(wb = wb, sheetName = "Sheet1")
+
+  # Write first unsuppressed table - to compare to
+  writeData(wb = wb, sheet = 1, x = "Unsuppressed table: leave this table as-is, use it for comparison")
+  writeDataTable(wb = wb, sheet = 1, x = unsuppressed_df, startRow = 3,
+                 tableStyle = "none", withFilter = FALSE, bandedRows = FALSE)
+
+  # Write second unsuppressed table - to compare to
+  writeData(wb = wb, sheet = 1, startCol = ncol(unsuppressed_df) + 2,
+            x = "In this table, replace values with '1' if they should be suppressed")
+  writeDataTable(wb = wb, sheet = 1, x = unsuppressed_df, startRow = 3,
+                 startCol = ncol(unsuppressed_df) + 2,
+                 tableStyle = "none", withFilter = FALSE, bandedRows = FALSE)
+
+  # Write suppressed table - to compare to
+  writeData(wb = wb, sheet = 1, startCol = (ncol(unsuppressed_df) * 2) + 3,
+            x = paste("Suppressed table: compare with previous table, highlight",
+                      "any cells that shouldn't have been suppressed"))
+  writeDataTable(wb = wb, sheet = 1, x = suppressed_df, startRow = 3,
+                 startCol = (ncol(unsuppressed_df) * 2) + 3,
+                 tableStyle = "none", withFilter = FALSE, bandedRows = FALSE)
+
+  # Add conditional formatting
+  conditionalFormatting(wb = wb, sheet = 1, cols = 1:((ncol(unsuppressed_df) * 3) + 3),
+                        rows = 1:(nrow(unsuppressed_df) + 3),
+                        type = "between", rule = c(1, 4),
+                        style = createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE"))
+  conditionalFormatting(wb = wb, sheet = 1, cols = 1:((ncol(unsuppressed_df) * 3) + 3),
+                        rows = 1:(nrow(unsuppressed_df) + 3),
+                        type = "between", rule = c(5, 14),
+                        style = createStyle(fontColour = "#9C5700", bgFill = "#FFEB9C"))
+
+  # Save workbook
+  checking_path <- file.path(export_path, "circular-suppression-checks")
+
+  if (!dir.exists(checking_path)) { dir.create(checking_path, recursive = T) }
+
+  saveWorkbook(wb = wb, overwrite = T,
+               file.path(checking_path, paste0("check_suppression_", file_name, ".xlsx")))
+  
+  }
+  
+  return(select(suppressed_data, -sample_size_og))
+  
 }
