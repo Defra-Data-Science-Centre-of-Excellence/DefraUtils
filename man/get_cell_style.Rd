@@ -30,7 +30,7 @@ cells get upper and lower borders, while 'last row' cells just get lower borders
 \item{separator}{logical, default = \code{FALSE}; should there be a separating
 border to the right of the column?}
 
-\item{custom_format}{Used by numFmt argument of \code{\link[=createStyle]{createStyle()}}; an Excel
+\item{custom_format}{Used by numFmt argument of \code{\link[openxlsx:createStyle]{openxlsx::createStyle()}}; an Excel
 custom number format, e.g., "##0.0\%" rounds a percentage to 1 decimal place.}
 
 \item{indent}{Numeric, default = 0; Horizontal indentation of cell contents.}

@@ -10,7 +10,8 @@ fix_suppression_circular(
   sample_size_col = "sample_size",
   export_path,
   file_name,
-  pivot_col = NULL
+  pivot_col = NULL,
+  save_excel_file = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ would group by the \code{group} column in the first dimension and by the \code{b
 
 \item{pivot_col}{String; If you want the manual checking table to be pivoted, which
 column should it be pivoted on?}
+
+\item{save_excel_file, }{default is TRUE, set to FALSE when one does not wish to save an excel file}
 }
 \description{
 This function finds which figures need to be secondarily suppress and

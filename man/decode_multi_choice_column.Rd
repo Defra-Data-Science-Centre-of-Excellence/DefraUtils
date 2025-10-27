@@ -4,14 +4,36 @@
 \alias{decode_multi_choice_column}
 \title{Decode a multiple choice column}
 \usage{
-decode_multi_choice_column(input_data, var, id_cols)
+decode_multi_choice_column(
+  input_data,
+  var,
+  id_cols,
+  codes = NULL,
+  colnames_option = "code_numbers",
+  data_option = "code_numbers"
+)
 }
 \arguments{
 \item{input_data}{Dataset}
 
 \item{var}{String; Column to decode}
 
-\item{id_cols}{String; All columns used to uniquely identify the row}
+\item{id_cols}{vector of strings, columns with unique identifiers}
+
+\item{codes}{List; a list containing dataframes, the dataframes
+must be in the same order as the columns to decode, each dataframe must have
+a 2 columns one named \code{code} and the other named \code{description}. Default is
+null.}
+
+\item{colnames_option}{String; one of two options \code{code_numbers} or
+\code{code_descriptions}, default is \code{code_numbers}, the outputted colnames
+either be the code number or the names from the description column from
+imputed code dataframes.}
+
+\item{data_option}{String; one of three options \code{binary}, \code{code_numbers}
+or \code{code_descriptions}, default is \code{code_numbers}, determines the format of
+outputted decoded columns, they can be either in binary format, the original
+codes or the names from the description from the code dataframes.}
 }
 \description{
 When a survey, such as the Farm Business Survey, requires all answers to be
@@ -20,7 +42,8 @@ multiple choice answers.
 For example, the respondent choosing the first (code 1) and third (code 4)
 options would be input as 5.
 This method means that any combination of choices can be decoded into its
-constituent parts.
+constituent parts. Currently the maximum number of options for multiple
+choice is 12, 13 when including no answer.
 This function decodes these answers by taking an input dataset with a column
 of values and returning separate columns for each answer.
 }
