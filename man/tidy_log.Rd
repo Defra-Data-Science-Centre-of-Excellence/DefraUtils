@@ -20,7 +20,7 @@ should match any futile logger log, but the option has been given in case
 futile.logger changes}
 }
 \description{
-The messages you have written using \link{futile.logger} should have the
+The messages you have written using \link[futile.logger:futile.logger-package]{futile.logger::futile.logger} should have the
 following format: "message: detail", e.g.
 \code{flog.info("Rows in data: \%s", nrow(data))}.
 Or they can be a message without detail, e.g.
