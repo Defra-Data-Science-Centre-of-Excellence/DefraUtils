@@ -25,6 +25,34 @@ test_that("no index or URL returns error", {
   expect_error(get_ons_series(2015:2020), "Please provide either index or URL")
 })
 
+test_that("requesting a snapshot with a date works", {
+  expect_no_error(get_ons_series(2015:2020, "GDP", get_snapshot = T, snapshot_date = "2025-06-30"))
+})
+
+test_that("requesting a snapshot with the wrong date gives an error", {
+  expect_error(get_ons_series(2015:2020, "GDP", get_snapshot = T, snapshot_date = "2025-07-30"),
+               paste0("The chosen snapshot_date was not found in the list of snapshots\n",
+               "Please check available dates at https://www.ons.gov.uk/economy/",
+               "grossdomesticproductgdp/timeseries/ybgb/ukea/previous"))
+})
+
+test_that("requesting a snapshot without a date prompts the user to choose one", {
+
+  expected_message <- paste0("Enter a number to select a snapshot date from the list\n",
+                             "Note that only the first 10 snapshots are shown\n",
+                             "To get an older snapshot, find the URL at ",
+                             "https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ybgb/ukea/previous",
+                             "\nOr specify a date in the snapshot_date argument")
+
+  with_mocked_bindings(
+    code = {
+      expect_message(get_ons_series(2015:2020, "GDP", get_snapshot = T), expected_message)
+    },
+    get_user_input = function(prompt) {1}
+  )
+
+})
+
 # This test doesn't work in build
 # If users are having errors with save paths, run the test manually
 # test_that("creates specified file", {

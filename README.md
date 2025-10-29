@@ -40,7 +40,7 @@ Just listing all available functions - I don't think most of these should go in.
 - [x] fbs_round - renamed to round_with_commas
 - [x] fix_suppression & fix_suppression_circular - merged into a single function
 - [x] get_cell_style
-- [ ] get_gdp_deflators - renamed to get-ons-series, needs an option to get a snapshot version rather than live
+- [x] get_gdp_deflators - renamed to get-ons-series, added an option to get a snapshot version rather than live
 - [x] overwrite_num_cols
 - [x] tidy_log
 

@@ -8,6 +8,8 @@ get_ons_series(
   series_years,
   index = c("", "GDP", "CPIH"),
   ons_url = NULL,
+  get_snapshot = F,
+  snapshot_date = NULL,
   save_path = NULL,
   year_end_q = 4
 )
@@ -22,6 +24,13 @@ another series (must provide a URL)}
 \item{ons_url}{If provided, will download the CSV file at this URL to create
 the indices; can be the full link to the inflation / price indices series,
 just the URL extension, or the CSV generator (see details section)}
+
+\item{get_snapshot}{Logical (default = \code{FALSE}); if \code{TRUE}, allows you to
+choose a snapshot, rather than the live data}
+
+\item{snapshot_date}{Optional date of the desired snapshot, must be a string
+with format YYYY-MM-DD (i.e. coercible by \link[base:as.Date]{base::as.Date}); if not provided,
+you will be prompted to choose a snapshot from a list of the latest ten}
 
 \item{save_path}{If provided, will save the downloaded data to the specified
 directory}

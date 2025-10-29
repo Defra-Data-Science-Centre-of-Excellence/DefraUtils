@@ -1,3 +1,6 @@
+#' Wrap the readline function so it can be tested
+get_user_input <- function(prompt = "") { readline(prompt) }
+
 #' Read in quarterly ONS price indices and convert to annual series
 #'
 #' Retrieves an ONS inflation / price indices series. The URLs for the GDP and
@@ -26,6 +29,11 @@
 #' @param ons_url If provided, will download the CSV file at this URL to create
 #' the indices; can be the full link to the inflation / price indices series,
 #' just the URL extension, or the CSV generator (see details section)
+#' @param get_snapshot Logical (default = `FALSE`); if `TRUE`, allows you to
+#' choose a snapshot, rather than the live data
+#' @param snapshot_date Optional date of the desired snapshot, must be a string
+#' with format YYYY-MM-DD (i.e. coercible by [base::as.Date]); if not provided,
+#' you will be prompted to choose a snapshot from a list of the latest ten
 #' @param save_path If provided, will save the downloaded data to the specified
 #' directory
 #' @param year_end_q When converting the index from quarterly to annual, the
@@ -59,8 +67,9 @@
 #'
 #' @export
 
-get_ons_series <- function(series_years, index = c("", "GDP", "CPIH"),
-                           ons_url = NULL, save_path = NULL, year_end_q = 4) {
+get_ons_series <- function(series_years, index = c("", "GDP", "CPIH"), ons_url = NULL,
+                           get_snapshot = F, snapshot_date = NULL,
+                           save_path = NULL, year_end_q = 4) {
 
   index <- arg_match(index)
 
@@ -83,6 +92,53 @@ get_ons_series <- function(series_years, index = c("", "GDP", "CPIH"),
     }
   }
 
+  if (get_snapshot) {
+
+    tmp <- tempfile()
+
+    snapshot_url <- file.path(str_remove(series_url, "\\/generator\\?format=csv&uri="), "previous")
+
+    download.file(snapshot_url, destfile = tmp, quiet = TRUE)
+
+    page <- xml2::read_html(tmp)
+
+    dates <- rvest::html_table(rvest::html_nodes(page, "table"))[[1]] %>%
+      mutate(snapshot_date = lead(`Date superseded`)) %>%
+      pull(snapshot_date) %>%
+      head(10)
+
+    if (is.null(snapshot_date)) {
+
+      message(paste0("Enter a number to select a snapshot date from the list\n",
+                     "Note that only the first 10 snapshots are shown\n",
+                     "To get an older snapshot, find the URL at ", snapshot_url,
+                     "\nOr specify a date in the snapshot_date argument"))
+
+      snapshot_n <- get_user_input(prompt = paste(1:length(dates), ":", dates, collapse = "\n"))
+
+    } else {
+
+      snapshot_n <- if (as.Date(snapshot_date) %in% as.Date(dates, "%d %B %Y")) {
+        which(as.Date(dates, "%d %B %Y") == as.Date(snapshot_date))
+      }
+
+      if (is.null(snapshot_n)) {
+        stop(paste0("The chosen snapshot_date was not found in the list of snapshots\n",
+                    "Please check available dates at ", snapshot_url))
+      }
+
+    }
+
+    snapshot_file <- rvest::html_nodes(page, "tr")[as.numeric(snapshot_n) + 1] %>%
+      rvest::html_nodes("a") %>%
+      rvest::html_attr("href") %>%
+      str_subset(paste0("format=csv")) %>%
+      paste0("https://www.ons.gov.uk", .)
+
+    series_url <- snapshot_file
+
+  }
+
   # Introduce yourself to the host
   bow("https://www.ons.gov.uk") %>%
     nod(series_url, verbose = T)
@@ -94,19 +150,37 @@ get_ons_series <- function(series_years, index = c("", "GDP", "CPIH"),
   series_data <- read_csv(temp_destination, show_col_types = FALSE)
 
   if (!is.null(save_path)) {
+
     file_name <- paste0(
       "ons_series_",
       str_replace_all(str_remove(series_url, "h.*timeseries\\/"), "\\/", "_"),
       ".csv")
+
     write.csv(series_data, file.path(save_path, file_name), row.names = T)
+
     message(paste("File downloaded to", file.path(save_path, file_name)))
+
   }
 
-  # Check that the link still works - today's date should be before the next release date
-  next_release <- as.Date(pull(filter(series_data, Title == "Next release"), 2), "%d %B %Y")
+  # For snapshots, check that the file matches the user input
+  if (get_snapshot) {
 
-  if (Sys.Date() > next_release) {
-    warning("Next release is showing as in the past, check downloaded data and URL")
+    release_date <- as.Date(pull(filter(series_data, Title == "Release date"), 2), "%d-%m-%Y")
+    selected_date <- as.Date(dates[as.numeric(snapshot_n)], "%d %B %Y")
+
+    if (release_date != selected_date) {
+      warning("Release date does not match selected date; check downloaded data and URL")
+    }
+
+  } else {
+
+    # For live data, check that today's date is before the next release date
+    next_release <- as.Date(pull(filter(series_data, Title == "Next release"), 2), "%d %B %Y")
+
+    if (Sys.Date() > next_release) {
+      warning("Next release is showing as in the past; check downloaded data and URL")
+    }
+
   }
 
   # Get rolling annual means
