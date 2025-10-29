@@ -1,5 +1,3 @@
-library(mockery)
-
 test_that("Git config commands are constructed correctly", {
   # Stub system calls to avoid actual execution
   mockery::stub(connect_github_pat, "system", function(cmd) {
