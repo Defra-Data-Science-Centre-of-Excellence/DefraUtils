@@ -15,7 +15,7 @@ calculate_mcib(band_counts_df, bands_df)
 Used by \code{\link[=estimate_band_means]{estimate_band_means()}}. Run to check how MCIB has been calculated.
 }
 \details{
-\link{https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4}
+\url{https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4}
 }
 \seealso{
 Other functions for estimating means of banded data: 

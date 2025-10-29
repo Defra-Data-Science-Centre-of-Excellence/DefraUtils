@@ -45,13 +45,13 @@ Can be done by groups, e.g. year, or year and region, using the
 }
 \details{
 Mean Constrained Integration Over Brackets:
-\link{https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4}
+\url{https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4}
 
 We don't have a grand mean, so we only do the integration step.
 
 Robust pareto midpoint estimator:
-\link{https://ideas.repec.org/c/boc/bocode/s457962.html}
-\link{https://arxiv.org/ftp/arxiv/papers/1402/1402.4061.pdf}
+\url{https://ideas.repec.org/c/boc/bocode/s457962.html}
+\url{https://arxiv.org/ftp/arxiv/papers/1402/1402.4061.pdf}
 
 The default method is geometric and the default min_alpha value is 1.11,
 which are the ideal options for the FBS.

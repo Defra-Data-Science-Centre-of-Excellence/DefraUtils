@@ -107,7 +107,7 @@ compute_band_counts <- function(df, bands_df, band_col,
 #'
 #' Used by [estimate_band_means()]. Run to check how MCIB has been calculated.
 #'
-#' [https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4]
+#' [https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4](https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4)
 #'
 #' @param band_counts_df Counts of bands, created using [compute_band_counts()]
 #' @param bands_df A table of bands, created using [create_bands_df()]
@@ -289,13 +289,13 @@ calculate_riob <- function(band_counts_df, bands_df,
 #' `grouping_cols` argument.
 #'
 #' Mean Constrained Integration Over Brackets:
-#' [https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4]
+#' [https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4](https://journals.sagepub.com/doi/10.1177/0081175018782579#sec-4)
 #'
 #' We don't have a grand mean, so we only do the integration step.
 #'
 #' Robust pareto midpoint estimator:
-#' [https://ideas.repec.org/c/boc/bocode/s457962.html]
-#' [https://arxiv.org/ftp/arxiv/papers/1402/1402.4061.pdf]
+#' [https://ideas.repec.org/c/boc/bocode/s457962.html](https://ideas.repec.org/c/boc/bocode/s457962.html)
+#' [https://arxiv.org/ftp/arxiv/papers/1402/1402.4061.pdf](https://arxiv.org/ftp/arxiv/papers/1402/1402.4061.pdf)
 #'
 #' The default method is geometric and the default min_alpha value is 1.11,
 #' which are the ideal options for the FBS.
