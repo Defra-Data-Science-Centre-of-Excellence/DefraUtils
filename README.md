@@ -32,19 +32,17 @@ Just listing all available functions - I don't think most of these should go in.
 - [ ] uc_volume_put
 
 ### FBS functions
-- [ ] add_missing_columns
-- [ ] commentary_functions
-- [ ] decode_multi_choice
-- [ ] estimate_band_midpoints
-- [ ] fbs_model_functions
-- [ ] fbs_round
-- [ ] fix_suppression & fix_suppression_circular
-- [ ] generate_anon_workbook
-- [ ] get_cell_style
-- [ ] get_gdp_deflators
-- [ ] overwrite_num_cols
-- [ ] ? prepare_publication files
-- [ ] tidy_log
+- [x] add_missing_columns
+- [x] commentary_functions
+- [x] decode_multi_choice
+- [x] estimate_band_midpoints - renamed to estimate_band_means
+- [x] fbs_model_functions - renamed to survey_model_functions
+- [x] fbs_round - renamed to round_with_commas
+- [x] fix_suppression & fix_suppression_circular - merged into a single function
+- [x] get_cell_style
+- [ ] get_gdp_deflators - renamed to get-ons-series, needs an option to get a snapshot version rather than live
+- [x] overwrite_num_cols
+- [x] tidy_log
 
 
 ### General functions
