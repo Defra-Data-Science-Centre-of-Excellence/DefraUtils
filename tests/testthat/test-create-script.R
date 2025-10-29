@@ -12,7 +12,7 @@ test_that("create_script writes expected header", {
   )
   
   # Read the file
-  content <- readLines(glue::glue("{temp_dir}/test_script.R"))
+  content <- readLines(file.path(temp_dir, "test_script.R"))
   
   # Check that author and email are in the file
   expect_true(any(grepl("Author: Josh Moatt", content)))
