@@ -55,7 +55,7 @@ uc_volume_put <- function(
   response <- httr2::request(url) %>%
     httr2::req_method("PUT") %>% # PUT request seems to work best
     httr2::req_headers(
-      Authorization = glue("Bearer {token}"), # use data bricks PAT
+      Authorization = glue::glue("Bearer {token}"), # use data bricks PAT
       `Content-Type` = "multipart/form-data"
     ) %>%
     httr2::req_body_file(out_file) %>% # specifies file to export
