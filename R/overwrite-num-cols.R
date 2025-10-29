@@ -7,7 +7,7 @@
 #'
 #' This function is adapted from `rapid.spreadsheets::overwrite_df()`, to work
 #' with [aftables]; for the full rapid.spreadsheets code, see
-#' [https://github.com/RAPID-ONS/rapid.spreadsheets/blob/main/R/create_data_table_tab.R].
+#' [the GitHub page](https://github.com/RAPID-ONS/rapid.spreadsheets/blob/main/R/create_data_table_tab.R).
 #'
 #' @importFrom openxlsx writeData
 #' @importFrom dplyr pull if_else

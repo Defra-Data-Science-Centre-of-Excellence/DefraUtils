@@ -29,7 +29,7 @@ columns and rows so that they are displayed correctly in the output file. Use
 \details{
 This function is adapted from \code{rapid.spreadsheets::overwrite_df()}, to work
 with \link[aftables:aftables-package]{aftables::aftables}; for the full rapid.spreadsheets code, see
-\link{https://github.com/RAPID-ONS/rapid.spreadsheets/blob/main/R/create_data_table_tab.R}.
+\href{https://github.com/RAPID-ONS/rapid.spreadsheets/blob/main/R/create_data_table_tab.R}{the GitHub page}.
 }
 \examples{
 \dontrun{
