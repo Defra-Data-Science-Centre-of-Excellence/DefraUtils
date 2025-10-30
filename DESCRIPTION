@@ -51,7 +51,7 @@ Imports:
     dplyr,
     fs,
     ggplot2,
-    gitcreds
+    gitcreds,
     glue,
     httr,
     httr2,
