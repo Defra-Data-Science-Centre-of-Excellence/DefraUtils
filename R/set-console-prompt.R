@@ -4,9 +4,9 @@
 #'
 #' @description Function to change the R console prompt. The default prompt is
 #'   ">". This function will update the prompt so that if you are in a Git
-#'   project, the prompt will display the acitve branch, e.g. "[@main]>". If you
+#'   project, the prompt will display the acitve branch, e.g. `[@main]>`. If you
 #'   are not in a Git enabled branch, the prompt will revert to the default ">".
-#'   Prompts can be manually edited using `usethis::edit_r_profile()`. Has two
+#'   Prompts can be manually edited using [usethis::edit_r_profile()]. Has two
 #'   scopes, "user" will apply this generally to RStudio, creating a user R
 #'   profile file, "project" will create a project specific R profile file.
 #'

@@ -22,26 +22,26 @@
 #'   functions for specifically reading in .csv, .Rds, and .xlsx files.
 #'
 #'   All of the functions work in the same way. They use
-#'   `brickster::db_volume_read()`, to attempt to read in the data and store it
+#'   [brickster::db_volume_read()], to attempt to read in the data and store it
 #'   in an appropriate temporary file. They use a retry loop that catch errors
-#'   with `tryCatch()`. If no error is thrown by `brickster`, the functions read
+#'   with [tryCatch()]. If no error is thrown by `brickster`, the functions read
 #'   in the temporary file into R using an appropriate reader function and
 #'   returns the resulting data frame. If an error is thrown by `brickster`, the
 #'   functions will wait a set number of seconds (controlled by the interval
 #'   argument) before retrying. They will repeat the attempted data load until
 #'   either the file is read successfully or the maximum number of attempts (set
-#'   by max_tries) is reacher - after which it throws an error.
+#'   by max_tries) is reached - after which it throws an error.
 #'
 #'   In order for these functions to work, you must be working on the Defra DASH
-#'   platform and have set the required brickster environmental variables. These
-#'   variables include setting a databricks Personal Access Token (PAT). For
-#'   more information on how to do this, see the specific project README.
+#'   platform and have set the required `brickster` environmental variables.
+#'   These variables include setting a databricks Personal Access Token (PAT).
+#'   For more information on how to do this, see the specific project README.
 #'
 #'   Reader functions used are as follows:
 #'
 #'   \itemize{
 #'     \item **.csv** - [readr::read_csv()]
-#'     \item **.xlsx** - [readr::read_xlsx()]
+#'     \item **.xlsx** - [readxl::read_xlsx()]
 #'     \item **.Rds** - [readr::read_rds()]
 #'   }
 #'
@@ -80,7 +80,7 @@
 #' )
 #' }
 #'
-#' @seealso [readr::read_csv()], [readr::read_rds()], [readxl::read_xlsx()]
+#' @seealso [brickster::db_volume_read()], [readr::read_csv()], [readr::read_rds()], [readxl::read_xlsx()]
 #'
 #' @name read_files_from_volume
 #'
