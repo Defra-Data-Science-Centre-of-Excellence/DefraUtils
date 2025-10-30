@@ -24,7 +24,7 @@ test_that("create_dash_dir retries on failure and then succeeds", {
     function(...) {
       call_count <<- call_count + 1
       if (call_count < 3) stop("Temporary failure")
-      return(NULL)
+      NULL
     }
   )
 
