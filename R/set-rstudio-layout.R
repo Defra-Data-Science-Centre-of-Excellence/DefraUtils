@@ -18,22 +18,42 @@
 #' \dontrun{
 #' # set pane layout
 #' my_pane_layout <- list(
-#'   quadrants = list("Source", "TabSet1", "Console", "TabSet2"),
-#'   tabSet1 = list("History", "Presentation"),
-#'   tabSet2 = list("Environment", "Files", "Plots", "Connections", "Packages", "Help", "Build", "VCS", "Tutorial", "Viewer", "Presentations"),
-#'   hiddenTabSet = list(),
-#'   console_left_on_top = FALSE,
-#'   console_right_on_top = TRUE,
-#'   additional_source_columns = 0
-#' )
+#'  quadrants = list(
+#'    "Source",
+#'    "TabSet1",
+#'    "Console",
+#'    "TabSet2"
+#'  ),
+#'  tabSet1 = list(
+#'    "History",
+#'    "Presentation"
+#'  ),
+#'  tabSet2 = list(
+#'    "Environment",
+#'    "Files",
+#'    "Plots",
+#'    "Connections",
+#'    "Packages",
+#'    "Help",
+#'    "Build",
+#'    "VCS",
+#'    "Tutorial",
+#'    "Viewer",
+#'    "Presentations"
+#'  ),
+#'  hiddenTabSet = list(),
+#'  console_left_on_top = FALSE,
+#'  console_right_on_top = TRUE,
+#'  additional_source_columns = 0
+#')
 #'
 #' # apply preferences
-#' customise_layout(
+#' set_rstudio_layout(
 #'   always_save_history = FALSE, # don't auto save history
 #'   save_workspace = "never", # don't save workspace
 #'   load_workspace = FALSE, # don't load previous workspace
 #'   restore_last_project = FALSE, # don't restore last opened project
-#'   continue_comments_on_newline = TRUE, # when commenting, hitting enter continues comment on new line
+#'   continue_comments_on_newline = TRUE, # continues comment on new line
 #'   highlight_selected_line = FALSE, # highlight line cursor is on
 #'   highlight_r_function_calls = TRUE, # highlight R function calls
 #'   show_margin = FALSE, # don't show margin (default = 80 characters)
