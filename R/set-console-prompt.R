@@ -50,7 +50,7 @@ set_console_prompt <- function(scope) {
     cli::cli_alert_danger("Note: custom profile already present\n")
     cli::cli_alert_info("Edit using `usethis::edit_r_profile()` and try again.")
     stop("Cancelled: Prompt already present!", call = FALSE)
-  } else if (prompt == "git") {
+  } else {
     my_prompt <- '.First <- function() {
   my_prompt <- function(...) {
     git_branch <- suppressWarnings(
