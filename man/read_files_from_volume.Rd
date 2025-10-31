@@ -20,18 +20,19 @@ read_xlsx_from_volume(path, ..., max_tries = 5, interval = 2)
 \item{path}{A string containing the path to data to be read in. Should be the
 full DASH string starting "/Volumes/..."}
 
-\item{ext}{A sting specifying the file type. Only used in the general
+\item{ext}{A string specifying the file type. Only used in the general
 function. for the specific functions, this will be set to the correct
 extension (e.g. .csv).}
 
-\item{max_tries}{Maximum number of tries to read in data. Default is 5.}
+\item{max_tries}{Maximum number of tries to read in data. Default is 5
+attempts.}
 
 \item{interval}{Interval between tries to read in data. Default is 2 seconds.}
 
 \item{...}{Additional arguments passed to the appropriate reader function.}
 }
 \value{
-a dataframe
+A dataframe.
 }
 \description{
 A set of convenience functions to read data from common file
@@ -55,26 +56,26 @@ for any file type (using the ext argument). There are also wrapper
 functions for specifically reading in .csv, .Rds, and .xlsx files.
 
 All of the functions work in the same way. They use
-\code{brickster::db_volume_read()}, to attempt to read in the data and store it
+\code{\link[brickster:db_volume_read]{brickster::db_volume_read()}}, to attempt to read in the data and store it
 in an appropriate temporary file. They use a retry loop that catch errors
-with \code{tryCatch()}. If no error is thrown by \code{brickster}, the functions read
+with \code{\link[=tryCatch]{tryCatch()}}. If no error is thrown by \code{brickster}, the functions read
 in the temporary file into R using an appropriate reader function and
 returns the resulting data frame. If an error is thrown by \code{brickster}, the
 functions will wait a set number of seconds (controlled by the interval
 argument) before retrying. They will repeat the attempted data load until
 either the file is read successfully or the maximum number of attempts (set
-by max_tries) is reacher - after which it throws an error.
+by max_tries) is reached - after which it throws an error.
 
 In order for these functions to work, you must be working on the Defra DASH
-platform and have set the required brickster environmental variables. These
-variables include setting a databricks Personal Access Token (PAT). For
-more information on how to do this, see the specific project README.
+platform and have set the required \code{brickster} environmental variables.
+These variables include setting a databricks Personal Access Token (PAT).
+For more information on how to do this, see the specific project README.
 
 Reader functions used are as follows:
 
 \itemize{
 \item \strong{.csv} - \code{\link[readr:read_delim]{readr::read_csv()}}
-\item \strong{.xlsx} - \code{\link[readr:read_xlsx]{readr::read_xlsx()}}
+\item \strong{.xlsx} - \code{\link[readxl:read_excel]{readxl::read_xlsx()}}
 \item \strong{.Rds} - \code{\link[readr:read_rds]{readr::read_rds()}}
 }
 }
@@ -100,7 +101,10 @@ read_xlsx_from_volume(
 
 }
 \seealso{
-\code{\link[readr:read_delim]{readr::read_csv()}}, \code{\link[readr:read_rds]{readr::read_rds()}}, \code{\link[readxl:read_excel]{readxl::read_xlsx()}}
+\code{\link[brickster:db_volume_read]{brickster::db_volume_read()}}, \code{\link[readr:read_delim]{readr::read_csv()}},
+\code{\link[readr:read_rds]{readr::read_rds()}}, \code{\link[readxl:read_excel]{readxl::read_xlsx()}}.
+\code{\link[=read_csv_from_volume]{read_csv_from_volume()}},
+\code{\link[=read_xlsx_from_volume]{read_xlsx_from_volume()}}, \code{\link[=read_rds_from_volume]{read_rds_from_volume()}}
 }
 \author{
 Josh Moatt

@@ -2,74 +2,45 @@
 % Please edit documentation in R/create-script-template.R
 \name{create_script_template}
 \alias{create_script_template}
-\title{Create an default R script template.}
+\title{Create a default R script template}
 \usage{
 create_script_template(format = "default", template = NULL, dash = FALSE)
 }
 \arguments{
-\item{format}{what format the template will take. There are four options:
-"default" will apply our suggested template, "custom" will apply a
-custom template (provided as a string), "manual_edit" will open the
-template so you can manually edit the template, and "blank" can be used to
-remove all pre-existing templates. Note: manual edit can also be used to
-edit existing templates.}
+\item{format}{Character. One of \code{"default"}, \code{"custom"},
+\code{"manual_edit"}, or \code{"blank"}. Determines the type of template to
+apply.}
 
-\item{template}{default is NULL, only used if format = "custom". Used to
-provide custom template design. Must be provided as a string. Must be
-provided if using format = "custom" or the function will return an error.}
+\item{template}{Character vector or NULL. Required if \code{format =
+"custom"}. Specifies the custom template content.}
 
-\item{dash}{default is FALSE. If TRUE changes the file path to the one needed
-for the RStudio server on DASH}
+\item{dash}{Logical. Default is \code{FALSE}. If \code{TRUE}, uses the DASH
+platform path.}
 }
 \value{
-New .R file created containing the script template
+A new .R file containing the script template is created or modified.
 }
 \description{
-This function can be used to create a default R script template.
-All scripts opened from this point will have this template applied as a
-header. It comes pre-loaded with a suggested template, but can also handle
-a custom template be manually edited, or returned to a blank script. The
-default template contains a header with key metadata to help you document
-your scripts properly.
+Creates a default R script template to be applied as a header to
+all newly opened scripts. Supports default, custom, manual, and blank
+templates to help enforce consistent documentation practices.
 }
 \details{
-This function is used to create a new template for R scripts. Once
-run, all newly opened scripts will have you template/header by default.By
-doing this is it should be easier to follow best practice and properly
-document all the scripts you create.
-
-The template will be saved in different locations depending on where you
-are working.  When working on local installs of RStudio, the template will
-be stored on your c drive "~/AppData/Roaming/RStudio". When working on the
-DASH platform, the template will be saved in the .config folder in your
-account/profile "/.config/rstudio". The function will create a "templates"
-folder where the default will be stored.
-
-The function has various ways it can work which will give you the ability
-to create whatever header template you wish. It has four ways formatting
-options:
-
+This function sets a default header template for new R scripts,
+helping enforce best practices in documentation. Depending on the
+environment, the template is saved in:
 \itemize{
-\item default
-\item custom
-\item manual_edit
-\item blank
+\item Local RStudio: \code{~/AppData/Roaming/RStudio/templates}
+\item DASH platform: \code{~/.config/rstudio/templates}
 }
 
-"default" will pre-load the the template with our suggested script header.
-This header includes all the key meta-data sections to help you properly
-document your scripts.
-
-"custom" will allow you to provide your own custom template as a string,
-which will then be added to the template.
-
-"manual" will create/open the template, allowing you to manually edit it.
-Once saved, all scripts will open with this default from then on. Note,
-this can also be used to tweak a pre-existing template (e.g. to add your
-name and email to all scripts).
-
-"blank" will delete the default R script and template. This returns R back
-to normal, and any script opened subsequently will be blank.
+The function supports four modes:
+\itemize{
+\item \code{"default"}: Applies a suggested header template with key metadata.
+\item \code{"custom"}: Applies a user-defined template provided as a string.
+\item \code{"manual_edit"}: Opens the template file for manual editing.
+\item \code{"blank"}: Removes the template, reverting to blank scripts.
+}
 }
 \examples{
 \dontrun{

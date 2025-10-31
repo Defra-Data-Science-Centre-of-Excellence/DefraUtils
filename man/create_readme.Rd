@@ -2,36 +2,63 @@
 % Please edit documentation in R/create-readme.R
 \name{create_readme}
 \alias{create_readme}
-\title{Create a README}
+\title{Create a README using a template}
 \usage{
 create_readme(format, file_path = NULL, author = NULL, readme_title = NULL)
 }
 \arguments{
-\item{format}{controls the output format of the README. Default is
-"markdown", but can be "html" or "github".}
+\item{format}{A string specifying the output format. Options are
+\code{"markdown"} (default), \code{"html"}, or \code{"github"}.}
 
-\item{file_path}{sting containing file path where README will be saved.}
+\item{file_path}{A string specifying the file path where the README should be
+saved. Defaults to the working directory.}
 
-\item{author}{string containing authors name. If no string provided author
-will be set to "add author".}
+\item{author}{A string specifying the author's name. Defaults to \code{"add author"} if not provided.}
 
-\item{readme_title}{string containing README title. If no string provided
-will be set to "README (edit title)".}
+\item{readme_title}{A string specifying the README title. Defaults to "README
+(edit title)" if not provided.}
 }
 \value{
-Output is a .qmd file containing the desired README template and an initial
-render of the README in the desired output.
+Creates a \code{.qmd} file and renders it to the specified format. The
+output file is saved in the specified location.
 }
 \description{
-Use this function to create a README for an RStudio project.
+Generates a README file for a project using a generic Quarto
+template. The function creates a \code{.qmd} file and performs an initial render
+to produce the output in the specified format.
 }
 \details{
-This function will create a README for a project using a generic template.
-The function will create a Quarto (.qmd) file and do a first render producing
-the initial output.
+This function helps standardize README creation across projects. It
+supports output formats \code{"markdown"} (default), \code{"html"}, and
+\code{"github"} (GitHub Flavored Markdown, or GFM). The README is saved in
+the working directory by default, but a custom location can be specified
+using the \code{file_path} argument.
 
-The output type can be controlled using the format option (default is
-markdown). Can also be html or github (gfm).
+The template includes sections for project introduction, structure, and
+instructions on how to run the project. The rendered output is created
+using \code{\link[quarto:quarto_render]{quarto::quarto_render()}}.
+}
+\examples{
+\dontrun{
+# create README in active working directory
+create_readme(
+  format = "markdown",
+  author = "Farming Stats",
+  readme_title = "My Project README"
+)
+
+# create README in specified location
+create_readme(
+  format = "markdown",
+  file_path = "~/my-project",
+  author = "Farming Stats",
+  readme_title = "My Project README"
+)
+}
+
+}
+\seealso{
+\code{\link[quarto:quarto_render]{quarto::quarto_render()}}
 }
 \author{
 Josh Moatt

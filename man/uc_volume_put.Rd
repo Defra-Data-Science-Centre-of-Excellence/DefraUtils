@@ -7,31 +7,31 @@
 uc_volume_put(workspace, volume, token, file, folder)
 }
 \arguments{
-\item{workspace}{databricks workspace (string)}
+\item{workspace}{String. The full URL of the Databricks workspace.}
 
-\item{volume}{path to folder on databricks where data should be written
-(string)}
+\item{volume}{String. The path to the Databricks volume or folder where the
+file should be saved.}
 
-\item{token}{databricks PAT (string)}
+\item{token}{String. Your Databricks Personal Access Token (PAT).}
 
-\item{file}{name of file to be exported including file extension. Will be
-used to both specify the file to export and specify the file to be created
-on databricks (String).}
+\item{file}{String. The name of the file to upload, including its extension.}
 
-\item{folder}{path to file you wish to save, excluding file name and
-extension (string).}
+\item{folder}{String. The local path to the folder containing the file to
+upload (excluding the file name).}
 }
 \value{
-file saved on DASH.
+No return value. The file is uploaded to the specified location in
+the Unity Catalog.
 }
 \description{
-This is a simple function to save a file to the DASH Unity
-Catalog (UC). It is built using the httr2 package and uses a PUT request to
-save the file. It will save a local file, either from a drive or temp
-directory. For reading data, see \code{uc_volume_get}.
+Uploads a local file to the DASH Unity Catalog (UC) using a PUT
+request via the \code{httr2} package. This function is useful for saving files
+from the RStudio server to Databricks volumes.
 
-Note, you must have set up a databricks Personal Access Token (PAT) in the
-databricks settings before doing this.
+You must have a valid Databricks Personal Access Token (PAT) configured in
+your Databricks account.
+
+For downloading files from UC, see \code{\link[=uc_volume_get]{uc_volume_get()}}.
 }
 \examples{
 \dontrun{
@@ -44,6 +44,9 @@ uc_volume_put(
 )
 }
 
+}
+\seealso{
+\code{\link[httr2:request]{httr2::request()}}, \code{\link[=uc_volume_get]{uc_volume_get()}}
 }
 \author{
 Josh Moatt

@@ -2,25 +2,35 @@
 % Please edit documentation in R/set-console-prompt.R
 \name{set_console_prompt}
 \alias{set_console_prompt}
-\title{Add my R console prompt.}
+\title{Set a custom R console prompt with Git branch}
 \usage{
 set_console_prompt(scope)
 }
 \arguments{
-\item{scope}{string. "user" sets the prompt globally, "project" sets it just
-for the active project.}
+\item{scope}{Character. Either \code{"user"} to apply the prompt globally, or
+\code{"project"} to apply it only to the current project.}
 }
 \value{
-Altered R prompt
+No return value. Side effect: modifies the \code{.Rprofile} file to
+set the prompt.
 }
 \description{
-Function to change the R console prompt. The default prompt is
-">". This function will update the prompt so that if you are in a Git
-project, the prompt will display the acitve branch, e.g. "\link{@main}>". If you
-are not in a Git enabled branch, the prompt will revert to the default ">".
-Prompts can be manually edited using \code{usethis::edit_r_profile()}. Has two
-scopes, "user" will apply this generally to RStudio, creating a user R
-profile file, "project" will create a project specific R profile file.
+Sets a custom R console prompt that displays the active Git
+branch (e.g., \code{[@main]>}) when working inside a Git-enabled project.
+If no Git repository is detected, the prompt defaults to \code{">"}.
+
+The prompt is added to your .Rprofile file and can be scoped either
+globally (\code{"user"}) or to the current project (\code{"project"}). You
+can manually edit the profile using \code{\link[usethis:edit]{usethis::edit_r_profile()}}.
+}
+\details{
+This function modifies your R console prompt to reflect the current
+Git branch, helping you stay aware of your working context. It works by
+appending a custom \code{.First()} function to your .Rprofile, which sets
+the prompt and attaches a task callback to keep it updated.
+
+If a custom prompt already exists in the profile, the function will abort
+to avoid overwriting it. You can manually edit the profile if needed.
 }
 \examples{
 \dontrun{
@@ -30,6 +40,10 @@ set_console_prompt("user")
 # set project prompt
 set_console_prompt("project")
 }
+
+}
+\seealso{
+\code{\link[usethis:edit]{usethis::edit_r_profile()}}
 }
 \author{
 Josh Moatt

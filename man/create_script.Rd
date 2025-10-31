@@ -2,7 +2,7 @@
 % Please edit documentation in R/create-script.R
 \name{create_script}
 \alias{create_script}
-\title{Create a new script with the default R script template.}
+\title{Create a new script using the default template.}
 \usage{
 create_script(
   file_name = NULL,
@@ -28,33 +28,48 @@ to save in a sub-folder, enter the full folder sequence, e.g.
 date.}
 }
 \value{
-An R script will be saved in the root directory or in the specified folder.
+An R script will be saved in the root directory or in the specified
+folder.
 }
 \description{
-This function will create a new script usnig the default R script template.
-There a multiple options for customisation (see details).
+This function will create a new R script using the default
+header template. There are multiple options for customisation (see
+details).
 }
 \details{
-This is a simple function to create a new script using the default R script
-template.
+This function generates a new R script pre-filled with a standard
+header template. By default, all fields are left blank except for the
+creation date, which is set to today's date.
 
-By just calling the function a script will be created with the template
-entered. All fields of the template will be blank except for the date, which
-is set to today's date.
-
-There are options for customising and entering some details automatically.
-The details that can be pre-entered are:
-
+You can optionally pre-fill the following fields:
 \itemize{
-\item script name
-\item location to save
-\item author
-\item author's email
-\item date created
+\item Script name
+\item Save location
+\item Author name
+\item Author email
+\item Date created
 }
 
-By default these are set to NULL (except for the date). But can be set to any
-string.
+The script is saved in your project's root directory (via \code{\link[here:here]{here::here()}})
+or a specified sub-folder.
+
+By default these are set to \code{NULL} (except for the date). But can be
+set to any string.
+}
+\examples{
+\dontrun{
+# Create a script with default settings
+create_script()
+
+# Create a script with custom metadata
+create_script(
+  file_name = "analysis_script",
+  file_path = "scripts",
+  author = "Farming Stats",
+  email = "Farming.Stats@defra.gov.uk"
+)
+}
+
 }
 \author{
 Josh Moatt

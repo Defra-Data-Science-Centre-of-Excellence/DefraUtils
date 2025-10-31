@@ -2,30 +2,34 @@
 % Please edit documentation in R/uc-volume-get.R
 \name{uc_volume_get}
 \alias{uc_volume_get}
-\title{Copy file from the DASH Unity Catalog}
+\title{Download a file from the DASH Unity Catalog}
 \usage{
 uc_volume_get(workspace, volume, token, out_file)
 }
 \arguments{
-\item{workspace}{databricks workspace (string)}
+\item{workspace}{String. The full URL of the Databricks workspace.}
 
-\item{volume}{file path to data folder (string)}
+\item{volume}{String. The full path to the file in the Unity Catalog (e.g.,
+"/Volumes/...").}
 
-\item{token}{databricks PAT (string)}
+\item{token}{String. Your Databricks Personal Access Token (PAT).}
 
-\item{out_file}{filepath on RStudio Cluster that data should be stored.}
+\item{out_file}{String. The local file path on the RStudio server where the
+file should be saved}
 }
 \value{
-data saved in Rstudio cluster.
+No return value. The file is saved to the specified location on the
+RStudio server.
 }
 \description{
-This is a simple function to read data from the databricks
-Unuity Catalog (UC) into RStudio. It is built using the \link[httr:GET]{httr::GET} function from
-the httr package. This function was lifted directly from the DASH playbook.
-For saving files, see \code{uc_volume_put}.
+Downloads a file from the Databricks Unity Catalog (UC) to the
+RStudio server. This function wraps a call to \code{\link[httr:GET]{httr::GET()}} and was adapted
+from the DASH playbook.
 
-Note, you must have set up a databricks Personal Access Token (PAT) in the
-databricks settings before doing this.
+You must have a valid Databricks Personal Access Token (PAT) set up in your
+Databricks account.
+
+For uploading files to UC, see \code{\link[=uc_volume_put]{uc_volume_put()}}.
 }
 \examples{
 \dontrun{
@@ -37,6 +41,9 @@ uc_volume_get(
 )
 }
 
+}
+\seealso{
+\code{\link[httr:GET]{httr::GET()}}, \code{\link[=uc_volume_put]{uc_volume_put()}}
 }
 \author{
 Josh Moatt

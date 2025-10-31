@@ -2,7 +2,7 @@
 % Please edit documentation in R/list-dash-files.R
 \name{list_dash_files}
 \alias{list_dash_files}
-\title{Lidt files within a DASH volume or folder}
+\title{List files within a DASH directory}
 \usage{
 list_dash_files(path, max_tries = 5, interval = 2)
 }
@@ -10,40 +10,33 @@ list_dash_files(path, max_tries = 5, interval = 2)
 \item{path}{A string containing the path to the volume or folder. Should be
 the full DASH string starting "/Volumes/..."}
 
-\item{max_tries}{Maximum number of tries to read in data. Added to deal with
-persistent http errors.}
+\item{max_tries}{Maximum number of tries to access directory metadata.
+Default is 5 attempts.}
 
-\item{interval}{Interval between tries to read in data. Added to deal with
-persistent http errors.}
+\item{interval}{Interval between tries to read in data. Default is 2 seconds.}
 }
 \value{
 List of files in DASH directory returned.
 }
 \description{
-Function to streamline listing files in DASH volumes/folders.
-This function will help avoid the http2 error which seems to be a frequent
-problem with \code{brickster}. In order for this function to work, you must be
-working on the Defra DASH platform and have set the required \code{brickster}
-environmental variables.
+Lists files in a DASH directory (volume or folder) using the
+\code{brickster} API. Designed to handle intermittent http2 errors by retrying
+failed attempts. Requires the Defra DASH platform and appropriate
+\code{brickster} environment variables.
 }
 \details{
-This function is designed to handle the frequent http2 errors that
-occur with \code{brickster}. From testing, these errors are not code or file
-path errors, but are just minor bugs with the API. Often, if the same code
-is rerun, the data will be read in fine.
+This function wraps \code{\link[brickster:db_volume_list]{brickster::db_volume_list()}} with a retry loop
+to handle intermittent http2 errors, which are common but typically
+transient. These errors are not usually caused by incorrect code or file
+paths, and rerunning the same request often succeeds.
 
-This function uses the \code{brickster::db_volume_list} function. It uses a
-retry loop that catch errors with \code{tryCatch()}. If no error is thrown by
-\code{brickster}, the function will return a list of the files in the specified
-DASH directory. If an error is thrown by \code{brickster}, the function will
-wait a set number of seconds (controlled by the interval argument) before
-retrying. It will repeat the attempt access the information on the
-directory until either the list is created or the maximum number of
-attempts (set by max_tries) is reached - after which it throws an error.
+The function will retry the request up to \code{max_tries} times, waiting
+\code{interval} seconds between each attempt. If all attempts fail, an error
+is thrown.
 
-In order for this function to work, you must be working on the Defra DASH
-platform and have set the required brickster environmental variables. These
-variables include setting a databricks Personal Access Token (PAT).
+You must be working on the Defra DASH platform and have set the required
+\code{brickster} environment variables, including a valid Databricks Personal
+Access Token (PAT).
 }
 \examples{
 \dontrun{
@@ -53,6 +46,9 @@ create_dash_dir(
 )
 }
 
+}
+\seealso{
+\code{\link[brickster:db_volume_list]{brickster::db_volume_list()}}
 }
 \author{
 Josh Moatt

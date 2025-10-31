@@ -2,25 +2,25 @@
 % Please edit documentation in R/create-dash-dir.R
 \name{create_dash_dir}
 \alias{create_dash_dir}
-\title{Create a folder in a DASH volume}
+\title{Create a directory in a DASH volume}
 \usage{
 create_dash_dir(..., max_tries = 5, interval = 2)
 }
 \arguments{
 \item{...}{Additional arguments passed to
-\code{brickster::db_volume_dir_create()}.}
+\code{\link[brickster:db_volume_dir_create]{brickster::db_volume_dir_create()}}.}
 
-\item{max_tries}{Maximum number of tries to read in data. Added to deal with
-persistent http errors. Default is 5.}
+\item{max_tries}{Maximum number of attempts to create directory. Default is
+5.}
 
-\item{interval}{Interval between tries to read in data. Added to deal with
-persistent http errors. Default is 2}
+\item{interval}{Interval between tries to read in data. Default is 2}
 
-\item{path}{A string containing the path on DASH catalog for the folder you
-wish to create. It should be the full DASH string starting "/Volumes/..."}
+\item{path}{A string containing the path on DASH catalog for the directory
+you wish to create. It should be the full DASH string starting
+"/Volumes/..."}
 }
 \value{
-Folder created in DASH catalog.
+Directory created in DASH catalog.
 }
 \description{
 Function to streamline creating directories in DASH volumes.
@@ -35,14 +35,14 @@ occur with \code{brickster}. From testing, these errors are not code or file
 path errors, but are just minor bugs with the API. Often, if the same code
 is rerun, the data will be read in fine.
 
-This function uses the \code{brickster::db_volume_dir_create} function. It uses
-a retry loop that catch errors with \code{tryCatch()}. If no error is thrown by
-\code{brickster}, the function will end as the directory will have been created.
-If an error is thrown by \code{brickster}, the function will wait a set number
-of seconds (controlled by the interval argument) before retrying. It will
-repeat the attempt create the directory until either the directory is
-created successfully or the maximum number of attempts (set by max_tries)
-is reached - after which it throws an error.
+This function uses the \code{\link[brickster:db_volume_dir_create]{brickster::db_volume_dir_create()}} function. It
+uses a retry loop that catches errors with \code{\link[=tryCatch]{tryCatch()}}. If no error is
+thrown by \code{brickster}, the function will end as the directory will have
+been created. If an error is thrown by \code{brickster}, the function will wait
+a set number of seconds (controlled by the interval argument) before
+retrying. It will repeat the attempt to create the directory until either
+the directory is created successfully or the maximum number of attempts
+(set by max_tries) is reached - after which it throws an error.
 
 In order for this function to work, you must be working on the Defra DASH
 platform and have set the required brickster environmental variables. These
@@ -56,6 +56,9 @@ create_dash_dir(
 )
 }
 
+}
+\seealso{
+\code{\link[brickster:db_volume_dir_create]{brickster::db_volume_dir_create()}}
 }
 \author{
 Josh Moatt

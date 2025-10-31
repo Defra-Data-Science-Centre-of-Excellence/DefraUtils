@@ -2,23 +2,26 @@
 % Please edit documentation in R/set-rstudio-layout.R
 \name{set_rstudio_layout}
 \alias{set_rstudio_layout}
-\title{Customise RStudio IDE layout}
+\title{Customise RStudio IDE layout and preferences}
 \usage{
 set_rstudio_layout(...)
 }
 \arguments{
-\item{...}{Named arguments representing RStudio preferences to be updated.
-Each argument should be named after an RStudio preference and assigned the
+\item{...}{Named arguments representing RStudio preferences to update. Each
+argument should correspond to a valid RStudio preference name and its
 desired value.}
 }
 \value{
-The function modifies RStudio preferences as a side effect.
+No return value. Preferences are updated as a side effect.
 }
 \description{
-Simple function created to customise the RStudio IDE. Makes
-setting up the RStudio server on DASH much easier and quicker following a
-cluster restart. A full list of the modifiable settings is available on the
-posit website here: \href{https://docs.posit.co/ide/server-pro/reference/session_user_settings.html}{Session User Settings}
+Customises the RStudio IDE by updating user or project-specific
+preferences. Especially useful on the DASH RStudio server after a cluster
+restart, allowing quick restoration of preferred settings.
+
+A full list of modifiable settings is available on the Posit website:
+\href{https://docs.posit.co/ide/server-pro/reference/session_user_settings.html}{Session
+User Settings}.
 }
 \examples{
 \dontrun{
@@ -69,6 +72,10 @@ set_rstudio_layout(
 )
 }
 
+}
+\seealso{
+\code{\link[rstudioapi:readRStudioPreference]{rstudioapi::readRStudioPreference()}},
+\link[rstudioapi:writeRStudioPreference]{rstudioapi::writeRStudioPreference}
 }
 \author{
 Josh Moatt
