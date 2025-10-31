@@ -1,33 +1,55 @@
-#' @title
-#' Create a README
+#' @title Create a README using a template
 #'
 #' @author Josh Moatt
 #'
-#' @description
-#' Use this function to create a README for an RStudio project.
+#' @description Generates a README file for a project using a generic Quarto
+#'   template. The function creates a `.qmd` file and performs an initial render
+#'   to produce the output in the specified format.
 #'
-#' @details
-#' This function will create a README for a project using a generic template.
-#' The function will create a Quarto (.qmd) file and do a first render producing
-#'  the initial output.
+#' @details This function helps standardize README creation across projects. It
+#'   supports output formats `"markdown"` (default), `"html"`, and `"github"`
+#'   (GitHub Flavored Markdown, or GFM). The README is saved in the working
+#'   directory by default, but a custom location can be specified using the
+#'   `file_path` argument.
 #'
-#' The output type can be controlled using the format option (default is
-#' markdown). Can also be html or github (gfm).
+#'   The template includes sections for project introduction, structure, and
+#'   instructions on how to run the project. The rendered output is created
+#'   using [quarto::quarto_render()].
 #'
-#' @param format controls the output format of the README. Default is
-#'   "markdown", but can be "html" or "github".
+#' @param format A string specifying the output format. Options are `"markdown"`
+#'   (default), `"html"`, or `"github"`.
+#'   
+#' @param file_path A string specifying the file path where the README should be
+#'   saved. Defaults to the working directory.
+#'   
+#' @param author A string specifying the author's name. Defaults to `"add
+#'   author"` if not provided.
+#'   
+#' @param readme_title A string specifying the README title. Defaults to
+#'   `"README (edit title)"` if not provided.
 #'
-#' @param file_path sting containing file path where README will be saved.
+#' @return Creates a `.qmd` file and renders it to the specified format. The
+#'   output file is saved in the specified location.
 #'
-#' @param author string containing authors name. If no string provided author
-#'   will be set to "add author".
+#' @examples
+#' \dontrun{
+#' # create README in active working directory
+#' create_readme(
+#'   format = "markdown",
+#'   author = "Josh Moatt",
+#'   readme_title = "My Project README"
+#' )
+#' 
+#' # create README in specified location
+#' create_readme(
+#'   format = "markdown",
+#'   file_path = "~/my-project",
+#'   author = "Josh Moatt",
+#'   readme_title = "My Project README"
+#' )
+#' }
 #'
-#' @param readme_title string containing README title. If no string provided
-#'   will be set to "README (edit title)".
-#'
-#' @return
-#' Output is a .qmd file containing the desired README template and an initial
-#' render of the README in the desired output.
+#' @seealso [quarto::quarto_render()]
 #'
 #' @export
 create_readme <- function(
