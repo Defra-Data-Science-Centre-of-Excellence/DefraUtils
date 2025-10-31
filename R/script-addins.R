@@ -1,20 +1,36 @@
-#' @title Addin to open new scripts with suggested templates
+#' @title Internal RStudio addins to open new scripts with suggested templates
 #'
-#' @description There are two addins that will open a new blank R script which
-#' is populated with one of two suggested script headers. The script addin will
-#' open with our suggested script header, which contains key meta-data to help
-#' you document your script properly. The roxygen addin will add the roxygen
-#' skeleton to properly document functions. Although roxygen comments are mostly
-#' used for documenting funtions in packages, we suggest using them to document
-#' any function you create, as this will inevetably make it easier for others to
-#' pick up.
+#' @author Josh Moatt
 #'
-#' @return A script will open in RStudio.
+#' @description These functions are designed to be used only via the RStudio
+#'   Addins menu. They open a new R script pre-populated with either:
+#' \itemize{
+#'   \item A suggested script header ([defra_script_addin()]), or
+#'   \item A Roxygen documentation skeleton ([defra_roxygen_addin()]).
+#' }
+#'
+#'   They use [rstudioapi::documentNew()] to open a new script pane in RStudio.
+#'   Calling these functions directly will not work correctly outside the
+#'   RStudio IDE.
+#'
+#' @details These addins are part of the DefraUtils RStudio integration and are
+#'   intended to promote consistent documentation practices across projects.
+#'   They are not designed to be used interactively from the console.
+#'
+#' @return Opens a new R script in RStudio; returns `NULL` invisibly.
+#'
+#' @note These functions are triggered through the **RStudio Addins** menu and
+#'   should not be called manually.
+#'
+#' @seealso [rstudioapi::documentNew()]
+#'
+#' @keywords internal
+#'
+#' @noRd
 #'
 #' @name script_addins
-#'
-#' @export
 NULL
+
 
 #' @rdname script_addins
 #' @export

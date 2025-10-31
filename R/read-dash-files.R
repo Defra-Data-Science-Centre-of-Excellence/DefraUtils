@@ -48,17 +48,18 @@
 #' @param path A string containing the path to data to be read in. Should be the
 #'   full DASH string starting "/Volumes/..."
 #'
-#' @param ext A sting specifying the file type. Only used in the general
+#' @param ext A string specifying the file type. Only used in the general
 #'   function. for the specific functions, this will be set to the correct
 #'   extension (e.g. .csv).
 #'
 #' @param ... Additional arguments passed to the appropriate reader function.
 #'
-#' @param max_tries Maximum number of tries to read in data. Default is 5.
+#' @param max_tries Maximum number of tries to read in data. Default is 5
+#'   attempts.
 #'
 #' @param interval Interval between tries to read in data. Default is 2 seconds.
 #'
-#' @return a dataframe
+#' @return A dataframe.
 #'
 #' @examples
 #' \dontrun{
@@ -80,7 +81,10 @@
 #' )
 #' }
 #'
-#' @seealso [brickster::db_volume_read()], [readr::read_csv()], [readr::read_rds()], [readxl::read_xlsx()]
+#' @seealso [brickster::db_volume_read()], [readr::read_csv()],
+#'   [readr::read_rds()], [readxl::read_xlsx()].
+#'   [DefraUtils::read_csv_from_volume()],
+#'   [DefraUtils::read_xlsx_from_volume()], [DefraUtils::read_rds_from_volume()]
 #'
 #' @name read_files_from_volume
 #'

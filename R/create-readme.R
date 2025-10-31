@@ -36,7 +36,7 @@
 #' # create README in active working directory
 #' create_readme(
 #'   format = "markdown",
-#'   author = "Josh Moatt",
+#'   author = "Farming Stats",
 #'   readme_title = "My Project README"
 #' )
 #'
@@ -44,7 +44,7 @@
 #' create_readme(
 #'   format = "markdown",
 #'   file_path = "~/my-project",
-#'   author = "Josh Moatt",
+#'   author = "Farming Stats",
 #'   readme_title = "My Project README"
 #' )
 #' }

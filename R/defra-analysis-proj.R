@@ -1,17 +1,30 @@
-#' @title
-#' Function for Defra analysis RStudio project template
+#' @title Internal function for Defra Analysis RStudio project template
 #'
 #' @author Josh Moatt
 #'
-#' @description
-#' This is a function that is called in the "New project" viewer pane when the
-#' user chooses the Defra Analysis Project template. It should not be used away
-#' from the RStudio "New project" viewer.
+#' @description This function is called automatically by RStudio when a user
+#' creates a new project using the **Defra Analysis Project** template. It
+#' should **not** be called directly by users and will not run correctly outside
+#' the RStudio “New Project” interface.
 #'
-#' I have not included additional information on how to use this function, as it
-#' is not intended to be used outside the template call.
+#' @details This function creates the folder structure and default files for a
+#' Defra analysis project. It is included in the package only to support
+#' RStudio's project template mechanism and is not intended for manual use.
 #'
-#' @export
+#' @param path Character string. The file path where the new project should be
+#'   created.
+#' @param ... Additional arguments passed automatically from the RStudio
+#'   template system.
+#'
+#' @return Invisibly returns `NULL`. Called for its side effects of creating the
+#'   project directory structure and default files.
+#'
+#' @note This function is designed for **internal use only** and is
+#' automatically triggered by RStudio. Manual use is unsupported.
+#'
+#' @keywords internal
+#'
+#' @noRd
 defra_analysis_proj <- function(path, ...) {
   # ensure path exists
   dir.create(
