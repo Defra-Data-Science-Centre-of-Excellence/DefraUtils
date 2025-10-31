@@ -1,18 +1,20 @@
-#' @title Customise RStudio IDE layout
+#' @title Customise RStudio IDE layout and preferences
 #'
 #' @author Josh Moatt
 #'
-#' @description Simple function created to customise the RStudio IDE. Makes
-#'   setting up the RStudio server on DASH much easier and quicker following a
-#'   cluster restart. A full list of the modifiable settings is available on the
-#'   posit website here: [Session User
-#'   Settings](https://docs.posit.co/ide/server-pro/reference/session_user_settings.html)
+#' @description Customises the RStudio IDE by updating user or project-specific
+#'  preferences. Especially useful on the DASH RStudio server after a cluster
+#'  restart, allowing quick restoration of preferred settings.
 #'
-#' @param ... Named arguments representing RStudio preferences to be updated.
-#'   Each argument should be named after an RStudio preference and assigned the
-#'   desired value.
+#'  A full list of modifiable settings is available on the Posit website:
+#' \href{https://docs.posit.co/ide/server-pro/reference/session_user_settings.html}{Session
+#'User Settings}.
 #'
-#' @return The function modifies RStudio preferences as a side effect.
+#' @param ... Named arguments representing RStudio preferences to update. Each
+#'  argument should correspond to a valid RStudio preference name and its
+#'  desired value.
+#'
+#' @return No return value. Preferences are updated as a side effect.
 #'
 #' @examples
 #' \dontrun{
@@ -62,6 +64,9 @@
 #'   panes = my_pane_layout # Pane layout as set above
 #' )
 #' }
+#'
+#' @seealso [rstudioapi::readRStudioPreference()],
+#'  [rstudioapi::writeRStudioPreference]
 #'
 #' @export
 set_rstudio_layout <- function(...) {

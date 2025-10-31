@@ -2,29 +2,29 @@
 #'
 #' @author Josh Moatt
 #'
-#' @description This is a simple function to save a file to the DASH Unity
-#'   Catalog (UC). It is built using the httr2 package and uses a PUT request to
-#'   save the file. It will save a local file, either from a drive or temp
-#'   directory. For reading data, see `uc_volume_get`.
+#' @description Uploads a local file to the DASH Unity Catalog (UC) using a PUT
+#'   request via the `httr2` package. This function is useful for saving files
+#'   from the RStudio server to Databricks volumes.
 #'
-#'   Note, you must have set up a databricks Personal Access Token (PAT) in the
-#'   databricks settings before doing this.
+#'   You must have a valid Databricks Personal Access Token (PAT) configured in
+#'   your Databricks account.
 #'
-#' @param workspace databricks workspace (string)
+#'   For downloading files from UC, see [DefraUtils::uc_volume_get()].
 #'
-#' @param volume path to folder on databricks where data should be written
-#'   (string)
+#' @param workspace String. The full URL of the Databricks workspace.
 #'
-#' @param token databricks PAT (string)
+#' @param volume String. The path to the Databricks volume or folder where the
+#'   file should be saved.
 #'
-#' @param file name of file to be exported including file extension. Will be
-#'   used to both specify the file to export and specify the file to be created
-#'   on databricks (String).
+#' @param token String. Your Databricks Personal Access Token (PAT).
 #'
-#' @param folder path to file you wish to save, excluding file name and
-#'   extension (string).
+#' @param file String. The name of the file to upload, including its extension.
 #'
-#' @return file saved on DASH.
+#' @param folder String. The local path to the folder containing the file to
+#'   upload (excluding the file name).
+#'
+#' @return No return value. The file is uploaded to the specified location in
+#'   the Unity Catalog.
 #'
 #' @examples
 #' \dontrun{
@@ -36,6 +36,8 @@
 #'   folder = here::here("data")
 #' )
 #' }
+#'
+#' @seealso [httr2::request()], [Defrautils::uc_volume_get()]
 #'
 #' @export
 uc_volume_put <- function(

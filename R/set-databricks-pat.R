@@ -1,16 +1,18 @@
-#' @title Set databricks Persoanl Access Token
+#' @title Prompt user to set Databricks Personal Access Token (PAT)
 #'
 #' @author Josh Moatt
 #'
-#' @description Simple function to set your databricks Personal Access Token
-#'   (PAT). Doing this via a function avoids the need to hardcode the PAT in a
-#'   script, which helps prevent accidentally committing it to GitHub. Not
-#'   needed on Posit Workbench, which handles credentials internally. But useful
-#'   for the RStudio server. Note, the function does not work in databricks
-#'   notebooks. Useful for when using the `brickster` package.
+#' @description Prompts the user to enter their Databricks Personal Access Token
+#'   (PAT) interactively. This avoids hardcoding sensitive credentials in
+#'   scripts, reducing the risk of accidentally committing them to version
+#'   control.
 #'
-#' @return prompt in R console to enter databricks PAT, which can then assigned
-#'   to a vector.
+#'   This function is useful when working on the Defra DASH platform with the
+#'   `brickster` package. It is not required on Posit Workbench, which handles
+#'   credentials internally, and does not work in Databricks notebooks.
+#'
+#' @return A character string containing the entered PAT. Typically assigned to
+#'   an environment variable using \code{Sys.setenv(DATABRICKS_TOKEN = token)}.
 #'
 #' @examples
 #' \dontrun{

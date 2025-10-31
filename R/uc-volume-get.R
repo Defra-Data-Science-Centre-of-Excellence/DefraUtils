@@ -1,24 +1,28 @@
-#' @title Copy file from the DASH Unity Catalog
+#' @title Download a file from the DASH Unity Catalog
 #'
 #' @author Josh Moatt
 #'
-#' @description This is a simple function to read data from the databricks
-#'   Unuity Catalog (UC) into RStudio. It is built using the [GET] function from
-#'   the httr package. This function was lifted directly from the DASH playbook.
-#'   For saving files, see `uc_volume_put`.
+#' @description Downloads a file from the Databricks Unity Catalog (UC) to the
+#'   RStudio server. This function wraps a call to [httr::GET()] and was adapted
+#'   from the DASH playbook.
 #'
-#'   Note, you must have set up a databricks Personal Access Token (PAT) in the
-#'   databricks settings before doing this.
+#'   You must have a valid Databricks Personal Access Token (PAT) set up in your
+#'   Databricks account.
 #'
-#' @param workspace databricks workspace (string)
+#'   For uploading files to UC, see [DefraUtils::uc_volume_put()].
 #'
-#' @param volume file path to data folder (string)
+#' @param workspace String. The full URL of the Databricks workspace.
 #'
-#' @param token databricks PAT (string)
+#' @param volume String. The full path to the file in the Unity Catalog (e.g.,
+#'   "/Volumes/...").
 #'
-#' @param out_file filepath on RStudio Cluster that data should be stored.
+#' @param token String. Your Databricks Personal Access Token (PAT).
 #'
-#' @return data saved in Rstudio cluster.
+#' @param out_file String. The local file path on the RStudio server where the
+#'   file should be saved
+#'
+#' @return No return value. The file is saved to the specified location on the
+#'   RStudio server.
 #'
 #' @examples
 #' \dontrun{
@@ -29,6 +33,8 @@
 #'   out_file = here::here("data", "filename.csv")
 #' )
 #' }
+#'
+#' @seealso [httr::GET()], [DefraUtils::uc_volume_put()]
 #'
 #' @export
 uc_volume_get <- function(
