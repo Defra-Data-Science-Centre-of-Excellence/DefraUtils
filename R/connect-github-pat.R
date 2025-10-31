@@ -19,8 +19,7 @@
 #'   [gitcreds::gitcreds_set()] is an interactive function and will prompt users
 #'   for input. To replace existing credentials and PAT choose option 2. You
 #'   will then be prompted for you PAT. Your PAT should be changed every 30 days
-#'   to ensure security. As this function is interactive, it will not work for
-#'   automated scripts.
+#'   to ensure security.
 #'
 #'   Note: For this function to work you must:
 #'
@@ -41,6 +40,9 @@
 #'
 #'   This function is for local RStudio installs only, not for on the DASH
 #'   platform.
+#'
+#' @note This function is interactive, requiring user input. Therefore it is not
+#'   suitable for automated scripts.
 #'
 #' @param username string containing GitHub username
 #'
