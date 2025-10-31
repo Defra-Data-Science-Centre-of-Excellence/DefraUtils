@@ -37,7 +37,7 @@
 #' )
 #' }
 #'
-#' @seealso [httr2::request()], [Defrautils::uc_volume_get()]
+#' @seealso [httr2::request()], [DefraUtils::uc_volume_get()]
 #'
 #' @export
 uc_volume_put <- function(

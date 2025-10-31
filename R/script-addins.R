@@ -5,8 +5,8 @@
 #' @description These functions are designed to be used only via the RStudio
 #'   Addins menu. They open a new R script pre-populated with either:
 #' \itemize{
-#'   \item A suggested script header ([defra_script_addin()]), or
-#'   \item A Roxygen documentation skeleton ([defra_roxygen_addin()]).
+#'   \item A suggested script header
+#'   \item A Roxygen documentation skeleton
 #' }
 #'
 #'   They use [rstudioapi::documentNew()] to open a new script pane in RStudio.

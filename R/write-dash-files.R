@@ -48,7 +48,7 @@
 #'   \itemize{
 #'     \item **.csv** - [readr::write_csv()]
 #'     \item **.xlsx** - [openxlsx::saveWorkbook()]
-#'     \item **.Rds** - [base::saveRds()]
+#'     \item **.Rds** - [base::saveRDS()]
 #'   }
 #'
 #'   In order for these functions to work, you must be working on the Defra DASH
@@ -106,9 +106,9 @@
 #' }
 #'
 #' @seealso [brickster::db_volume_write()], [readr::write_csv()],
-#'   [openxlsx::saveWorkbook()], [base::saveRds()],
-#'   [Defrautils::write_xlsx_to_volume()], [DefraUtils::write_csv_to_volume()],
-#'   [Defrautils::write_rds_to_volume()]
+#'   [openxlsx::saveWorkbook()], [base::saveRDS()],
+#'   [DefraUtils::write_xlsx_to_volume()], [DefraUtils::write_csv_to_volume()],
+#'   [DefraUtils::write_rds_to_volume()]
 #'
 #' @name write_files_to_volume
 #'
