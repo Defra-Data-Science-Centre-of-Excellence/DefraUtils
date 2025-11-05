@@ -65,6 +65,8 @@ get_user_input <- function(prompt = "") { readline(prompt) }
 #'
 #' (current_terms$value / real_terms$index) * 100
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 
 get_ons_series <- function(series_years, index = c("", "GDP", "CPIH"), ons_url = NULL,

@@ -12,7 +12,7 @@
 #' can manually suppress one while comparing it to the unsuppressed data. The file
 #' also has conditional formatting - values between 1 and 4 are highlighted in red
 #' and values between 5 and 14 are highlighted in yellow.
-#' 
+#'
 #' If doing suppression across multiple groups, it is sometimes useful to consider
 #' the order of the groups to minimize oversuppression.
 #'
@@ -30,34 +30,35 @@
 #' column should it be pivoted on?
 #' @param save_excel_file, default is TRUE, set to FALSE when one does not wish to save an excel file
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
 #'
 #' @export
 
-fix_suppression <- function(df, 
-                            groups,
-                            sample_size_col = "sample_size", 
-                            export_path,
-                            file_name,
-                            pivot_col = NULL,
-                            save_excel_file = TRUE) {
-  
+fix_suppression <- function(df, groups, sample_size_col = "sample_size",
+                            export_path = "", file_name = "", pivot_col = NULL,
+                            save_excel_file = FALSE) {
+
   groups_list <- if (is.list(groups)) {
     set_names(groups, paste0("grouping_", 1:length(groups)))
   } else {
     list(grouping_1 = groups)
   }
 
+  if (save_excel_file & file_name == "") {
+    file_name <- paste(unlist(groups_list), collapse = "_")
+  }
+
   # Check if any groups need extra suppression
   check_suppression <- function(g, d) {
 
     initial <- mutate(d, suppress = dplyr::between(!! sym(sample_size_col), 1, 4))
-    
+
     # total pop of group, this is so that we can later determine if
     # all the pop of a group is suppressed and also checks to see if there are any groups
     # that are represented by a single data point
     total_pop <- group_by(initial, across(all_of(g))) %>%
       summarise(total_p = sum(sample_size_og), row_n = n(), .groups = "drop")
-    
+
 
     # Get the number of suppressed values in each group
     count_suppressed <- group_by(initial, across(all_of(g))) %>%
@@ -95,7 +96,7 @@ fix_suppression <- function(df,
       filter(total_p != n) %>%
       select(-c(row_n,total_p)) %>%
       distinct(across(1:(ncol(.) - 2)), .keep_all = T)
-    
+
   }
 
   suppressed_data <- mutate(df, sample_size_og = !! sym(sample_size_col))
@@ -108,15 +109,22 @@ fix_suppression <- function(df,
   while (any(lapply(to_fix, nrow) > 0)) {
 
     loop <- loop + 1
-    
-    if(loop>10){
-      stop(paste0("Complete suppression of data has not been achieved after ",
-                  loop-1,
-                  " loops, therefore it is unlikely automatic suppression", "
-                  is possible with the current grouping setup or data"))
+
+    if (loop == 2) {
+      message("The input groups or data require circular suppression")
     }
-    
-    print(paste("Suppression loop", loop))
+
+    # warning if circular and not saving excel
+    if (loop == 2 & !save_excel_file) {
+      warning("Circular suppression is required, but save_excel_file is FALSE")
+    }
+
+    if (loop == 11) {
+      stop(paste("Suppression has not been completed after 10 loops; automated",
+                 "suppression is not possible with the input groups or data"))
+    }
+
+    message(paste("Suppression loop", loop))
 
     # Do extra suppression for each group
     for (i in 1:length(groups_list)) {
@@ -161,68 +169,85 @@ fix_suppression <- function(df,
 
       }
 
-      # Check if any groups that *still* need suppression#
+      # Check if any groups that *still* need suppression
       to_fix <- lapply(groups_list, check_suppression, suppressed_data)
 
     }
 
   }
 
-  # Create excel file for manual checking
-  
-  if (save_excel_file == TRUE) {
-  unsuppressed_df <- select(df, all_of(c(unname(unlist(groups_list)), sample_size_col))) %>%
-    { if (!is.null(pivot_col)) pivot_wider(., names_from = all_of(pivot_col),
-                                           values_from = all_of(sample_size_col)) else . }
-
-  suppressed_df <- select(suppressed_data, -sample_size_og) %>%
-    select(all_of(c(unname(unlist(groups_list)), sample_size_col))) %>%
-    { if (!is.null(pivot_col)) pivot_wider(., names_from = all_of(pivot_col),
-                                           values_from = all_of(sample_size_col)) else . }
-
-  wb <- createWorkbook()
-  addWorksheet(wb = wb, sheetName = "Sheet1")
-
-  # Write first unsuppressed table - to compare to
-  writeData(wb = wb, sheet = 1, x = "Unsuppressed table: leave this table as-is, use it for comparison")
-  writeDataTable(wb = wb, sheet = 1, x = unsuppressed_df, startRow = 3,
-                 tableStyle = "none", withFilter = FALSE, bandedRows = FALSE)
-
-  # Write second unsuppressed table - to compare to
-  writeData(wb = wb, sheet = 1, startCol = ncol(unsuppressed_df) + 2,
-            x = "In this table, replace values with '1' if they should be suppressed")
-  writeDataTable(wb = wb, sheet = 1, x = unsuppressed_df, startRow = 3,
-                 startCol = ncol(unsuppressed_df) + 2,
-                 tableStyle = "none", withFilter = FALSE, bandedRows = FALSE)
-
-  # Write suppressed table - to compare to
-  writeData(wb = wb, sheet = 1, startCol = (ncol(unsuppressed_df) * 2) + 3,
-            x = paste("Suppressed table: compare with previous table, highlight",
-                      "any cells that shouldn't have been suppressed"))
-  writeDataTable(wb = wb, sheet = 1, x = suppressed_df, startRow = 3,
-                 startCol = (ncol(unsuppressed_df) * 2) + 3,
-                 tableStyle = "none", withFilter = FALSE, bandedRows = FALSE)
-
-  # Add conditional formatting
-  conditionalFormatting(wb = wb, sheet = 1, cols = 1:((ncol(unsuppressed_df) * 3) + 3),
-                        rows = 1:(nrow(unsuppressed_df) + 3),
-                        type = "between", rule = c(1, 4),
-                        style = createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE"))
-  conditionalFormatting(wb = wb, sheet = 1, cols = 1:((ncol(unsuppressed_df) * 3) + 3),
-                        rows = 1:(nrow(unsuppressed_df) + 3),
-                        type = "between", rule = c(5, 14),
-                        style = createStyle(fontColour = "#9C5700", bgFill = "#FFEB9C"))
-
-  # Save workbook
-  checking_path <- file.path(export_path, "circular-suppression-checks")
-
-  if (!dir.exists(checking_path)) { dir.create(checking_path, recursive = T) }
-
-  saveWorkbook(wb = wb, overwrite = T,
-               file.path(checking_path, paste0("check_suppression_", file_name, ".xlsx")))
-  
+  if (loop == 0) {
+    message("Suppression not required")
+  } else if (loop == 1) {
+    message("Suppression complete; circular suppression not required")
+  } else {
+    message("Circular suppression complete")
   }
-  
+
+  # Create excel file for manual checking ####
+  if (save_excel_file) {
+
+    unsuppressed_df <- select(df, all_of(c(unname(unlist(groups_list)), sample_size_col))) %>%
+      { if (!is.null(pivot_col)) pivot_wider(., names_from = all_of(pivot_col),
+                                             values_from = all_of(sample_size_col)) else . }
+
+    suppressed_df <- select(suppressed_data, -sample_size_og) %>%
+      select(all_of(c(unname(unlist(groups_list)), sample_size_col))) %>%
+      { if (!is.null(pivot_col)) pivot_wider(., names_from = all_of(pivot_col),
+                                             values_from = all_of(sample_size_col)) else . }
+
+    wb <- createWorkbook()
+    addWorksheet(wb = wb, sheetName = "Sheet1")
+
+    # Write first unsuppressed table - to compare to
+    writeData(wb = wb, sheet = 1, x = "Unsuppressed table: leave this table as-is, use it for comparison")
+    writeDataTable(wb = wb, sheet = 1, x = unsuppressed_df, startRow = 3,
+                   tableStyle = "none", withFilter = FALSE, bandedRows = FALSE)
+
+    # Write second unsuppressed table - to compare to
+    writeData(wb = wb, sheet = 1, startCol = ncol(unsuppressed_df) + 2,
+              x = "In this table, replace values with '1' if they should be suppressed")
+    writeDataTable(wb = wb, sheet = 1, x = unsuppressed_df, startRow = 3,
+                   startCol = ncol(unsuppressed_df) + 2,
+                   tableStyle = "none", withFilter = FALSE, bandedRows = FALSE)
+
+    # Write suppressed table - to compare to
+    writeData(wb = wb, sheet = 1, startCol = (ncol(unsuppressed_df) * 2) + 3,
+              x = paste("Suppressed table: compare with previous table, highlight",
+                        "any cells that shouldn't have been suppressed"))
+    writeDataTable(wb = wb, sheet = 1, x = suppressed_df, startRow = 3,
+                   startCol = (ncol(unsuppressed_df) * 2) + 3,
+                   tableStyle = "none", withFilter = FALSE, bandedRows = FALSE)
+
+    # Add conditional formatting
+    conditionalFormatting(wb = wb, sheet = 1, cols = 1:((ncol(unsuppressed_df) * 3) + 3),
+                          rows = 1:(nrow(unsuppressed_df) + 3),
+                          type = "between", rule = c(1, 4),
+                          style = createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE"))
+    conditionalFormatting(wb = wb, sheet = 1, cols = 1:((ncol(unsuppressed_df) * 3) + 3),
+                          rows = 1:(nrow(unsuppressed_df) + 3),
+                          type = "between", rule = c(5, 14),
+                          style = createStyle(fontColour = "#9C5700", bgFill = "#FFEB9C"))
+
+    # Save workbook
+    checking_path <- file.path(export_path, "circular-suppression-checks")
+
+    if (!dir.exists(checking_path)) {
+      dir.create(checking_path, recursive = T)
+    }
+
+    checking_file <- file.path(checking_path, paste0(file_name, ".xlsx"))
+
+    saveWorkbook(wb = wb, overwrite = T, checking_file)
+
+    if (file.exists(checking_file)) {
+      message(paste("Checking file saved as", checking_file))
+    } else {
+      warning("Checking file NOT saved")
+    }
+
+  }
+
   return(select(suppressed_data, -sample_size_og))
-  
+
 }

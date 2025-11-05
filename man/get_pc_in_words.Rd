@@ -21,4 +21,7 @@ Other commentary functions:
 \code{\link{get_address}()},
 \code{\link{get_diff_in_words}()}
 }
+\author{
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
+}
 \concept{commentary functions}

@@ -10,6 +10,8 @@
 #'
 #' @family survey modelling functions
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 summarise_variables <- function(df, column) {
 
@@ -62,6 +64,8 @@ summarise_variables <- function(df, column) {
 #'
 #' @family survey modelling functions
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 normalise_values <- function(df, model_col, save_path = NULL,
                              leave_one_out = TRUE, ...) {
@@ -109,6 +113,8 @@ normalise_values <- function(df, model_col, save_path = NULL,
 #'
 #' @seealso Tested on models created with [survey::svyglm()]
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 run_wald_test <- function(survey_model) {
 
@@ -141,6 +147,8 @@ run_wald_test <- function(survey_model) {
 #' @family survey modelling functions
 #'
 #' @seealso Tested on models created with [survey::svyglm()]
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
 #'
 #' @export
 test_model_performance <- function(survey_model, save_path = NULL) {

@@ -71,4 +71,7 @@ Other functions for estimating means of banded data:
 \code{\link{compute_band_counts}()},
 \code{\link{create_bands_df}()}
 }
+\author{
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
+}
 \concept{functions for estimating means of banded data}

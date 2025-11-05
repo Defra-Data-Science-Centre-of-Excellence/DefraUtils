@@ -25,4 +25,7 @@ Other functions for estimating means of banded data:
 \code{\link{create_bands_df}()},
 \code{\link{estimate_band_means}()}
 }
+\author{
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
+}
 \concept{functions for estimating means of banded data}

@@ -38,3 +38,6 @@ custom number format, e.g., "##0.0\%" rounds a percentage to 1 decimal place.}
 \description{
 Get cell styles for stats publications
 }
+\author{
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
+}

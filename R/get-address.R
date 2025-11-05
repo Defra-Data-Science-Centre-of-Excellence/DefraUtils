@@ -16,6 +16,11 @@
 #'
 #' @family commentary functions
 #'
+#' @author
+#' Agriculture in the UK team ([AUK_stats_team@defra.gov.uk](mailto:AUK_stats_team@defra.gov.uk))
+#'
+#' Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 
 get_address <- function(web_address, file_type = NULL, file_number = 1,

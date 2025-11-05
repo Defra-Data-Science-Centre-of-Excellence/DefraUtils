@@ -24,9 +24,11 @@
 #' @importFrom dplyr %>% tibble mutate
 #' @importFrom scales label_comma
 #'
-#' @export
-#'
 #' @family functions for estimating means of banded data
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
+#' @export
 create_bands_df <- function(start = 0, upper_limits = NULL, open_ended = FALSE,
                             codes = NULL, prefix = "") {
 
@@ -77,9 +79,11 @@ create_bands_df <- function(start = 0, upper_limits = NULL, open_ended = FALSE,
 #' @importFrom rlang sym
 #' @importFrom dplyr group_by summarise right_join arrange filter n join_by
 #'
-#' @export
-#'
 #' @family functions for estimating means of banded data
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
+#' @export
 compute_band_counts <- function(df, bands_df, band_col,
                                 grouping_cols = "year",
                                 weights = "weight") {
@@ -115,9 +119,11 @@ compute_band_counts <- function(df, bands_df, band_col,
 #' @importFrom dplyr %>% mutate rowwise ungroup lead lag filter
 #' @importFrom tibble rowid_to_column
 #'
-#' @export
-#'
 #' @family functions for estimating means of banded data
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
+#' @export
 calculate_mcib <- function(band_counts_df, bands_df) {
 
   # Only one group of data can be done at a time
@@ -184,9 +190,11 @@ calculate_mcib <- function(band_counts_df, bands_df) {
 #' @param min_alpha Numeric; the minimum threshold for the alpha parameter of
 #' the Pareto distribution
 #'
-#' @export
-#'
 #' @family functions for estimating means of banded data
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
+#' @export
 calculate_rpme <- function(band_counts_df,
                            method = c("Geometric", "Arithmetic", "Harmonic", "Median"),
                            min_alpha = 1.11) {
@@ -248,9 +256,11 @@ calculate_rpme <- function(band_counts_df,
 #' @param min_alpha Numeric; the minimum threshold for the alpha parameter of
 #' the Pareto distribution, fed into [calculate_rpme()]
 #'
-#' @export
-#'
 #' @family functions for estimating means of banded data
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
+#' @export
 calculate_riob <- function(band_counts_df, bands_df,
                            method = c("Geometric", "Arithmetic", "Harmonic", "Median"),
                            min_alpha = 1.11) {
@@ -327,9 +337,11 @@ calculate_riob <- function(band_counts_df, bands_df,
 #' @param min_alpha Numeric; the minimum threshold for the alpha parameter of
 #' the Pareto distribution, fed into [calculate_rpme()] via [calculate_riob()]
 #'
-#' @export
-#'
 #' @family functions for estimating means of banded data
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
+#' @export
 estimate_band_means <- function(df, bands_df, band_col,
                                 grouping_cols = "year", weights = "weight",
                                 method = c("Geometric", "Arithmetic", "Harmonic", "Median"),

@@ -37,6 +37,8 @@
 #'
 #' @family commentary functions
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 get_diff_in_words <- function(option_num, pc, pc_rnd, curr_rnd = NULL, points = FALSE) {
 
@@ -140,6 +142,8 @@ get_diff_in_words <- function(option_num, pc, pc_rnd, curr_rnd = NULL, points = 
 #'
 #' @family commentary functions
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 get_pc_in_words <- function(pc, pc_rnd) {
 
@@ -175,6 +179,56 @@ cut_long_scale <- function(lower = T, space = FALSE) {
     names(out) <- tolower(names(out))
   }
   out
+}
+
+
+#' @title Wrap strings to a set number of lines
+#'
+#' @importFrom stringr str_remove_all str_locate_all str_count
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
+#' @export
+str_line_wrap <- function(string, lines) {
+
+  unlist(lapply(string, \(x) {
+
+    length <- nchar(x)
+    spaces <- str_count(x, " ")
+
+    if (spaces + 1 < lines) {
+      warning(paste("There are not enough spaces in the string to give the chosen",
+                    "number of line breaks; putting a line break in at every space"))
+      lines <- spaces + 1
+    }
+
+    if (spaces == 0 | lines == 1) {
+
+      x
+
+    } else {
+
+      l <- lines
+
+      while (l > 1) {
+
+        x_left <- str_remove_all(x, ".*\\\n")
+        x_removed <- str_remove_all(x, x_left)
+
+        spaces <- str_locate_all(x_left, " ")[[1]][,1]
+
+        breakp <- spaces[which.min(abs(spaces - length / l))]
+        substr(x, nchar(x_removed) + breakp, nchar(x_removed) + breakp) <- "\n"
+
+        l <- l - 1
+
+      }
+
+      x
+
+    }
+  }))
+
 }
 
 
@@ -217,6 +271,8 @@ cut_long_scale <- function(lower = T, space = FALSE) {
 #' `round_to`, `optimise_to` and `round_zeros`)
 #'
 #' @family commentary functions
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
 #'
 #' @export
 compare_two_years <- function(df, year_1, year_2, year_col = "survey_year",
@@ -331,6 +387,8 @@ compare_two_years <- function(df, year_1, year_2, year_col = "survey_year",
 #' create_list(string_vector = c("apple", "banana", "pear"), oxford_comma = T, descriptor = c("fruit", "fruits"))
 #'
 #' @family commentary functions
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
 #'
 #' @export
 create_list <- function(string_vector, oxford_comma = FALSE,
