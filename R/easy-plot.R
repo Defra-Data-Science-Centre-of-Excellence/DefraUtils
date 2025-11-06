@@ -6,6 +6,7 @@
 #'
 #' @import ggplot2
 #' @import afcharts
+#' @importFrom ggrepel geom_text_repel
 #'
 #' @param plot_data Data to plot
 #' @param aesthetics Mapping aesthetics using [ggplot2::aes()]; if you want a
@@ -68,11 +69,38 @@
 #' @param legend_justification If supplied, will override defaults (i.e. "top"
 #' for vertical charts and "right" for horizontal charts)
 #' @param legend_cols Fed into the ncol argument of [ggplot2::guide_legend()]
+#' @param annotate_lines Uses [ggrepel::geom_text_repel()] to annotate lines in
+#' line charts, instead of using a legend; set to `FALSE` to use a legend
+#' instead, noting that it is more accessible if the resulting legend is in the
+#' order of the lines (see examples for how to do this)
 #' @param top_margin Default = 10; Top margin of plot, fed into the plot.margin
 #' argument of [ggplot2::theme()] using [ggplot2::margin()]
 #' @param right_margin Default = 0; Right margin of plot
 #' @param bottom_margin Default = 0; Bottom margin of plot
 #' @param left_margin Default = 0; Left margin of plot
+#'
+#' @examples
+#' # Creating a line chart without annotating the lines
+#' # but correcting the legend order
+#'
+#' test_df <- dplyr::tibble(
+#'   letters = rep(LETTERS[1:4], 3),
+#'   grouping = c(rep("1", 4), rep("2", 4), rep("3", 4)),
+#'   numbers = c(seq(1000, 4000, 1000),
+#'               seq(1250, 4250, 1000),
+#'               seq(1500, 4500, 1000))
+#' )
+#'
+#' var_order <- dplyr::filter(test_df, letters == max(letters)) |>
+#'   dplyr::arrange(desc(numbers)) |>
+#'   dplyr::pull(grouping)
+#'
+#' plot_df <- test_df |>
+#'   dplyr::mutate(grouping = factor(grouping, levels = var_order))
+#'
+#' easy_plot(plot_df, aes(x = letters, y = numbers,
+#'                        colour = grouping, group = grouping),
+#'           chart_type = "line", annotate_lines = FALSE)
 #'
 #' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
 #'
@@ -91,7 +119,8 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
                       font_family = "GDS Transport Website", font_size = 24,
                       af_palette = names(afcharts::af_colour_palettes),
                       custom_palette = NULL, gridlines = NULL, zero_line = TRUE,
-                      legend_position = NULL, legend_justification = NULL, legend_cols = NULL,
+                      legend_position = NULL, legend_justification = NULL,
+                      legend_cols = NULL, annotate_lines = TRUE,
                       top_margin = 10, right_margin = 0, bottom_margin = 0, left_margin = 0) {
 
   # Setup ####
@@ -193,7 +222,9 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
     x_axis_line <- if (y_min < 0) element_blank() else element_line(colour = "black")
     y_axis_line <- if (chart_type == "distribution") element_blank() else element_line(colour = "black")
 
-    legend_position <- if (is.null(legend_position) & chart_type != "grouped") {
+    legend_position <- if (chart_type == "line" & annotate_lines) {
+      "none"
+    } else if (is.null(legend_position) & chart_type != "grouped") {
       "right"
     } else if (is.null(legend_position) & chart_type == "grouped") {
       "top"
@@ -206,6 +237,7 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
     } else { legend_justification }
 
     p <- p +
+      coord_cartesian(clip = "off") +
       theme_af(ticks = "none", legend = legend_position, grid = gridlines) +
       guides(fill = guide_legend(ncol = legend_cols))
 
@@ -219,7 +251,9 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
     x_axis_line <- if (chart_type == "distribution") element_blank() else element_line(colour = "black")
     y_axis_line <- if (y_min < 0) element_blank() else element_line(colour = "black")
 
-    legend_position <- if (is.null(legend_position) & chart_type != "grouped") {
+    legend_position <- if (chart_type == "line" & annotate_lines) {
+      "none"
+    } else if (is.null(legend_position) & chart_type != "grouped") {
       "top"
     } else if (is.null(legend_position) & chart_type == "grouped") {
       "right"
@@ -235,6 +269,18 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
       coord_flip(clip = "off") +
       theme_af(ticks = "none", legend = legend_position, grid = gridlines) +
       guides(fill = guide_legend(reverse = TRUE, ncol = legend_cols))
+
+  }
+
+  # Line annotations (instead of legend) ####
+  if (chart_type == "line" & annotate_lines) {
+
+    p <- p +
+      geom_text_repel(
+        data = filter(plot_data, !!aesthetics$x == max(!!aesthetics$x)),
+        mapping = aes(label = !!aesthetics$y), segment.color = NA,
+        size = 8, hjust = "left", nudge_x = 0.8, lineheight = 0.7,
+        show.legend = F, family = "GDS Transport Website", direction = "y")
 
   }
 

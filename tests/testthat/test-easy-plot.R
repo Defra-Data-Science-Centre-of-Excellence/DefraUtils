@@ -1,5 +1,5 @@
-test_df <- tibble(letters = LETTERS[1:4], numbers = seq(1000, 4000, 1000),
-                  lower_ci = numbers - 100, upper_ci = numbers + 100)
+test_df <- dplyr::tibble(letters = LETTERS[1:4], numbers = seq(1000, 4000, 1000),
+                         lower_ci = numbers - 100, upper_ci = numbers + 100)
 
 test_that("default behaviour is as expected", {
 
@@ -61,7 +61,11 @@ test_that("default behaviour is as expected", {
 test_that("chart_type argument works", {
 
   line_chart <- ggplot2::ggplot_build(
-    easy_plot(test_df, aes(x = letters, y = numbers, group = 1), chart_type = "line"))
+    easy_plot(bind_rows(mutate(test_df, numbers = numbers - 500, l = "1"),
+                        mutate(test_df, l = "2"),
+                        mutate(test_df, numbers = numbers + 500, l = "3")),
+              aes(x = letters, y = numbers, colour = l, group = l),
+              chart_type = "line"))
 
   # It's a line chart
   expect_true(names(line_chart$plot$layers)[1] == "geom_line")
@@ -70,7 +74,11 @@ test_that("chart_type argument works", {
   expect_true(any(class(line_chart$layout$panel_params[[1]]$x$scale) == "ScaleDiscrete"))
   expect_true(all(line_chart$layout$panel_params[[1]]$x$breaks == test_df$letters))
   expect_true(any(class(line_chart$layout$panel_params[[1]]$y$scale) == "ScaleContinuous"))
-  expect_true(all(line_chart$data[[1]]$colour == afcharts::af_colour_values[1]))
+  expect_true(all(unique(line_chart$data[[1]]$colour) == afcharts::af_colour_values[1:3]))
+
+  # Correct annotations have been added
+  expect_true(names(line_chart$plot$layers)[2] == "geom_text_repel")
+  expect_equal(unique(line_chart$plot$layers$geom_text_repel$data$letters), "D")
 
 })
 

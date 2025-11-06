@@ -35,6 +35,7 @@ easy_plot(
   legend_position = NULL,
   legend_justification = NULL,
   legend_cols = NULL,
+  annotate_lines = TRUE,
   top_margin = 10,
   right_margin = 0,
   bottom_margin = 0,
@@ -133,6 +134,11 @@ for vertical charts and "right" for horizontal charts)}
 
 \item{legend_cols}{Fed into the ncol argument of \code{\link[ggplot2:guide_legend]{ggplot2::guide_legend()}}}
 
+\item{annotate_lines}{Uses \code{\link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel()}} to annotate lines in
+line charts, instead of using a legend; set to \code{FALSE} to use a legend
+instead, noting that it is more accessible if the resulting legend is in the
+order of the lines (see examples for how to do this)}
+
 \item{top_margin}{Default = 10; Top margin of plot, fed into the plot.margin
 argument of \code{\link[ggplot2:theme]{ggplot2::theme()}} using \code{\link[ggplot2:element]{ggplot2::margin()}}}
 
@@ -146,6 +152,30 @@ argument of \code{\link[ggplot2:theme]{ggplot2::theme()}} using \code{\link[ggpl
 Has a large number of options so that the need to modify using ggplot code
 is minimised. Requires the y-axis to be continuous, but the x-axis can be of
 any scale.
+}
+\examples{
+# Creating a line chart without annotating the lines
+# but correcting the legend order
+
+test_df <- dplyr::tibble(
+  letters = rep(LETTERS[1:4], 3),
+  grouping = c(rep("1", 4), rep("2", 4), rep("3", 4)),
+  numbers = c(seq(1000, 4000, 1000),
+              seq(1250, 4250, 1000),
+              seq(1500, 4500, 1000))
+)
+
+var_order <- dplyr::filter(test_df, letters == max(letters)) |>
+  dplyr::arrange(desc(numbers)) |>
+  dplyr::pull(grouping)
+
+plot_df <- test_df |>
+  dplyr::mutate(grouping = factor(grouping, levels = var_order))
+
+easy_plot(plot_df, aes(x = letters, y = numbers,
+                       colour = grouping, group = grouping),
+          chart_type = "line", annotate_lines = FALSE)
+
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
