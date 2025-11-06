@@ -98,11 +98,11 @@ or below 0)}
 \item{wrap_type}{One of "axis" (to return one plot with a wrapped axis) or
 "plot" (to return multiple plots)}
 
-\item{wrap_cols}{Feeds into the ncol argument of \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}}; if
-including, must provide both cols and rows}
+\item{wrap_cols}{Feeds into the ncol argument of \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}};
+only used with \code{wrap_type = "plot"}}
 
-\item{wrap_rows}{Feeds into the nrow argument of \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}}; if
-including, must provide both cols and rows}
+\item{wrap_rows}{Feeds into the nrow argument of \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}};
+only used with \code{wrap_type = "plot"}}
 
 \item{wrap_char_width}{Default = 25; Wraps facet labels to the specifies
 number of characters}

@@ -243,8 +243,8 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
 
     p <- p +
       facet_wrap(wrap_vars, labeller = label_wrap_gen(width = wrap_char_width),
-                 ncol = if (wrap_type == "plot") wrap_cols else 1,
-                 nrow = if (wrap_type == "plot") wrap_rows else 1,
+                 ncol = if (wrap_type == "plot") wrap_cols else if (chart_direction == "vertical") NULL else 1,
+                 nrow = if (wrap_type == "plot") wrap_rows else if (chart_direction == "horizontal") NULL else 1,
                  strip.position = case_when(wrap_type == "plot" ~ "top",
                                             chart_direction == "horizontal" ~ "left",
                                             TRUE ~ "bottom")) +
