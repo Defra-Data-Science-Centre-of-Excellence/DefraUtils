@@ -39,7 +39,6 @@ Imports:
     aftables,
     bestNormalize,
     dplyr,
-    fs,
     ggplot2,
     ggrepel,
     grDevices,

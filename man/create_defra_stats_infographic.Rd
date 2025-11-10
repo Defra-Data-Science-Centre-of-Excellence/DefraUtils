@@ -16,7 +16,8 @@ create_defra_stats_infographic(title, subtitle, source, key_points, icons)
 \item{key_points}{List of key points (use markdown formatting); between 3 and
 5 points works best}
 
-\item{icons}{List of icons; the icons will go alongside each key point}
+\item{icons}{List of icons; the icons will go alongside each key point (for a
+list of the available icons, run \code{\link[=view_available_icons]{view_available_icons()}})}
 }
 \description{
 Uses \link{grid} to output an infographic into the Plots pane. To save it, click

@@ -37,13 +37,15 @@
 #' @importFrom gridtext richtext_grob
 #' @importFrom useful vplayout
 #' @importFrom png readPNG
+#' @importFrom stringr str_subset
 #'
 #' @param title The filepath to find the icons listed in the `icons` argument
 #' @param subtitle The filepath to find the icons listed in the `icons` argument
 #' @param source The source of the data within the infographic
 #' @param key_points List of key points (use markdown formatting); between 3 and
 #' 5 points works best
-#' @param icons List of icons; the icons will go alongside each key point
+#' @param icons List of icons; the icons will go alongside each key point (for a
+#' list of the available icons, run [view_available_icons()])
 #'
 #' @examples
 #' title <- "Energy use on farms in England"
@@ -85,8 +87,9 @@ create_defra_stats_infographic <- function(title, subtitle, source, key_points, 
 
   # Add all icons and key stats
   for (i in seq_along(key_points)) {
-    icon <- readPNG(str_subset(fs::dir_ls(find.package("DefraUtils"), recurse = T),
-                               paste0("\\/", icons[i], "\\.png$")))
+    icon <- readPNG(str_subset(list.files(system.file("img/icons", package = "DefraUtils"),
+                                          recursive = T, full.names = T),
+                               paste0(icons[i], "\\.png$")))
     # Add icon
     grid.raster(icon, vp = vplayout(i + 1, 1), hjust = 0.5)
     # Add key stat
@@ -95,6 +98,77 @@ create_defra_stats_infographic <- function(title, subtitle, source, key_points, 
   }
 
   # Add source
-  grid.text(source, vp = vplayout(length(key_points) + 2, 1:5), x = unit(0.02, "npc"), hjust = 0, gp = gpar(col = "white", fontsize = 14))
+  grid.text(source, vp = vplayout(length(key_points) + 2, 1:5),
+            x = unit(0.02, "npc"), hjust = 0,
+            gp = gpar(col = "white", fontsize = 14))
+
+}
+
+
+#' View icons
+#'
+#' Returns a graphic in the Plots pane of the available icons in
+#' [create_defra_stats_infographic()]
+#'
+#' @importFrom dplyr %>% tibble
+#' @importFrom stringr str_remove
+#' @importFrom tidyr separate
+#' @importFrom grDevices dev.off
+#' @importFrom grid grid.newpage pushViewport viewport grid.layout grid.rect
+#' grid.raster grid.text grid.draw gpar unit
+#' @importFrom useful vplayout
+#' @importFrom png readPNG
+#'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
+#' @export
+
+view_available_icons <- function() {
+
+  icon_files <- list.files(system.file("img/icons", package = "DefraUtils"), recursive = T, full.names = T)
+
+    icon_list <- tibble(
+      icon = str_remove(icon_files, paste0(system.file("img/icons", package = "DefraUtils"), "\\/")) %>%
+        str_remove("\\.png")) %>%
+      separate(icon, c("icon_type", "icon"), sep = "/") %>%
+      split(.$icon_type) %>%
+      lapply(pull, icon)
+
+    # Ensure that the graphics content of the current device is clear
+    if (names(dev.cur())[1] != "null device") dev.off()
+
+    # Generate base
+    grid.newpage()
+
+    # Set columns and rows
+    pushViewport(viewport(layout = grid.layout(
+      nrow = max(sapply(icon_list, length)) + 1,
+      ncol = length(icon_list))))
+
+    defra_green <- c("#00A33B")
+    grid.rect(gp = gpar(fill = defra_green, col = defra_green))
+
+    lapply(seq_along(icon_list), \(icon_type_i) {
+
+      grid.text(names(icon_list)[icon_type_i],
+                vp = vplayout(x = 1, y = icon_type_i),
+                gp = gpar(col = "white", fontsize = 18))
+
+      lapply(seq_along(icon_list[[icon_type_i]]), \(icon_i) {
+
+        icon_img <- str_subset(list.files(system.file("img/icons", package = "DefraUtils"),
+                                          recursive = T, full.names = T),
+                               paste0(icon_list[[icon_type_i]][icon_i], "\\.png$")) %>%
+            readPNG()
+
+        grid.raster(icon_img, vp = vplayout(x = 1 + icon_i, y = icon_type_i), hjust = 1)
+
+        grid.text(icon_list[[icon_type_i]][icon_i],
+                  vp = vplayout(x = 1 + icon_i, y = icon_type_i), hjust = 0,
+                  gp = gpar(col = "white", fontsize = 13))
+
+        })
+
+    })
 
 }
