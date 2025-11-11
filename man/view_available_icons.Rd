@@ -8,7 +8,8 @@ view_available_icons()
 }
 \description{
 Returns a graphic in the Plots pane of the available icons in
-\code{\link[=create_defra_stats_infographic]{create_defra_stats_infographic()}}
+\code{\link[=create_defra_stats_infographic]{create_defra_stats_infographic()}}. If text is overlapping in the Plots pane,
+click 'Zoom' and resize the window to suit.
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

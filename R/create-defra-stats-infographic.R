@@ -108,7 +108,8 @@ create_defra_stats_infographic <- function(title, subtitle, source, key_points, 
 #' View icons
 #'
 #' Returns a graphic in the Plots pane of the available icons in
-#' [create_defra_stats_infographic()]
+#' [create_defra_stats_infographic()]. If text is overlapping in the Plots pane,
+#' click 'Zoom' and resize the window to suit.
 #'
 #' @importFrom dplyr %>% tibble
 #' @importFrom stringr str_remove
