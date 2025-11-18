@@ -26,8 +26,6 @@
 #'
 #' @keywords internal
 #'
-#' @noRd
-#'
 #' @name script_addins
 NULL
 

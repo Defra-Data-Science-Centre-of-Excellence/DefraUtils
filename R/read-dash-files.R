@@ -80,7 +80,6 @@
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
 #'   sheet = "sheet-name"
 #' )
-#' }
 #'
 #' # read ods file
 #' read_ods_from_volume(
