@@ -22,6 +22,14 @@ DefraUtils is a versatile R package providing a collection of useful functions d
 
 Although this package was developed by Farming Stats analysts, it is intended to be a resource for all analysts in Defra. Therefore, we welcome any contributions, bug fixes, and suggestions.
 
+## How to install Defrautils?
+
+The `DefraUtils` repository is public, meaning the package can be installed easily using the following code:
+
+``` r
+devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
+```
+
 ## What can DefraUtils do?
 
 As a versatile general purpose package, `DefraUtils` contains a wide range of functions to support working in R. Below we outline the areas the package covers and highlight some of the key functions.
@@ -34,7 +42,8 @@ As a versatile general purpose package, `DefraUtils` contains a wide range of fu
 
 * Various functions to read files from the DASH Unity Catalog. These are wrappers for `brickster::db_volume_read()`, but deal with the frequent http2 errors many users encounter when reading data using this function. There is a generic data load function as well as specific functions for reading common file types.
 * Multiple functions for writing files to the DASH Unity Catalog. These are wrappers for `brickster::db_volume_write()`, that deal with the http2 errors. There is a generic write function as well as specific functions for writing several common file types.
-* Various other `brickster` functions with wrappers to prevent http2 errors, including for listing files and creating directories. 
+* Various other `brickster` functions with wrappers to prevent http2 errors, including for listing files and creating directories.
 
 ### FBS function
 
+## How to contribute to DefraUtils?
