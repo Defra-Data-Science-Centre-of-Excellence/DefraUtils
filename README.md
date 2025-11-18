@@ -6,50 +6,35 @@
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/a11ytables.png)](https://CRAN.R-project.org/version/DefraUtils)
+status](https://www.r-pkg.org/badges/version/DefraUtils.png)](https://CRAN.R-project.org/version/DefraUtils)
 ![Development
 Status](https://img.shields.io/badge/development-active-brightgreen.png)
 
 <!-- badges: end -->
 
-Defra utility functions
+## What is DefraUtils?
 
-## Functions to add
+DefraUtils is a versatile R package providing a collection of useful functions developed by analysts in Defra Farming Stats. By making these functions publicly available, we aim to:
 
-### AUK functions
-- [ ] auk_contact_card
-- [ ] auk_heading
-- [ ] auk_round_number
-- [ ] auk_round_percent
-- [ ] auk_source
+* Share tools that may be useful across projects
+* Promote consistent coding practices within the Defra group
+* Reduce duplication of effort where the same code is developed my mutliple analysts in isolation.
 
-Just listing all available functions - I don't think most of these should go in.
+Although this package was developed by Farming Stats analysts, it is intended to be a resource for all analysts in Defra. Therefore, we welcome any contributions, bug fixes, and suggestions.
 
-### Functions for DASH - all may become obsolete soon
-- [ ] set_databricks_pat
-- [ ] create_temp_file
-- [ ] uc_volume_get
-- [ ] uc_volume_put
+## What can DefraUtils do?
 
-### FBS functions
-- [x] add_missing_columns
-- [x] commentary_functions
-- [x] decode_multi_choice
-- [x] estimate_band_midpoints - renamed to estimate_band_means
-- [x] fbs_model_functions - renamed to survey_model_functions
-- [x] fbs_round - renamed to round_with_commas
-- [x] fix_suppression & fix_suppression_circular - merged into a single function
-- [x] get_cell_style
-- [x] get_gdp_deflators - renamed to get-ons-series, added an option to get a snapshot version rather than live
-- [x] overwrite_num_cols
-- [x] tidy_log
+As a versatile general purpose package, `DefraUtils` contains a wide range of functions to support working in R. Below we outline the areas the package covers and highlight some of the key functions.
 
+### Customising RStudio IDE
 
-### General functions
-- [ ] project_template (not a function - appears in "new project" menu)
-- [ ] script_template
-- [ ] gitignore_template
-- [ ] readme_template
-- [ ] connect_github (needs updating to SSH)
-- [ ] use_github (needs updating to SSH)
-- [ ] change_console_prompt
+### Standardising coding approaches
+
+### Working on the DASH platform
+
+* Various functions to read files from the DASH Unity Catalog. These are wrappers for `brickster::db_volume_read()`, but deal with the frequent http2 errors many users encounter when reading data using this function. There is a generic data load function as well as specific functions for reading common file types.
+* Multiple functions for writing files to the DASH Unity Catalog. These are wrappers for `brickster::db_volume_write()`, that deal with the http2 errors. There is a generic write function as well as specific functions for writing several common file types.
+* Various other `brickster` functions with wrappers to prevent http2 errors, including for listing files and creating directories. 
+
+### FBS function
+
