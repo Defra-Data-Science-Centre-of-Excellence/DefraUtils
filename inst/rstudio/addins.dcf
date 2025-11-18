@@ -1,0 +1,9 @@
+Name: Open script with template
+Description: Opens an R script with a suggested template.
+Binding: defra_script_addin
+Interactive: false
+
+Name: Open script with roxygen template
+Description: Opens an R script with a suggested roxygen template.
+Binding: defra_roxygen_addin
+Interactive: false

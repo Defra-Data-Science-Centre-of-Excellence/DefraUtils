@@ -1,0 +1,20 @@
+Binding: defra_analysis_proj
+Title: Defra Analysis Project
+Subtitle: Create an RStudio project using the Defra analysis template
+OpenFiles: README.qmd
+
+Parameter: title
+Widget: TextInput
+Label: README title
+Position: left
+
+Parameter: author
+Widget: TextInput
+Label: Author
+Position: right
+
+Parameter: readme
+Widget: SelectInput
+Label: README output format
+Fields: html, github, markdown
+Position: right
