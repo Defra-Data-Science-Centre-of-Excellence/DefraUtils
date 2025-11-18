@@ -5,8 +5,7 @@
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/DefraUtils.png)](https://CRAN.R-project.org/version/DefraUtils)
+[![CRAN status](https://www.r-pkg.org/badges/version/DefraUtils)](https://CRAN.R-project.org/package=DefraUtils)
 ![Development
 Status](https://img.shields.io/badge/development-active-brightgreen.png)
 
@@ -57,3 +56,6 @@ devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 ### FBS function
 
 ## How to contribute to DefraUtils?
+``` r
+usethis::use_lifecucle_badge("development")
+```
