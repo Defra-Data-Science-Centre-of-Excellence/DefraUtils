@@ -53,7 +53,7 @@ devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 * **Additional brickster functionality** - various other `brickster` functions with wrappers to prevent http2 errors, including for listing files and creating directories.
 * **Alternative read and write functions** - we provide alternative functions to the `brickster` package for both reading and writing data on the DASH platform.
 
-### FBS function
+### FBS functions
 
 ## How to contribute to DefraUtils?
 ``` r
