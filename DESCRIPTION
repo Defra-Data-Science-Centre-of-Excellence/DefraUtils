@@ -65,6 +65,7 @@ Imports:
     polite,
     purrr,
     quarto,
+    readODS,
     readr,
     readxl,
     rlang,

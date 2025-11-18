@@ -9,8 +9,8 @@
 #'   See details for more info on how they solve this problem.  In order for
 #'   these functions to work, you must be working on the Defra DASH platform and
 #'   have set the required brickster environmental variables. There a specific
-#'   functions for reading in .csv, .xlsx, and .Rds files as well as a generic
-#'   function for reading in additional file types.
+#'   functions for reading in .csv, .xlsx, .Rds, and .ods files as well as a
+#'   generic function for reading in additional file types.
 #'
 #' @details These functions are designed to handle the frequent http2 errors
 #'   that occur with `brickster`. From testing, these errors are not code or
@@ -43,6 +43,7 @@
 #'     \item **.csv** - [readr::read_csv()]
 #'     \item **.xlsx** - [readxl::read_xlsx()]
 #'     \item **.Rds** - [readr::read_rds()]
+#'     \item **.ods** - [readODS::read_ods()]
 #'   }
 #'
 #' @param path A string containing the path to data to be read in. Should be the
@@ -81,17 +82,24 @@
 #' )
 #' }
 #'
+#' # read ods file
+#' read_ods_from_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.ods",
+#'   sheet = "sheet-name"
+#' )
+#' }
+#'
 #' @seealso [brickster::db_volume_read()], [readr::read_csv()],
-#'   [readr::read_rds()], [readxl::read_xlsx()].
+#'   [readr::read_rds()], [readxl::read_xlsx()], [readODS::read_ods()],
 #'   [DefraUtils::read_csv_from_volume()],
 #'   [DefraUtils::read_xlsx_from_volume()], [DefraUtils::read_rds_from_volume()]
 #'
-#' @name read_files_from_volume
+#' @name read_file_from_volume
 #'
 #' @export
 NULL
 
-#' @rdname read_files_from_volume
+#' @rdname read_file_from_volume
 #' @export
 read_file_from_volume <- function(path, ext, max_tries = 5, interval = 2) {
   attempt <- 1
@@ -123,7 +131,7 @@ read_file_from_volume <- function(path, ext, max_tries = 5, interval = 2) {
   return(result)
 }
 
-#' @rdname read_files_from_volume
+#' @rdname read_file_from_volume
 #' @export
 read_csv_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
   # read in data using general function set to Rds
@@ -139,7 +147,7 @@ read_csv_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
   return(result)
 }
 
-#' @rdname read_files_from_volume
+#' @rdname read_file_from_volume
 #' @export
 read_rds_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
   # read in data using general function set to Rds
@@ -156,7 +164,7 @@ read_rds_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
   return(result)
 }
 
-#' @rdname read_files_from_volume
+#' @rdname read_file_from_volume
 #' @export
 read_xlsx_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
   # read in data using general function set to Rds
@@ -168,6 +176,23 @@ read_xlsx_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
   )
 
   result <- readxl::read_xlsx(tmp, ...)
+
+  return(result)
+}
+
+#' @rdname read_file_from_volume
+#' @export
+read_ods_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
+  # read in data using general function set to Rds
+  tmp <- DefraUtils::read_file_from_volume(
+    path = path,
+    ext = ".ods",
+    max_tries = max_tries,
+    interval = interval
+  )
+
+  # This will throw an error if tmp is invalid, and print the message
+  result <- readODS::read_ods(tmp, ...)
 
   return(result)
 }
