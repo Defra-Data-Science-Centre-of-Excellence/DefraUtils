@@ -65,3 +65,6 @@ When \code{optimise_to} is set to \code{"1k"} (i.e. 1,000) the above plus:
 And so on, for \code{"10k"} (10,000), \code{"100k"} (100,000), \code{"1m"} (1,000,000),
 \code{"10m"} (10,000,000), and \code{"100m"} (100,000,000),
 }
+\author{
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
+}

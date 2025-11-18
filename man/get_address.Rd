@@ -37,4 +37,9 @@ Other commentary functions:
 \code{\link{get_diff_in_words}()},
 \code{\link{get_pc_in_words}()}
 }
+\author{
+Agriculture in the UK team (\href{mailto:AUK_stats_team@defra.gov.uk}{AUK_stats_team@defra.gov.uk})
+
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
+}
 \concept{commentary functions}

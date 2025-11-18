@@ -8,10 +8,10 @@ fix_suppression(
   df,
   groups,
   sample_size_col = "sample_size",
-  export_path,
-  file_name,
+  export_path = "",
+  file_name = "",
   pivot_col = NULL,
-  save_excel_file = TRUE
+  save_excel_file = FALSE
 )
 }
 \arguments{
@@ -49,4 +49,7 @@ and values between 5 and 14 are highlighted in yellow.
 
 If doing suppression across multiple groups, it is sometimes useful to consider
 the order of the groups to minimize oversuppression.
+}
+\author{
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
 }

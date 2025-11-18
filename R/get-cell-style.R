@@ -20,6 +20,8 @@
 #' custom number format, e.g., "##0.0%" rounds a percentage to 1 decimal place.
 #' @param indent Numeric, default = 0; Horizontal indentation of cell contents.
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 
 get_cell_style <- function(style1 = c("text", "number", "percent", "custom"),

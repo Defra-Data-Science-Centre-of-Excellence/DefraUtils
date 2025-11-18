@@ -42,6 +42,8 @@
 #'
 #' @return A rounded value with comma separators, plus optional prefix and suffix
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 
 round_with_commas <- function(x, method = c("optimise", "round_to"),

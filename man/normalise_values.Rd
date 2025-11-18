@@ -31,4 +31,7 @@ Other survey modelling functions:
 \code{\link{summarise_variables}()},
 \code{\link{test_model_performance}()}
 }
+\author{
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
+}
 \concept{survey modelling functions}

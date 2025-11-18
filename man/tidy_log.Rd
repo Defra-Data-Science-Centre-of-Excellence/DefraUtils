@@ -40,3 +40,6 @@ If more than one \code{": "} is used, everything after the first colon will end 
 in the detail column. If you have not included \code{": "} in your log message,
 the detail column will be populated with \code{NA}.
 }
+\author{
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
+}

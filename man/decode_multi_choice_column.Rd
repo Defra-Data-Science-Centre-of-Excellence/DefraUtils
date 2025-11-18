@@ -52,4 +52,7 @@ Other functions for decoding multiple choice answers:
 \code{\link{decompose_multi_choice_column}()},
 \code{\link{decompose_multi_choice_value}()}
 }
+\author{
+Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})
+}
 \concept{functions for decoding multiple choice answers}

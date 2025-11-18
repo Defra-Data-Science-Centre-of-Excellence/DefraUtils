@@ -1,112 +1,164 @@
-
 test_df <- tibble::tribble(
-  ~"group_a", ~"group_b", ~"group_c", ~"value", ~"sample_size", ~"nobs",
-  "a",         "b",          "c",       16.2,       2,            1,   
-  "a",         "bb",         "cc",       5.6,       3,            5, 
-  "a",         "bbb",        "cc",       2.3,       10,           8, 
-  "a",         "bbbb",       "cc",       7.3,       12,           8,
-  "aa",        "b",          "cc",       9.9,       1,            1,
-  "aa",        "bb",         "ccc",      1.3,       3,            1,
-  "aa",        "bbb",        "ccc",      4.2,       8,            1, 
-  "aa",        "bbbb",       "ccc",      5.5,       152,          4
-  )
-
-test_df_complex <- tibble::tribble(
-  ~"group_a", ~"group_b", ~"group_c", ~"group_d",~"value", ~"sample_size",
-  "a",         "b",          "cc",       "d",      16.2,      2,          
-  "a",         "bb",         "cc",       "d",      5.6,       3,         
-  "a",         "bbb",        "cc",       "d",      2.3,       10,        
-  "a",         "bbbb",       "cc",       "d",      7.3,       12,        
-  "aa",        "b",          "cc",       "d",      9.9,       1,         
-  "aa",        "bb",         "cc",       "d",      1.3,       3,          
-  "aa",        "bbb",        "cc",       "d",      4.2,       8,         
-  "aa",        "bbbb",       "cc",       "d",      5.5,       152,       
-  "a",         "b",          "cc",       "dd",     6.2,       9,          
-  "a",         "bb",         "cc",       "dd",     9.6,       11,         
-  "a",         "bbb",        "cc",       "dd",     3.3,       5,        
-  "a",         "bbbb",       "cc",       "dd",     7.9,       2,        
-  "aa",        "b",          "cc",       "dd",     9.9,       1,         
-  "aa",        "bb",         "cc",       "dd",     21.3,      3,          
-  "aa",        "bbb",        "cc",       "dd",     14.2,      8,         
-  "aa",        "bbbb",       "cc",       "dd",     9.5,       110,
-  "a",         "b",          "ccc",      "dd",     5.5,       9,          
-  "a",         "bb",         "ccc",      "dd",     1.5,       3,         
-  "a",         "bbb",        "ccc",      "dd",     3.3,       2,        
-  "a",         "bbbb",       "ccc",      "dd",     7.9,       9,        
-  "aa",        "b",          "ccc",      "dd",     1.2,       5,         
-  "aa",        "bb",         "ccc",      "dd",     11.3,      9,          
-  "aa",        "bbb",        "ccc",      "dd",     22.2,      18,         
-  "aa",        "bbbb",       "ccc",      "dd",     1.5,       95,    
+  ~group_a, ~group_b, ~group_c, ~value, ~sample_size, ~observations,
+  "a1",     "b1",     "c1",     16.2,   2,            1,
+  "a1",     "b2",     "c2",     5.6,    3,            5,
+  "a1",     "b3",     "c2",     2.3,    10,           8,
+  "a1",     "b4",     "c2",     7.3,    12,           8,
+  "a2",     "b1",     "c2",     9.9,    1,            1,
+  "a2",     "b2",     "c3",     1.3,    3,            1,
+  "a2",     "b3",     "c3",     4.2,    8,            1,
+  "a2",     "b4",     "c3",     5.5,    152,          4
 )
 
+test_df_complex <- tibble::tribble(
+  ~group_a, ~group_b, ~group_c, ~group_d, ~value, ~sample_size,
+  "a1",     "b1",     "c2",     "d",      16.2,   2,
+  "a1",     "b2",     "c2",     "d",      5.6,    3,
+  "a1",     "b3",     "c2",     "d",      2.3,    10,
+  "a1",     "b4",     "c2",     "d",      7.3,    12,
+  "a2",     "b1",     "c2",     "d",      9.9,    1,
+  "a2",     "b2",     "c2",     "d",      1.3,    3,
+  "a2",     "b3",     "c2",     "d",      4.2,    8,
+  "a2",     "b4",     "c2",     "d",      5.5,    152,
+  "a1",     "b1",     "c2",     "dd",     6.2,    9,
+  "a1",     "b2",     "c2",     "dd",     9.6,    11,
+  "a1",     "b3",     "c2",     "dd",     3.3,    5,
+  "a1",     "b4",     "c2",     "dd",     7.9,    2,
+  "a2",     "b1",     "c2",     "dd",     9.9,    1,
+  "a2",     "b2",     "c2",     "dd",     21.3,   3,
+  "a2",     "b3",     "c2",     "dd",     14.2,   8,
+  "a2",     "b4",     "c2",     "dd",     9.5,    110,
+  "a1",     "b1",     "c3",     "dd",     5.5,    9,
+  "a1",     "b2",     "c3",     "dd",     1.5,    3,
+  "a1",     "b3",     "c3",     "dd",     3.3,    2,
+  "a1",     "b4",     "c3",     "dd",     7.9,    9,
+  "a2",     "b1",     "c3",     "dd",     1.2,    5,
+  "a2",     "b2",     "c3",     "dd",     11.3,   9,
+  "a2",     "b3",     "c3",     "dd",     22.2,   18,
+  "a2",     "b4",     "c3",     "dd",     1.5,    95,
+)
 
+test_that("simple (one-level) suppression works as expected", {
 
+  expect_named(fix_suppression(df = test_df, groups = list("group_a")), names(test_df))
 
+  expect_message(fix_suppression(df = test_df, groups = list("group_a")),
+                 "Suppression loop 1")
+  expect_message(fix_suppression(df = test_df, groups = list("group_a")),
+                 "Suppression complete; circular suppression not required")
+  expect_no_message(fix_suppression(df = test_df, groups = list("group_a")),
+                    message = "Suppression loop 2")
+  expect_no_message(fix_suppression(df = test_df, groups = list("group_a")),
+                    message = "Circular suppression complete")
 
+  # Fixing by group_a results in suppression
+  expect_equal(fix_suppression(df = test_df, groups = list("group_a"))$sample_size,
+               c(2, 3, 10, 12, 1, 1, 1, 152))
 
-# All automatic tests will not save an excel_file
+  # Fixing by group_b should not change anything
+  expect_message(fix_suppression(df = test_df, groups = list("group_b")),
+                 "Suppression not required")
 
-test_that("simple 1 level suppression, and making sure default sample_size_col is working", {
-  expect_named(fix_suppression(df = test_df,groups = list("group_a"), save_excel_file = FALSE ),
-               c("group_a", "group_b", "group_c", "value", "sample_size",  "nobs"
-               ))
-  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_a"), save_excel_file = FALSE ),
-                    "sample_size"), c(2, 3, 10, 12, 1, 1, 1, 152))
-  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_b"), save_excel_file = FALSE ),
-                    "sample_size"), c(2, 3, 10, 12, 1, 3, 8, 152)) # This one should not change anything
-  })
+  expect_no_message(fix_suppression(df = test_df, groups = list("group_b")),
+                    message = "Suppression loop 1")
+  expect_no_message(fix_suppression(df = test_df, groups = list("group_b")),
+                    message = "Suppression complete; circular suppression not required")
+  expect_no_message(fix_suppression(df = test_df, groups = list("group_b")),
+                    message = "Suppression loop 2")
+  expect_no_message(fix_suppression(df = test_df, groups = list("group_b")),
+                    message = "Circular suppression complete")
 
-test_that("1 level suppression and there is one orphan level (e.g. only one row for that level)", {
-  expect_named(fix_suppression(df = test_df,groups = list("group_c"), save_excel_file = FALSE ),
-               c("group_a", "group_b", "group_c", "value", "sample_size",  "nobs"
-               ))
-  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_c"), save_excel_file = FALSE ),
-                    "sample_size"), c(2, 1, 1, 12, 1, 1, 1, 152))
+  expect_equal(fix_suppression(df = test_df, groups = list("group_b"))$sample_size,
+               test_df$sample_size)
+
 })
 
-test_that("simple 2 level suppression", {
-  expect_named(fix_suppression(df = test_df,groups = list("group_a","group_b"), save_excel_file = FALSE ),
-               c("group_a", "group_b", "group_c", "value", "sample_size",  "nobs"
-               ))
-  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_a","group_b"), save_excel_file = FALSE ),
-                    "sample_size"), c(2, 3, 1, 12, 1, 1, 1, 152))
-  })
+test_that("having an orphan level (e.g. only one row for that level) works as expected", {
 
-test_that("simple 2 level suppression, and while using a custom sample_size column name", {
-  expect_named(fix_suppression(df = test_df,groups = list("group_a","group_b"),sample_size_col = "nobs", save_excel_file = FALSE ),
-               c("group_a", "group_b", "group_c", "value", "sample_size",  "nobs"
-               ))
-  expect_equal(pull(fix_suppression(df = test_df,groups = list("group_a","group_b"), sample_size_col = "nobs", save_excel_file = FALSE ),
-                    "nobs"), c(1, 1, 1, 1, 1, 1, 1, 1))
-  expect_equal(pull(fix_suppression(df = test_df %>% dplyr::rename(test_nobs = sample_size),
-                                             groups = list("group_a","group_b"), 
-                                             sample_size_col = "test_nobs", save_excel_file = FALSE),
-                    "test_nobs"), c(2, 3, 1, 12, 1, 1, 1, 152))
-  })
+  expect_equal(fix_suppression(df = test_df,groups = list("group_c"))$sample_size,
+               c(2, 1, 1, 12, 1, 1, 1, 152))
 
+  expect_no_message(fix_suppression(df = test_df, groups = list("group_c")),
+                    message = "Suppression loop 2")
 
-test_that("2 level suppression, with each group being made of multiple columns", {
-  expect_named(fix_suppression(df = test_df_complex,groups = list(c("group_d","group_c","group_b"),c("group_d","group_c","group_a")), save_excel_file = FALSE ),
-               c("group_a", "group_b", "group_c", "group_d","value", "sample_size"
-                 ))
-  expect_equal(pull(fix_suppression(df = test_df_complex,groups = list(c("group_d","group_c","group_b"),c("group_d","group_c","group_a")), save_excel_file = FALSE ),
-                    "sample_size"), c(2, 3, 1, 12, 1, 1, 1, 152, 1, 1, 5, 1, 1, 1, 8, 1, 9, 1, 1, 9, 5, 1, 1, 95))
-  })
+})
 
+test_that("two-level suppression works as expected", {
 
-# Manual test, will be commented out but this will test that exporting the excel file works
+  expect_equal(fix_suppression(df = test_df,groups = list("group_a", "group_b"))$sample_size,
+               c(2, 3, 1, 12, 1, 1, 1, 152))
 
-# fix_suppression(df = test_df_complex,
-#                          groups = list(c("group_d","group_c","group_b"),
-#                                        c("group_d","group_c","group_a")),
-#                          export_path = "C:/Users/fc000033/OneDrive - Defra/Desktop",
-#                          file_name = "testtttttt",
-#                          save_excel_file = TRUE )
+  expect_no_message(fix_suppression(df = test_df, groups = list("group_c")),
+                    message = "Suppression loop 2")
 
+})
 
+test_that("a custom sample_size column name works as expected", {
 
+  expect_equal(fix_suppression(df = test_df,groups = list("group_a", "group_b"),
+                               sample_size_col = "observations")$observations,
+               c(1, 1, 1, 1, 1, 1, 1, 1))
 
+  expect_equal(fix_suppression(df = dplyr::rename(test_df, test_sample = sample_size),
+                               groups = list("group_a", "group_b"),
+                               sample_size_col = "test_sample")$test_sample,
+               c(2, 3, 1, 12, 1, 1, 1, 152))
 
+})
 
+test_that("a breakdown that requires circular suppression works as expected", {
 
+  expect_message(suppressWarnings(
+    fix_suppression(df = test_df_complex,
+                    groups = list(c("group_d", "group_c", "group_b"),
+                                  c("group_d", "group_c", "group_a")))),
+    "The input groups or data require circular suppression")
 
+  expect_message(suppressWarnings(
+    fix_suppression(df = test_df_complex,
+                    groups = list(c("group_d", "group_c", "group_b"),
+                                  c("group_d", "group_c", "group_a")))),
+    "Suppression loop 2")
+
+  expect_message(suppressWarnings(
+    fix_suppression(df = test_df_complex,
+                    groups = list(c("group_d", "group_c", "group_b"),
+                                  c("group_d", "group_c", "group_a")))),
+    "Circular suppression complete")
+
+  expect_warning(fix_suppression(df = test_df_complex,
+                                 groups = list(c("group_d", "group_c", "group_b"),
+                                               c("group_d", "group_c", "group_a"))),
+                 "Circular suppression is required, but save_excel_file is FALSE")
+
+  expect_equal(suppressWarnings(
+    fix_suppression(df = test_df_complex,
+                    groups = list(c("group_d", "group_c", "group_b"),
+                                  c("group_d", "group_c", "group_a"))))$sample_size,
+    c(2, 3, 1, 12, 1, 1, 1, 152, 1, 1, 5, 1, 1, 1, 8, 1, 9, 1, 1, 9, 5, 1, 1, 95))
+
+})
+
+test_that("creates specified file", {
+  save_dir <- tempdir()
+  save_file <- file.path(save_dir, "circular-suppression-checks/test_file.xlsx")
+  on.exit(unlink(save_file))
+  expect_false(file.exists(save_file))
+  fix_suppression(df = test_df_complex,
+                    groups = list(c("group_d", "group_c", "group_b"),
+                                  c("group_d", "group_c", "group_a")),
+                  save_excel_file = TRUE, export_path = save_dir, file_name = "test_file")
+  expect_true(file.exists(save_file))
+})
+
+test_that("creates file when name not specified", {
+  save_dir <- tempdir()
+  save_file <- file.path(save_dir, "circular-suppression-checks/group_d_group_c_group_b_group_d_group_c_group_a.xlsx")
+  on.exit(unlink(save_file))
+  expect_false(file.exists(save_file))
+  fix_suppression(df = test_df_complex,
+                  groups = list(c("group_d", "group_c", "group_b"),
+                                c("group_d", "group_c", "group_a")),
+                  save_excel_file = TRUE, export_path = save_dir)
+  expect_true(file.exists(save_file))
+})

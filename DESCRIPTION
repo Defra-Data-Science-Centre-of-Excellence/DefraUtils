@@ -43,6 +43,7 @@ Depends:
     R (>= 3.5)
 LazyData: true
 Imports:
+    afcharts,
     aftables,
     bestNormalize,
     brickster,
@@ -51,8 +52,12 @@ Imports:
     dplyr,
     fs,
     ggplot2,
+    ggrepel,
     gitcreds,
     glue,
+    grDevices,
+    grid,
+    gridtext,
     here,
     httr,
     httr2,
@@ -62,6 +67,7 @@ Imports:
     moments,
     openxlsx,
     plyr,
+    png,
     polite,
     purrr,
     quarto,
@@ -78,6 +84,7 @@ Imports:
     tibble,
     tidyr,
     usethis,
+    useful,
     xfun,
     xml2,
     zoo

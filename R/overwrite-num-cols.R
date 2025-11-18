@@ -72,6 +72,8 @@
 #' openXL(excel_wb)
 #' }
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 
 overwrite_num_cols <- function(excel_wb, sheet, cols, rows, df) {

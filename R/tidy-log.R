@@ -32,6 +32,8 @@
 #' @importFrom stringr str_replace_all
 #' @importFrom lubridate as_datetime
 #'
+#' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
+#'
 #' @export
 
 tidy_log <- function(log_path, export_path = log_path, export = TRUE, delim = "|") {
