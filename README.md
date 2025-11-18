@@ -24,7 +24,7 @@ Although this package was developed by Farming Stats analysts, it is intended to
 
 ## How to install Defrautils?
 
-The `DefraUtils` repository is public, meaning the package can be installed easily using the following code:
+The `DefraUtils` repository is public, meaning the package can easily be installed using the following code:
 
 ``` r
 devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
@@ -32,17 +32,27 @@ devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 
 ## What can DefraUtils do?
 
-As a versatile general purpose package, `DefraUtils` contains a wide range of functions to support working in R. Below we outline the areas the package covers and highlight some of the key functions.
+`DefraUtils` is a versatile, general-purpose R package designed to make working in R easier and more efficient. It provides a wide range of utility functions to support data handling, platform integration, and workflow automation. Below, we outline the main areas the package covers and highlight some key features.
 
-### Customising RStudio IDE
+### General functionality
+
+* **Simplifying connecting RStudio to GitHub**
+* **Customisation of RStudio IDE**
+* **Customising R console prompt**
 
 ### Standardising coding approaches
 
+* **Script template with key metadata**
+* **Script template for functions**
+* **Template for project READMEs**
+* **Analytical project template**
+
 ### Working on the DASH platform
 
-* Various functions to read files from the DASH Unity Catalog. These are wrappers for `brickster::db_volume_read()`, but deal with the frequent http2 errors many users encounter when reading data using this function. There is a generic data load function as well as specific functions for reading common file types.
-* Multiple functions for writing files to the DASH Unity Catalog. These are wrappers for `brickster::db_volume_write()`, that deal with the http2 errors. There is a generic write function as well as specific functions for writing several common file types.
-* Various other `brickster` functions with wrappers to prevent http2 errors, including for listing files and creating directories.
+* **Reading data** - various functions to read files from the DASH Unity Catalog. These are wrappers for `brickster::db_volume_read()`, but deal with the frequent http2 errors many users encounter when reading data using this function. There is a generic data load function as well as specific functions for reading common file types.
+* **Writing data** - multiple functions for writing files to the DASH Unity Catalog. These are wrappers for `brickster::db_volume_write()`, that deal with the http2 errors. There is a generic write function as well as specific functions for writing several common file types.
+* **Additional brickster functionality** - various other `brickster` functions with wrappers to prevent http2 errors, including for listing files and creating directories.
+* **Alternative read and write functions** - we provide alternative functions to the `brickster` package for both reading and writing data on the DASH platform.
 
 ### FBS function
 
