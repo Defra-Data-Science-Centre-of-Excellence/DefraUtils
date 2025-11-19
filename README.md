@@ -13,17 +13,17 @@ Status](https://img.shields.io/badge/development-active-brightgreen.png)
 
 ## What is DefraUtils?
 
-DefraUtils is a versatile R package providing a collection of useful functions developed by analysts in Defra Farming Stats. By making these functions publicly available, we aim to:
+`DefraUtils` is a versatile R package that provides a collection of useful functions developed by analysts in Defra Farming Stats. By making these tools publicly available, we aim to:
 
-* Share tools that may be useful across projects
-* Promote consistent coding practices within the Defra group
-* Reduce duplication of effort where the same code is developed my mutliple analysts in isolation.
+* Share functionality that may be helpful across a range of analytical projects and professions.
+* Encourage consistent and reproducible coding practices across the Defra group.
+* Reduce duplication of effort where similar code might otherwise be developed independently by multiple analysts.
 
-Although this package was developed by Farming Stats analysts, it is intended to be a resource for all analysts in Defra. Therefore, we welcome any contributions, bug fixes, and suggestions.
+Although the package originated within Farming Stats, it is designed as a resource for all analysts across Defra. We welcome contributions, bug reports, and suggestions for improvement.
 
 ## How to install Defrautils?
 
-The `DefraUtils` repository is public, meaning the package can easily be installed using the following code:
+The `DefraUtils` repository is public, you can install the package directly from GitHub using:
 
 ``` r
 devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
