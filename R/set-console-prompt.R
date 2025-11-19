@@ -32,9 +32,9 @@
 #' # set project prompt
 #' set_console_prompt("project")
 #' }
-#' 
+#'
 #' @seealso [usethis::edit_r_profile()]
-#' 
+#'
 #' @export
 set_console_prompt <- function(scope) {
   # check correct scope selected
