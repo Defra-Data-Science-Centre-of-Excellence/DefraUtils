@@ -14,7 +14,7 @@ Status](https://img.shields.io/badge/development-active-brightgreen.png)
 <!-- badges: end -->
 
 - [What is DefraUtils?](#what-is-defrautils)
-- [How to install Defrautils?](#how-to-install-defrautils)
+- [How to install DefraUtils?](#how-to-install-defrautils)
 - [How to contribute to DefraUtils?](how-to-contribute-to-defrautils)
 - [What can DefraUtils do?](#what-can-defrautils-do)
   - [Standardising coding approaches](#standardising-coding-approaches)
