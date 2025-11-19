@@ -65,3 +65,5 @@ Below we include guidance on how to structure, document and test your changes. A
 * All functions must include an `@author` tag in the `roxygen2` comments. This must include the authors name and email address, in case of issues.
 
 * All functions must have been appropriately unit tested. It is advised to use `testthat` to unit testing of your changes.
+
+* When adding a new function, please name the `.R` file with the name of the function or an informative name for a group of functions. 
