@@ -35,9 +35,9 @@ devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 
 ### General functionality
 
-* **Simplifying connecting RStudio to GitHub**
-* **Customisation of RStudio IDE**
-* **Customising R console prompt**
+* **Simplifying connecting RStudio to GitHub** - the package includes two functions to streamline connecting GitHub and RStudio, using either SSH (the suggested method for the DASH platform) and Personal Access Token (the suggested method for local RStudio installs).
+* **Customisation of RStudio IDE** - a simple function to set-up your RStudio IDE using code, inclduing: pane layout, font, theme, and various other global options. Really useful for quickly configuring you IDE in transient environments, such as the RStudio server on DASH clusters.
+* **Customising R console prompt** - a useful little function that replaces the R console prompt with the name of your git branch.
 
 ### Standardising coding approaches
 
