@@ -2,6 +2,7 @@
 #' Title
 #'
 #' @author
+#' Name (email)
 #'
 #' @description Description of function
 #'
@@ -13,5 +14,8 @@
 #'
 #' @return
 #' what is the output
+#'
+#' @examples
+#' Example of how to run code
 #'
 #' @export
