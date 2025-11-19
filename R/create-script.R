@@ -1,6 +1,6 @@
 #' @title Create a new script using the default template.
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description This function will create a new R script using the default
 #'   header template. There are multiple options for customisation (see
@@ -21,9 +21,6 @@
 #'
 #'   The script is saved in your project's root directory (via [here::here()])
 #'   or a specified sub-folder.
-#'
-#'   By default these are set to \code{NULL} (except for the date). But can be
-#'   set to any string.
 #'
 #' @param file_name string containing desired name for script.
 #'
@@ -67,6 +64,20 @@ create_script <- function(
     "%d/%m/%Y"
   )
 ) {
+  # author
+  author_name <- ifelse(
+    is.null(author),
+    "Name",
+    author
+  )
+
+  # email
+  email_addr <- ifelse(
+    is.null(email),
+    "email",
+    email
+  )
+
   # header
   header <- stringr::str_c(
     "## - - - - - - - - - - - - - -\n",
@@ -79,9 +90,9 @@ create_script <- function(
     "##\n",
     "## Purpose of script: \n",
     "##\n",
-    "## Author: ", author, "\n",
+    "## Author: ", author_name, "\n",
     "##\n",
-    "## Email: ", email, "\n",
+    "## Email: ", email_addr, "\n",
     "##\n",
     "## Date Created: ", date, "\n",
     "##\n",

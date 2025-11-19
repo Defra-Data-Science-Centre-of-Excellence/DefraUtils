@@ -52,9 +52,6 @@ You can optionally pre-fill the following fields:
 
 The script is saved in your project's root directory (via \code{\link[here:here]{here::here()}})
 or a specified sub-folder.
-
-By default these are set to \code{NULL} (except for the date). But can be
-set to any string.
 }
 \examples{
 \dontrun{
@@ -72,5 +69,5 @@ create_script(
 
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }
