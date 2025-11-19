@@ -1,8 +1,7 @@
 #' @title List files within a DASH directory
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
-
 #' @description Lists files in a DASH directory (volume or folder) using the
 #'   `brickster` API. Designed to handle intermittent http2 errors by retrying
 #'   failed attempts. Requires the Defra DASH platform and appropriate

@@ -1,6 +1,6 @@
 #' @title Create a directory in a DASH volume
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Function to streamline creating directories in DASH volumes.
 #'   This function will help avoid the http2 error which seems to be a frequent

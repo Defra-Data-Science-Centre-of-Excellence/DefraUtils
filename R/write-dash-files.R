@@ -1,6 +1,6 @@
 #' @title Write files to the DASH Unity Catalog
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Functions to streamline writing files to DASH volumes. These
 #'   functions will help avoid the http2 error which seems to be a frequent

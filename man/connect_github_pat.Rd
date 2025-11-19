@@ -74,5 +74,5 @@ connect_github_pat(
 \code{\link[=connect_github_ssh]{connect_github_ssh()}}
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }

@@ -1,6 +1,6 @@
 #' @title Set a custom R console prompt with Git branch
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Sets a custom R console prompt that displays the active Git
 #'   branch (e.g., \code{[@main]>}) when working inside a Git-enabled project.

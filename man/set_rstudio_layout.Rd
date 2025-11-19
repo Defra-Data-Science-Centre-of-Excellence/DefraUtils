@@ -78,5 +78,5 @@ set_rstudio_layout(
 \link[rstudioapi:writeRStudioPreference]{rstudioapi::writeRStudioPreference}
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }

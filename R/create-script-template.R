@@ -1,6 +1,6 @@
 #' @title Create a default R script template
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Creates a default R script template to be applied as a header to
 #'   all newly opened scripts. Supports default, custom, manual, and blank

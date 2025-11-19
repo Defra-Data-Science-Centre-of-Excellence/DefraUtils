@@ -131,5 +131,5 @@ write_rds_to_volume(
 \code{\link[=write_rds_to_volume]{write_rds_to_volume()}}
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }

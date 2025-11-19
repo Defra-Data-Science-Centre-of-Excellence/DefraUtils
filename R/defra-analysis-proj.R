@@ -1,6 +1,6 @@
 #' @title Internal function for Defra Analysis RStudio project template
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description This function is called automatically by RStudio when a user
 #' creates a new project using the **Defra Analysis Project** template. It

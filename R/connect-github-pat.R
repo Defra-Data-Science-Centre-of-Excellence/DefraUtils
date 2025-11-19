@@ -1,6 +1,6 @@
 #' @title Connect RStudio to your GitHub account using a Personal Access Token
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description This is a simple function which connects RStudio to GitHub using
 #'   a Personal Access Token (PAT), allowing you to work on GitHub repositories.

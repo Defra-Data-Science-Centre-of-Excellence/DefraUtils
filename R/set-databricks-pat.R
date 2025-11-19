@@ -1,6 +1,6 @@
 #' @title Prompt user to set Databricks Personal Access Token (PAT)
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Prompts the user to enter their Databricks Personal Access Token
 #'   (PAT) interactively. This avoids hardcoding sensitive credentials in

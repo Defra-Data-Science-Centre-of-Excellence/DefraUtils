@@ -1,6 +1,6 @@
 #' @title Create a README using a template
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Generates a README file for a project using a generic Quarto
 #'   template. The function creates a `.qmd` file and performs an initial render

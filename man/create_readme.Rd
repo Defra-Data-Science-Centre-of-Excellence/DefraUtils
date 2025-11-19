@@ -61,5 +61,5 @@ create_readme(
 \code{\link[quarto:quarto_render]{quarto::quarto_render()}}
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }

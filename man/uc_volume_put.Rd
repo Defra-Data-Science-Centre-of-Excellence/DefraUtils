@@ -49,5 +49,5 @@ uc_volume_put(
 \code{\link[httr2:request]{httr2::request()}}, \code{\link[=uc_volume_get]{uc_volume_get()}}
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }

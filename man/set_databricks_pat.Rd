@@ -31,5 +31,5 @@ Sys.setenv(DATABRICKS_TOKEN = token)
 
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }

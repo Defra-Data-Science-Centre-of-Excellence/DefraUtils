@@ -61,5 +61,5 @@ create_dash_dir(
 \code{\link[brickster:db_volume_dir_create]{brickster::db_volume_dir_create()}}
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }

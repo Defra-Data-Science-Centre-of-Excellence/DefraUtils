@@ -116,5 +116,5 @@ read_ods_from_volume(
 \code{\link[=read_xlsx_from_volume]{read_xlsx_from_volume()}}, \code{\link[=read_rds_from_volume]{read_rds_from_volume()}}
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }

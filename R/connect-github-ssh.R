@@ -1,6 +1,6 @@
 #' @title Connect RStudio to your GitHub account using SSH
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Connect RStudio to your GitHub account using SSH - this is the
 #'   preferred method of connecting RStudio and GitHub on the DASH platform. The

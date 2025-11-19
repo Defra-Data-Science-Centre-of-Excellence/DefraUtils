@@ -1,6 +1,6 @@
 #' @title Read data of various file types from the DASH data lake
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description A set of convenience functions to read data from common file
 #'   formats from the DASH platform. Each function uses `brickster` and wraps

@@ -1,6 +1,6 @@
 #' @title Write file to the DASH Unity Catalog
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Uploads a local file to the DASH Unity Catalog (UC) using a PUT
 #'   request via the `httr2` package. This function is useful for saving files

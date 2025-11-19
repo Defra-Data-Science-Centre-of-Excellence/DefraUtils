@@ -1,6 +1,6 @@
 #' @title Download a file from the DASH Unity Catalog
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Downloads a file from the Databricks Unity Catalog (UC) to the
 #'   RStudio server. This function wraps a call to [httr::GET()] and was adapted

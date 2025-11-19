@@ -1,6 +1,6 @@
 #' @title Customise RStudio IDE layout and preferences
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description Customises the RStudio IDE by updating user or project-specific
 #'  preferences. Especially useful on the DASH RStudio server after a cluster

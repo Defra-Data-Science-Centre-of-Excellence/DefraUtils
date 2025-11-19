@@ -46,5 +46,5 @@ set_console_prompt("project")
 \code{\link[usethis:edit]{usethis::edit_r_profile()}}
 }
 \author{
-Josh Moatt
+Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
 }
