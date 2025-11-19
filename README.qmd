@@ -30,8 +30,6 @@ Status](https://img.shields.io/badge/development-active-brightgreen.png)
 * Encourage consistent and reproducible coding practices across the Defra group.
 * Reduce duplication of effort where similar code might otherwise be developed independently by multiple analysts.
 
-The package is under active development and we will highlight chnages to users.
-
 ## How to install DefraUtils?
 
 The `DefraUtils` repository is public, you can install the package directly from GitHub using:
@@ -41,7 +39,7 @@ devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 ```
 ## How to contribute to DefraUtils?
 
-Although the package originated within Farming Stats, it is designed as a resource for all analysts across Defra and it is under active development. Therefore, we welcome contributions, bug reports, and suggestions for improvement from all users.
+Although the package originated within Farming Stats, it is designed as a resource for all analysts across Defra and is under active development. We therefore welcome contributions, bug reports, and suggestions for improvement from all users.
 
 To contribute, please raise an [issue](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/issues) or a [pull request](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/pulls) after reading the contributing guidance.
 
