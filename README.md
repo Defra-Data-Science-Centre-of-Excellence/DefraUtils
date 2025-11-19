@@ -35,13 +35,13 @@ devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 
 ### Standardising coding approaches
 
-* **Analytical project template** - basic project template for analytical projects. Added to the "New project" interface to allow users to easily choose the template. Also included as a GitHub repository template. 
+* **Analytical project template** - basic project template for analytical projects. Added to the "New project" interface to allow users to easily choose the template. Also included as a GitHub repository template.
 * **Script templates** - various script tempaltes including a simple script header containing key metadata prompts - this will users properly document their code. Can be set so that all scripts open with the script header.
 * **Template for project READMEs** - a simple .qmd README template, with prompts for the key information and sections to include.
 
-### Helpful functions
+### Helper functions
 
-* **Simplifying connecting RStudio to GitHub** - the package includes two functions to streamline connecting GitHub and RStudio, using either SSH (the suggested method for the DASH platform) and Personal Access Token (the suggested method for local RStudio installs).
+* **Connecting RStudio to GitHub** - the package includes two functions to streamline connecting GitHub and RStudio, using either SSH (the suggested method for the DASH platform) and Personal Access Token (the suggested method for local RStudio installs).
 * **Customisation of RStudio IDE** - a simple function to set-up your RStudio IDE using code, inclduing: pane layout, font, theme, and various other global options. Really useful for quickly configuring you IDE in transient environments, such as the RStudio server on DASH clusters.
 * **Customising R console prompt** - a useful little function that replaces the R console prompt with the name of your git branch.
 
@@ -55,6 +55,5 @@ devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 ### FBS functions
 
 ## How to contribute to DefraUtils?
-``` r
-usethis::use_lifecucle_badge("development")
-```
+
+
