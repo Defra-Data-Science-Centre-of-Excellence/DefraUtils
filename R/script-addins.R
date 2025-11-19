@@ -1,6 +1,6 @@
 #' @title Internal RStudio addins to open new scripts with suggested templates
 #'
-#' @author Josh Moatt
+#' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
 #'
 #' @description These functions are designed to be used only via the RStudio
 #'   Addins menu. They open a new R script pre-populated with either:
@@ -112,8 +112,8 @@ defra_roxygen_addin <- function() {
     "#' @return \n",
     "#' what is the output \n",
     "#' \n",
-    "#' @examples",
-    "#' Example of how to run function",
+    "#' @examples \n",
+    "#' Example of how to run function \n",
     "#' \n",
     "#' @export \n"
   )
