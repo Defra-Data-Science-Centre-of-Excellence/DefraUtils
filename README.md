@@ -60,7 +60,7 @@ guidance](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/
 
 If you would like to join the team managing the `DefraUtils` package and
 repo, please email the Farming Stats team at
-[AUK_stats_update@defra.gov.uk](mailto:%20AUK_stats_update@defra.gov.uk).
+<AUK_stats_update@defra.gov.uk>.
 
 ## What can DefraUtils do?
 
