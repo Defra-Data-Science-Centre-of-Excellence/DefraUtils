@@ -31,26 +31,26 @@ devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 
 ## What can DefraUtils do?
 
-`DefraUtils` is a versatile, general-purpose R package designed to make working in R easier and more efficient. It provides a wide range of utility functions to support data handling, platform integration, and workflow automation. Below, we outline the main areas the package covers and highlight some key features.
+`DefraUtils` is a versatile, general-purpose R package designed to make working in R easier, faster, and more consistent. It provides a broad set of utility functions to support data handling, platform integration, and workflow automation. Below is an overview of the main areas the package covers, along with key features.
 
 ### Standardising coding approaches
 
-* **Analytical project template** - basic project template for analytical projects. Added to the "New project" interface to allow users to easily choose the template. Also included as a GitHub repository template.
-* **Script templates** - various script tempaltes including a simple script header containing key metadata prompts - this will users properly document their code. Can be set so that all scripts open with the script header.
-* **Template for project READMEs** - a simple .qmd README template, with prompts for the key information and sections to include.
+* **Analytical project template** – A basic project template for analytical work. It appears in RStudio’s “New Project” interface, making it easy to start a project with recommended structure. The structure is also available as a GitHub repository template.
+* **Script templates** – A number of script templates, including a simple script header with prompts for key metadata. These help users to properly document their code. You can easily configure RStudio so all new scripts automatically open with this header.
+* **Project README template** – A `.qmd` template that provides prompts for key information and suggested sections, helping ensure clear and consistent READMEs.
 
 ### Helper functions
 
-* **Connecting RStudio to GitHub** - the package includes two functions to streamline connecting GitHub and RStudio, using either SSH (the suggested method for the DASH platform) and Personal Access Token (the suggested method for local RStudio installs).
-* **Customisation of RStudio IDE** - a simple function to set-up your RStudio IDE using code, inclduing: pane layout, font, theme, and various other global options. Really useful for quickly configuring you IDE in transient environments, such as the RStudio server on DASH clusters.
-* **Customising R console prompt** - a useful little function that replaces the R console prompt with the name of your git branch.
+* **Connecting RStudio to GitHub** – Two functions streamline connecting RStudio and GitHub, using either SSH (recommended for the DASH platform) or a Personal Access Token (recommended for local RStudio installations).
+* **Customising the RStudio IDE** – A function that configures your RStudio IDE programmatically, including pane layout, fonts, theme, and other global options. This is especially useful for quickly setting up your environment in transient sessions such as RStudio Server on DASH clusters.
+* **Customising the R console prompt** – A small helper function that replaces the default console prompt with the name of your current Git branch.
 
 ### Working on the DASH platform
 
-* **Reading data** - various functions to read files from the DASH Unity Catalog. These are wrappers for `brickster::db_volume_read()`, but deal with the frequent http2 errors many users encounter when reading data using this function. There is a generic data load function as well as specific functions for reading common file types.
-* **Writing data** - multiple functions for writing files to the DASH Unity Catalog. These are wrappers for `brickster::db_volume_write()`, that deal with the http2 errors. There is a generic write function as well as specific functions for writing several common file types.
-* **Additional brickster functionality** - various other `brickster` functions with wrappers to prevent http2 errors, including for listing files and creating directories.
-* **Alternative read and write functions** - we provide alternative functions to the `brickster` package for both reading and writing data on the DASH platform.
+* **Reading data** – Functions for reading files from the DASH Unity Catalog. These wrap `brickster::db_volume_read()` but include handling for common HTTP/2 errors. A generic loading function is provided, along with type-specific readers for common file formats.
+* **Writing data** – Functions for writing files to the DASH Unity Catalog. These wrap `brickster::db_volume_write()` and similarly mitigate HTTP/2 errors. A generic write function and format-specific helpers are included.
+* **Additional `brickster` utilities** – Wrappers around various `brickster` functions—such as listing files and creating directories, designed to reduce HTTP/2 related failures.
+* **Alternative read/write functions** – Additional functions that provide an alternative to `brickster` for reading and writing data on the DASH platform.
 
 ### FBS functions
 
