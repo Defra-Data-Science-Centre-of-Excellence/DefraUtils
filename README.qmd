@@ -41,7 +41,7 @@ devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 
 Although the package originated within Farming Stats, it is designed as a resource for all analysts across Defra and is under active development. We therefore welcome contributions, bug reports, and suggestions for improvements from all users.
 
-To contribute, please raise an [issue](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/issues) or a [pull request](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/pulls) after reading the contributing guidance.
+To contribute, please raise an [issue](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/issues) or a [pull request](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/pulls) after reading the [contributing guidance](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/blob/main/.github/CONTRIBUTING.md).
 
 If you would like to join the team managing the `DefraUtils` package and repo, please email the Farming Stats team at [AUK_stats_update@defra.gov.uk](mailto: AUK_stats_update@defra.gov.uk).
 

@@ -55,7 +55,8 @@ To contribute, please raise an
 [issue](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/issues)
 or a [pull
 request](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/pulls)
-after reading the contributing guidance.
+after reading the [contributing
+guidance](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/blob/main/.github/CONTRIBUTING.md).
 
 If you would like to join the team managing the `DefraUtils` package and
 repo, please email the Farming Stats team at
