@@ -96,6 +96,9 @@ defra_roxygen_addin <- function() {
     "#' @title \n",
     "#' Title \n",
     "#' \n",
+    "#' @author \n",
+    "#' Name (email address) \n",
+    "#' \n",
     "#' @description \n",
     "#' Description of function \n",
     "#' \n",
@@ -109,6 +112,9 @@ defra_roxygen_addin <- function() {
     "#' @return \n",
     "#' what is the output \n",
     "#' \n",
+    "#' @examples",
+    "#' Example of how to run function",
+    "#' \n",
     "#' @export \n"
   )
 
@@ -117,6 +123,6 @@ defra_roxygen_addin <- function() {
     text = header,
     type = "r",
     execute = FALSE,
-    position = 17
+    position = 22
   )
 }
