@@ -2,7 +2,7 @@ Package: DefraUtils
 Type: Package
 Title: Utility functions for use by Defra analysts.
 Version: 0.0.0.9000
-Authors@R:
+Authors@R: 
     c(person(given = "Farming",
              family = "Stats",
              email = "AUK_stats_update@defra.gov.uk",
@@ -33,16 +33,18 @@ License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Suggests:
+Suggests: 
     futile.logger,
+    mockery,
     srvyr,
     testthat (>= 3.0.0),
-    tidyxl
+    tidyxl,
+    withr
 Config/testthat/edition: 3
-Depends:
+Depends: 
     R (>= 3.5)
 LazyData: true
-Imports:
+Imports: 
     afcharts,
     aftables,
     bestNormalize,
@@ -63,9 +65,11 @@ Imports:
     httr2,
     janitor,
     lubridate,
+    magrittr,
     modelr,
     moments,
     openxlsx,
+    pacman,
     plyr,
     png,
     polite,
@@ -83,8 +87,8 @@ Imports:
     survey,
     tibble,
     tidyr,
-    usethis,
     useful,
+    usethis,
     xfun,
     xml2,
     zoo
