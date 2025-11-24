@@ -78,6 +78,7 @@ Imports:
     readODS,
     readr,
     readxl,
+    rio,
     rlang,
     rstudioapi,
     rvest,
