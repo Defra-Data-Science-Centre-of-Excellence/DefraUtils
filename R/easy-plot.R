@@ -7,6 +7,7 @@
 #' @import ggplot2
 #' @import afcharts
 #' @importFrom ggrepel geom_text_repel
+#' @importFrom pacman p_load
 #'
 #' @param plot_data Data to plot
 #' @param aesthetics Mapping aesthetics using [ggplot2::aes()]; if you want a
@@ -124,7 +125,10 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
                       top_margin = 10, right_margin = 0, bottom_margin = 0, left_margin = 0) {
 
   # Setup ####
-  ## Match agruments ####
+  ## Load rgovspeak so that GDS Transport Website installs ####
+  p_load(rgovspeak)
+
+  ## Match arguments ####
   chart_type <- arg_match(chart_type)
   chart_direction <- arg_match(chart_direction)
   wrap_type <- arg_match(wrap_type)
@@ -278,8 +282,8 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
     p <- p +
       geom_text_repel(
         data = filter(plot_data, !!aesthetics$x == max(!!aesthetics$x)),
-        mapping = aes(label = !!aesthetics$y), segment.color = NA,
-        size = 8, hjust = "left", nudge_x = 0.8, lineheight = 0.7,
+        mapping = aes(label = !!aesthetics$colour), segment.color = NA,
+        size = 8, hjust = "left", nudge_x = 0.2, lineheight = 0.7,
         show.legend = F, family = "GDS Transport Website", direction = "y")
 
   }

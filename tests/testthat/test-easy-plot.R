@@ -78,7 +78,28 @@ test_that("chart_type argument works", {
 
   # Correct annotations have been added
   expect_true(names(line_chart$plot$layers)[2] == "geom_text_repel")
-  expect_equal(unique(line_chart$plot$layers$geom_text_repel$data$letters), "D")
+  expect_equal(unique(line_chart$plot$layers$geom_text_repel$data$l), c("1", "2", "3"))
+
+  # Legend is not included
+  expect_equal(line_chart$plot$theme$legend.position, "none")
+
+})
+
+test_that("annotate_lines argument works", {
+
+  line_chart_legend <- ggplot2::ggplot_build(
+    easy_plot(bind_rows(mutate(test_df, numbers = numbers - 500, l = "1"),
+                        mutate(test_df, l = "2"),
+                        mutate(test_df, numbers = numbers + 500, l = "3")),
+              aes(x = letters, y = numbers, colour = l, group = l),
+              chart_type = "line", annotate_lines = FALSE))
+
+  # Annotations have not been added
+  expect_false(names(line_chart_legend$plot$layers)[2] == "geom_text_repel")
+
+  # Legend is included
+  expect_equal(line_chart_legend$plot$theme$legend.position, "right")
+  expect_equal(line_chart_legend$plot$theme$legend.justification, "top")
 
 })
 
@@ -144,7 +165,7 @@ test_that("adding labels works", {
   add_labels <- ggplot2::ggplot_build(
     easy_plot(test_df, aes(x = letters, y = numbers, label = letters), labels = TRUE))
 
-  expect_true("geom_text" %in% names(add_bar_labels$plot$layers))
+  expect_true("geom_text" %in% names(add_labels$plot$layers))
   expect_equal(add_labels$data[[2]]$label, LETTERS[1:4])
   expect_equal(unique(add_labels$data[[2]]$hjust), 0.5)
   expect_equal(unique(add_labels$data[[2]]$vjust), 0.5)
@@ -190,7 +211,7 @@ test_that("adding series breaks works", {
                 dplyr::arrange(letters) |>
                 dplyr::mutate(series = c("a", "a", "b", "b", "c", "c")),
               aes(x = letters, y = numbers, group = series), chart_type = "line",
-              series_breaks = c("B", "C")))
+              series_breaks = c("B", "C"), annotate_lines = F))
 
   expect_true("geom_vline" %in% names(add_series_breaks$plot$layers))
   expect_equal(add_series_breaks$plot$layers$geom_vline$data$xintercept, c("B", "C"))
@@ -348,3 +369,4 @@ test_that("arguments to alter margin work", {
   expect_equal(change_margin$plot$theme$plot.margin, ggplot2::margin(30, 10, 5, 2))
 
 })
+
