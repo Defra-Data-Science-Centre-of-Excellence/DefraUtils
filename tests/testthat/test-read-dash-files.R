@@ -171,3 +171,29 @@ test_that("read_ods_from_volume returns expected object", {
   result <- read_ods_from_volume("some_path")
   expect_equal(result, expected)
 })
+
+test_that("read_rio_from_volume returns expected object", {
+  # dummy data frame
+  expected <- data.frame(
+    x = 1:3,
+    y = letters[1:3]
+  )
+  
+  # Stub DefraUtils and readxl
+  mockery::stub(
+    read_rio_from_volume,
+    "DefraUtils::read_file_from_volume",
+    function(...) "fake_path.xlsx"
+  )
+  mockery::stub(
+    read_rio_from_volume,
+    "rio::import_list",
+    function(path, ...) {
+      expect_equal(path, "fake_path.xlsx")
+      expected
+    }
+  )
+  
+  result <- read_rio_from_volume("some_path")
+  expect_equal(result, expected)
+})

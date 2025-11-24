@@ -41,9 +41,10 @@
 #'
 #'   \itemize{
 #'     \item **.csv** - [readr::read_csv()]
-#'     \item **.xlsx** - [readxl::read_xlsx()]
 #'     \item **.Rds** - [readr::read_rds()]
 #'     \item **.ods** - [readODS::read_ods()]
+#'     \item **.xlsx (single worksheet)** - [readxl::read_xlsx()]
+#'     \item **.xlsx (whole workbook)** - [rio::import_list()]
 #'   }
 #'
 #' @param path A string containing the path to data to be read in. Should be the
@@ -75,23 +76,30 @@
 #'   show_col_types = FALSE
 #' )
 #'
-#' # read xlsx file
-#' read_xlsx_from_volume(
-#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
-#'   sheet = "sheet-name"
-#' )
-#'
 #' # read ods file
 #' read_ods_from_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.ods",
 #'   sheet = "sheet-name"
 #' )
+#' 
+#' # read xlsx single woksheet 
+#' read_xlsx_from_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
+#'   sheet = "sheet-name"
+#' )
+#' 
+# read xlsx whole workbook
+#' read_rio_from_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx"
+#' )
+#' 
 #' }
 #'
 #' @seealso [brickster::db_volume_read()], [readr::read_csv()],
 #'   [readr::read_rds()], [readxl::read_xlsx()], [readODS::read_ods()],
 #'   [DefraUtils::read_csv_from_volume()],
 #'   [DefraUtils::read_xlsx_from_volume()], [DefraUtils::read_rds_from_volume()]
+#'   [rio::import_list()]
 #'
 #' @name read_file_from_volume
 #'
@@ -193,5 +201,21 @@ read_ods_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
   # This will throw an error if tmp is invalid, and print the message
   result <- readODS::read_ods(tmp, ...)
 
+  return(result)
+}
+
+#' @rdname read_file_from_volume
+#' @export
+read_rio_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
+  # read in data using general function set to Rds
+  tmp <- DefraUtils::read_file_from_volume(
+    path = path,
+    ext = ".xlsx",
+    max_tries = max_tries,
+    interval = interval
+  )
+  
+  result <- rio::import_list(tmp, ...)
+  
   return(result)
 }
