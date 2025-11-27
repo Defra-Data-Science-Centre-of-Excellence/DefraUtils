@@ -188,3 +188,31 @@ write_csv_to_volume <- function(data, path, ...) {
     ...
   )
 }
+
+#' @rdname write_files_to_volume
+#' @export
+write_text_to_volume <- function(data, path, ...) {
+  
+  # Create a temporary file
+  ext <- paste0(".", tools::file_ext(path))
+  if(!(ext %in% c(".txt", ".md", ".svg"))) {
+    cli::cli_abort("Function only supports .txt, .md and .svg filetypes.")
+  }
+  
+  temp <- tempfile(fileext = ext)
+  
+  # Save the text file to the temporary file
+  cat(
+    data,
+    file = temp,
+    sep = "\n"
+  )
+  
+  
+  # Write the file to Brickster volume
+  DefraUtils::dash_volume_write(
+    path = path,
+    file = temp,
+    ...
+  )
+}
