@@ -51,7 +51,7 @@
 #' @seealso [brickster::db_volume_list()], [brickster::db_volume_dir_exists()], 
 #' [brickster::db_volume_file_exists()]
 #'
-#' @name read_file_from_volume
+#' @name query_dash_files
 #'
 #' @export
 NULL
