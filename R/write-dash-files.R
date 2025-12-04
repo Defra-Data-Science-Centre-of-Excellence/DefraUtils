@@ -1,6 +1,7 @@
 #' @title Write files to the DASH Unity Catalog
 #'
 #' @author Josh Moatt ([Joshua.Moatt@defra.gov.uk](mailto:Joshua.Moatt@defra.gov.uk))
+#' @author Tom Pearson ([Thomas.Pearson@defra.gov.uk](mailto:Thomas.Pearson@defra.gov.uk))
 #'
 #' @description Functions to streamline writing files to DASH volumes. These
 #'   functions will help avoid the http2 error which seems to be a frequent
@@ -9,7 +10,7 @@
 #'   [DefraUtils::dash_volume_write()] which can be used to save previously
 #'   created files to the DASH platform. However, there are also more specific
 #'   functions, to save data frames a specific file types (.Rds, .csv, .xlsx
-#'   workbooks). These functions use the general function alongside an
+#'   workbooks and rich text files like .md). These functions use the general function alongside an
 #'   appropriate write function, using a temporary file to avoid saving anything
 #'   locally. In order for these functions to work, you must be working on the
 #'   Defra DASH platform and have set the required `brickster` environmental
@@ -22,7 +23,8 @@
 #'
 #'   There is one generic function which can be used to write existing files to
 #'   DASH, covering any file type. There are also wrapper functions for
-#'   specifically writing .csv, .Rds, and .xlsx files.
+#'   specifically writing .csv, .Rds, and .xlsx files as well as rich text files
+#'   like .txt, .md, .svg and .html.
 #'
 #'   All of the functions  use the general [DefraUtils::dash_volume_write()]
 #'   function. This uses [brickster::db_volume_write()], to attempt to write the
@@ -49,6 +51,7 @@
 #'     \item **.csv** - [readr::write_csv()]
 #'     \item **.xlsx** - [openxlsx::saveWorkbook()]
 #'     \item **.Rds** - [base::saveRDS()]
+#'     \item **.md** - [base::cat()]
 #'   }
 #'
 #'   In order for these functions to work, you must be working on the Defra DASH
@@ -102,6 +105,12 @@
 #' write_rds_to_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.Rds",
 #'   data = my_data_frame
+#' )
+#' 
+#' #' # write markdown file
+#' write_text_to_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.md",
+#'   data = my_data
 #' )
 #' }
 #'
