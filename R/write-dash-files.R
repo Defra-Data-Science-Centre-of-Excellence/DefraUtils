@@ -195,8 +195,8 @@ write_text_to_volume <- function(data, path, ...) {
   
   # Create a temporary file
   ext <- paste0(".", tools::file_ext(path))
-  if(!(ext %in% c(".txt", ".md", ".svg"))) {
-    cli::cli_abort("Function only supports .txt, .md and .svg filetypes.")
+  if(!(ext %in% c(".txt", ".md", ".svg", ".html"))) {
+    cli::cli_abort("Function only supports .txt, .md, .html and .svg filetypes.")
   }
   
   temp <- tempfile(fileext = ext)
