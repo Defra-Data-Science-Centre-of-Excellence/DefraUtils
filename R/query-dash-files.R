@@ -34,7 +34,7 @@
 #' @examples
 #' \dontrun{
 #' # list files in volume/directory
-#' create_dash_dir(
+#' list_dash_files(
 #'   path = "/Volumes/prd_dash_lab/<volume-name>/<directory-name>"
 #' )
 #' 
