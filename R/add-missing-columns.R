@@ -27,7 +27,7 @@ add_missing_columns <- function(df, full_column_list, fill_value = NA, reorder =
 
   other_columns <- names(full_df)[!names(full_df) %in% full_column_list]
 
-  reordered_data <- select(full_df, all_of(full_column_list))
+  reordered_data <- select(full_df, all_of(c(other_columns, full_column_list)))
 
   if (reorder) { return(reordered_data) } else { return(full_df) }
 
