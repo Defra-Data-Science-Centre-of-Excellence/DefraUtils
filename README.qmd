@@ -1,26 +1,16 @@
 ---
-title: "DefraUtils"
-format: gfm
+title: |
+  "DefraUtils"
+
+  [![Project Status: Active – The project has reached a stable, usable state and is being actively
+  developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+  [![CRAN status](https://www.r-pkg.org/badges/version/DefraUtils)](https://CRAN.R-project.org/package=DefraUtils)
+  ![Development Status](https://img.shields.io/badge/development-active-brightgreen.png)
+format:
+  gfm:
+    toc: true
+    toc_depth: 2
 ---
-<!-- badges: start -->
-
-[![Project Status: Active – The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![CRAN status](https://www.r-pkg.org/badges/version/DefraUtils)](https://CRAN.R-project.org/package=DefraUtils)
-![Development
-Status](https://img.shields.io/badge/development-active-brightgreen.png)
-
-<!-- badges: end -->
-
-* [What is DefraUtils?](#what-is-defrautils)
-* [How to install DefraUtils?](#how-to-install-defrautils)
-* [How to contribute to DefraUtils?](how-to-contribute-to-defrautils)
-* [What can DefraUtils do?](#what-can-defrautils-do)
-  * [Standardising coding approaches](#standardising-coding-approaches)
-  * [Helper functions](#helper-functions)
-  * [Working on the DASH platform](#working-on-the-dash-platform)
-  * [FBS functions](#fbs-functions)
 
 ## What is DefraUtils?
 
@@ -34,9 +24,16 @@ Status](https://img.shields.io/badge/development-active-brightgreen.png)
 
 The `DefraUtils` repository is public, you can install the package directly from GitHub using:
 
-```{r install, eval = FALSE}
+```{r install-public, eval = FALSE}
 devtools::install_github("Defra-Data-Science-Centre-of-Excellence/DefraUtils")
 ```
+
+However, if you are using Defra DASH, you should install from Package Manager using:
+
+```{r install-dash, eval = FALSE}
+install.packages("DefraUtils")
+```
+
 ## How to contribute to DefraUtils?
 
 Although the package originated within Farming Stats, it is designed as a resource for all analysts across Defra and is under active development. We therefore welcome contributions, bug reports, and suggestions for improvements from all users.
@@ -59,6 +56,18 @@ More details on all these features is provided in the [package vignette](add-lin
 
 * **Project README template** – A `.qmd` template that provides prompts for key information and suggested sections, helping ensure clear and consistent READMEs.
 
+* **Suppression of identifiable data** - The `fix_suppression` function finds which values in a table require secondary suppression and overwrites their sample size to one - any subsequent suppression code will then suppress these figures. This is based on the principal of suppressing values with a sample size between 1 and 4 (i.e. identifiable), as well as any other values which could be used to calculate identifiable values.
+
+* **Adjusting for inflation** - The `get_ons_series` reads in quarterly ONS price indices and converts to an annual series. Once the series has been retrieved, you can convert a current terms value into real terms using `value / index * 100`, where index is the price / deflator index for the year the value corresponds to.
+
+* **Code logging** - The `tidy_log` tidies up a log created by `futile.logger` and outputs to CSV.
+
+### Standardising outputs
+
+* **Visualisations** - The `easy_plot` function uses ggplot and afcharts to create accessible static charts. It has a large number of options so that the need to modify using ggplot code is minimised. The `create_defra_stats_infographic` function uses grid to output an infographic into the Plots pane, for sharing on social media. The `str_line_wrap` function can be used in axis labels to wrap strings to a set number of lines.
+
+* **Tables** - The `get_cell_style` function returns `openxlsx` cell styles for stats publications. The `overwrite_num_cols` fixes columns where numbers are stored as text (e.g., where there is suppressed data). The `round_with_commas` rounds numbers for publishing/sharing using `janitor::round_half_up()` (as opposed to the R default 'round-to-even' method) and adds comma separators.
+
 ### Helper functions
 
 * **Connecting RStudio to GitHub** – Two functions streamline connecting RStudio and GitHub, using either SSH (recommended for the DASH platform) or a Personal Access Token (recommended for local RStudio installations).
@@ -66,6 +75,14 @@ More details on all these features is provided in the [package vignette](add-lin
 * **Customising the RStudio IDE** – A function that configures your RStudio IDE programmatically, including pane layout, font, theme, and other global options. This is especially useful for quickly setting up RStudio in transient environments, such as RStudio Server on DASH clusters.
 
 * **Customising the R console prompt** – A small helper function that replaces the default console prompt with the name of your current Git branch.
+
+* **Functions for estimating means of banded data**
+
+* **Commentary functions**
+
+* **Functions for decoding multiple choice answers**
+
+* **Survey modelling functions**
 
 ### Working on the DASH platform
 
@@ -76,5 +93,3 @@ More details on all these features is provided in the [package vignette](add-lin
 * **Additional `brickster` utilities** – Wrappers around various `brickster` functions—such as listing files and creating directories, designed to reduce HTTP/2 related failures.
 
 * **Alternative read/write functions** – Additional functions that provide an alternative to `brickster` for reading and writing data on the DASH platform.
-
-### FBS functions
