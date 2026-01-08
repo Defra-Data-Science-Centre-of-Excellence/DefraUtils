@@ -35,6 +35,7 @@
 #' @importFrom grid grid.newpage pushViewport viewport grid.layout grid.rect
 #' grid.raster grid.text grid.draw gpar unit
 #' @importFrom gridtext richtext_grob
+#' @importFrom brickster db_volume_list db_volume_read
 #' @importFrom useful vplayout
 #' @importFrom png readPNG
 #' @importFrom stringr str_subset
@@ -85,13 +86,29 @@ create_defra_stats_infographic <- function(title, subtitle, source, key_points, 
   grid.draw(richtext_grob(title_subtitle, vp = vplayout(1, 1:5), x = unit(0.02, "npc"), hjust = 0,
                           gp = gpar(col = "white", fontsize = 24, lineheight = 1.2)))
 
+  # List all available icons
+  icons_db_location <- "/Volumes/prd_dash_config/common/open/icons"
+
+  icon_folders <- sapply(db_volume_list(icons_db_location)$contents, \(d) d$name)
+
+  icon_list <- sapply(icon_folders, \(f) sapply(db_volume_list(file.path(icons_db_location, f))$contents,
+                                                \(d) file.path(d$name))) %>%
+    lapply(\(s) str_remove(s, "\\.png"))
+
   # Add all icons and key stats
   for (i in seq_along(key_points)) {
-    icon <- readPNG(str_subset(list.files(system.file("img/icons", package = "DefraUtils"),
-                                          recursive = T, full.names = T),
-                               paste0(icons[i], "\\.png$")))
+
+    icon_folder <- names(icon_list)[sapply(icon_list, \(l) icons[i] %in% l)]
+
+    icon_file <- db_volume_read(
+      path = file.path(icons_db_location, icon_folder, paste0(icons[i], ".png")),
+      destination = tempfile())
+
+    icon_img <- readPNG(icon_file)
+
     # Add icon
-    grid.raster(icon, vp = vplayout(i + 1, 1), hjust = 0.5)
+    grid.raster(icon_img, vp = vplayout(i + 1, 1), hjust = 0.5)
+
     # Add key stat
     grid.draw(richtext_grob(key_points[[i]], vp = vplayout(i + 1, 2:5), x = unit(0.05, "npc"), hjust = 0,
                             gp = gpar(col = "white", fontsize = 18, lineheight = 1.1)))
@@ -112,6 +129,7 @@ create_defra_stats_infographic <- function(title, subtitle, source, key_points, 
 #' click 'Zoom' and resize the window to suit.
 #'
 #' @importFrom dplyr %>% tibble
+#' @importFrom brickster db_volume_list db_volume_read
 #' @importFrom stringr str_remove
 #' @importFrom tidyr separate
 #' @importFrom grDevices dev.off
@@ -126,50 +144,51 @@ create_defra_stats_infographic <- function(title, subtitle, source, key_points, 
 
 view_available_icons <- function() {
 
-  icon_files <- list.files(system.file("img/icons", package = "DefraUtils"), recursive = T, full.names = T)
+  icons_db_location <- "/Volumes/prd_dash_config/common/open/icons"
 
-    icon_list <- tibble(
-      icon = str_remove(icon_files, paste0(system.file("img/icons", package = "DefraUtils"), "\\/")) %>%
-        str_remove("\\.png")) %>%
-      separate(icon, c("icon_type", "icon"), sep = "/") %>%
-      split(.$icon_type) %>%
-      lapply(pull, icon)
+  icon_folders <- sapply(db_volume_list(icons_db_location)$contents, \(d) d$name)
 
-    # Ensure that the graphics content of the current device is clear
-    if (names(dev.cur())[1] != "null device") dev.off()
+  icon_list <- sapply(icon_folders, \(f) sapply(db_volume_list(file.path(icons_db_location, f))$contents,
+                                                \(d) file.path(d$name))) %>%
+    lapply(\(s) str_remove(s, "\\.png"))
 
-    # Generate base
-    grid.newpage()
+  # Ensure that the graphics content of the current device is clear
+  if (names(dev.cur())[1] != "null device") dev.off()
 
-    # Set columns and rows
-    pushViewport(viewport(layout = grid.layout(
-      nrow = max(sapply(icon_list, length)) + 1,
-      ncol = length(icon_list))))
+  # Generate base
+  grid.newpage()
 
-    defra_green <- c("#00A33B")
-    grid.rect(gp = gpar(fill = defra_green, col = defra_green))
+  # Set columns and rows
+  pushViewport(viewport(layout = grid.layout(
+    nrow = max(sapply(icon_list, length)) + 1,
+    ncol = length(icon_list))))
 
-    lapply(seq_along(icon_list), \(icon_type_i) {
+  defra_green <- c("#00A33B")
+  grid.rect(gp = gpar(fill = defra_green, col = defra_green))
 
-      grid.text(names(icon_list)[icon_type_i],
-                vp = vplayout(x = 1, y = icon_type_i),
-                gp = gpar(col = "white", fontsize = 18))
+  lapply(seq_along(icon_list), \(icon_type_i) {
 
-      lapply(seq_along(icon_list[[icon_type_i]]), \(icon_i) {
+    grid.text(names(icon_list)[icon_type_i],
+              vp = vplayout(x = 1, y = icon_type_i),
+              gp = gpar(col = "white", fontsize = 18))
 
-        icon_img <- str_subset(list.files(system.file("img/icons", package = "DefraUtils"),
-                                          recursive = T, full.names = T),
-                               paste0(icon_list[[icon_type_i]][icon_i], "\\.png$")) %>%
-            readPNG()
+    lapply(seq_along(icon_list[[icon_type_i]]), \(icon_i) {
 
-        grid.raster(icon_img, vp = vplayout(x = 1 + icon_i, y = icon_type_i), hjust = 1)
+      icon_file <- db_volume_read(
+        path = paste0(icons_db_location, "/", names(icon_list)[icon_type_i],
+                      "/", icon_list[[icon_type_i]][icon_i], ".png"),
+        destination = tempfile())
 
-        grid.text(icon_list[[icon_type_i]][icon_i],
-                  vp = vplayout(x = 1 + icon_i, y = icon_type_i), hjust = 0,
-                  gp = gpar(col = "white", fontsize = 13))
+      icon_img <- readPNG(icon_file)
 
-        })
+      grid.raster(icon_img, vp = vplayout(x = 1 + icon_i, y = icon_type_i), hjust = 1)
+
+      grid.text(icon_list[[icon_type_i]][icon_i],
+                vp = vplayout(x = 1 + icon_i, y = icon_type_i), hjust = 0,
+                gp = gpar(col = "white", fontsize = 13))
 
     })
+
+  })
 
 }

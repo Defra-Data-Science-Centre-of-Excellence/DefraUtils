@@ -1,4 +1,4 @@
-test_that("function runs without failing", {
+test_that("infographic function runs without failing", {
 
   title <- "Energy use on farms in England"
   subtitle <- "2023/24"
@@ -11,5 +11,11 @@ test_that("function runs without failing", {
     "**20%** of farms had<br>conducted a **carbon audit**")
 
   expect_no_failure(create_defra_stats_infographic(title, subtitle, source, key_points, icons))
+
+})
+
+test_that("view function runs without failing", {
+
+  expect_no_failure(view_available_icons())
 
 })
