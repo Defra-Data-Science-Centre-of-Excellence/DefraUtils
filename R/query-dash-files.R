@@ -52,6 +52,7 @@
 #' [brickster::db_volume_file_exists()]
 #'
 #' @name query_dash_files
+#' @export
 list_dash_files <- function(path, max_tries = 5, interval = 2) {
   attempt <- 1
   success <- FALSE
