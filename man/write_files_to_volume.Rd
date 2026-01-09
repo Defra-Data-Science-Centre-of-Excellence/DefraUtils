@@ -6,6 +6,7 @@
 \alias{write_xlsx_to_volume}
 \alias{write_rds_to_volume}
 \alias{write_csv_to_volume}
+\alias{write_text_to_volume}
 \title{Write files to the DASH Unity Catalog}
 \usage{
 dash_volume_write(..., max_tries = 5, interval = 2)
@@ -15,6 +16,8 @@ write_xlsx_to_volume(data, path, ...)
 write_rds_to_volume(data, path, ...)
 
 write_csv_to_volume(data, path, ...)
+
+write_text_to_volume(data, path, ...)
 }
 \arguments{
 \item{...}{Additional arguments passed to \code{\link[brickster:db_volume_write]{brickster::db_volume_write()}}.}
@@ -48,7 +51,7 @@ problem with \code{brickster}. This suite of functions are built on
 \code{\link[=dash_volume_write]{dash_volume_write()}} which can be used to save previously
 created files to the DASH platform. However, there are also more specific
 functions, to save data frames a specific file types (.Rds, .csv, .xlsx
-workbooks). These functions use the general function alongside an
+workbooks and rich text files like .md). These functions use the general function alongside an
 appropriate write function, using a temporary file to avoid saving anything
 locally. In order for these functions to work, you must be working on the
 Defra DASH platform and have set the required \code{brickster} environmental
@@ -62,7 +65,8 @@ code is rerun, the data will be saved without issue.
 
 There is one generic function which can be used to write existing files to
 DASH, covering any file type. There are also wrapper functions for
-specifically writing .csv, .Rds, and .xlsx files.
+specifically writing .csv, .Rds, and .xlsx files as well as rich text files
+like .txt, .md, .svg and .html.
 
 All of the functions  use the general \code{\link[=dash_volume_write]{dash_volume_write()}}
 function. This uses \code{\link[brickster:db_volume_write]{brickster::db_volume_write()}}, to attempt to write the
@@ -89,6 +93,7 @@ Reader functions used are as follows:
 \item \strong{.csv} - \code{\link[readr:write_delim]{readr::write_csv()}}
 \item \strong{.xlsx} - \code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}
 \item \strong{.Rds} - \code{\link[base:readRDS]{base::saveRDS()}}
+\item \strong{.md} - \code{\link[base:cat]{base::cat()}}
 }
 
 In order for these functions to work, you must be working on the Defra DASH
@@ -121,6 +126,12 @@ write_rds_to_volume(
   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.Rds",
   data = my_data_frame
 )
+
+#' # write markdown file
+write_text_to_volume(
+  path = "/Volumes/prd_dash_lab/<path-to-file>/filename.md",
+  data = my_data
+)
 }
 
 }
@@ -132,4 +143,6 @@ write_rds_to_volume(
 }
 \author{
 Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
+
+Tom Pearson (\href{mailto:Thomas.Pearson@defra.gov.uk}{Thomas.Pearson@defra.gov.uk})
 }
