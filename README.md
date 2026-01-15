@@ -1,4 +1,5 @@
 # DefraUtils
+<a><img src="man/figures/DefraUtils-hexsticker.png" align="right" height="200" /></a>
 
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
