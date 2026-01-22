@@ -73,8 +73,9 @@ utility functions to support data handling, platform integration, and
 workflow automation. Below is an overview of the main areas the package
 covers, along with key features.
 
-More details on all these features is provided in the [package
-vignette](add-link-here).
+More details on all these functions are provided in the `DefraUtils`
+[package
+manual](https://github.com/Defra-Data-Science-Centre-of-Excellence/DefraUtils/blob/main/DefraUtils_1.0.0.pdf).
 
 ### Standardising coding approaches
 
