@@ -7,7 +7,7 @@
 easy_plot(
   plot_data,
   aesthetics,
-  chart_type = c("stacked", "grouped", "line", "distribution"),
+  chart_type = c("stacked", "grouped", "line", "distribution", "boxplot"),
   chart_direction = c("vertical", "horizontal"),
   labels = F,
   label_size = 8,
@@ -48,9 +48,11 @@ easy_plot(
 \item{aesthetics}{Mapping aesthetics using \code{\link[ggplot2:aes]{ggplot2::aes()}}; if you want a
 line chart with a single group, remember to include \code{group = 1}}
 
-\item{chart_type}{One of "stacked", "grouped", "line", or "distribution"; for
-a bar chart with only one group, both "stacked" and "grouped" will work
-("stacked" is the default)}
+\item{chart_type}{One of "stacked", "grouped", "line", "distribution" or
+"boxplot": for a bar chart with only one group, both "stacked" and "grouped"
+will work ("stacked" is the default); for boxplots, if you supply \code{ymin},
+\code{lower}, \code{middle}, \code{upper} and \code{ymax} to the aesthetics, \code{\link[ggplot2:geom_boxplot]{ggplot2::geom_boxplot()}}
+will use \code{stat = "identity"}, otherwise it will use \code{stat = "boxplot"}}
 
 \item{chart_direction}{One of "vertical" or "horizontal" ("horizontal" uses
 \code{\link[ggplot2:coord_flip]{ggplot2::coord_flip()}}; keep in mind that this will, by design, reverse the
@@ -113,7 +115,10 @@ loaded for it to be used, and should only be used when publishing on gov.uk}
 
 \item{font_size}{Default = 24; Font size for all chart text (except bar labels)}
 
-\item{af_palette}{Which one of the \link[afcharts:af_colour_palettes]{afcharts::af_colour_palettes} to use}
+\item{af_palette}{Which one of the \link[afcharts:af_colour_palettes]{afcharts::af_colour_palettes} to use
+(default = \code{"main"}); for boxplots, the dark colours do not have enough
+contrast with the boxplot lines so these are filtered out, giving a maximum
+of three colours available}
 
 \item{custom_palette}{A vector of colours; If supplied, will use this rather
 than any of the AF palettes (useful if you need to reorder an AF palette or

@@ -12,9 +12,11 @@
 #' @param plot_data Data to plot
 #' @param aesthetics Mapping aesthetics using [ggplot2::aes()]; if you want a
 #' line chart with a single group, remember to include `group = 1`
-#' @param chart_type One of "stacked", "grouped", "line", or "distribution"; for
-#' a bar chart with only one group, both "stacked" and "grouped" will work
-#' ("stacked" is the default)
+#' @param chart_type One of "stacked", "grouped", "line", "distribution" or
+#' "boxplot": for a bar chart with only one group, both "stacked" and "grouped"
+#' will work ("stacked" is the default); for boxplots, if you supply `ymin`,
+#' `lower`, `middle`, `upper` and `ymax` to the aesthetics, [ggplot2::geom_boxplot()]
+#' will use `stat = "identity"`, otherwise it will use `stat = "boxplot"`
 #' @param chart_direction One of "vertical" or "horizontal" ("horizontal" uses
 #' [ggplot2::coord_flip()]; keep in mind that this will, by design, reverse the
 #' order of items on the x-axis - this can be fixed using [rev()] in `aesthetics`
@@ -57,6 +59,9 @@
 #' loaded for it to be used, and should only be used when publishing on gov.uk
 #' @param font_size Default = 24; Font size for all chart text (except bar labels)
 #' @param af_palette Which one of the [afcharts::af_colour_palettes] to use
+#' (default = `"main"`); for boxplots, the dark colours do not have enough
+#' contrast with the boxplot lines so these are filtered out, giving a maximum
+#' of three colours available
 #' @param custom_palette A vector of colours; If supplied, will use this rather
 #' than any of the AF palettes (useful if you need to reorder an AF palette or
 #' need more than 6 colours)
@@ -107,7 +112,8 @@
 #'
 #' @export
 
-easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped", "line", "distribution"),
+easy_plot <- function(plot_data, aesthetics,
+                      chart_type = c("stacked", "grouped", "line", "distribution", "boxplot"),
                       chart_direction = c("vertical", "horizontal"),
                       labels = F, label_size = 8, label_colour = "white",
                       label_position = position_stack(0.5),
@@ -134,11 +140,21 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
   wrap_type <- arg_match(wrap_type)
 
   ## Palette ####
-  colour_palette <- unname(if (all(is.null(custom_palette))) afcharts::af_colour_palettes[[arg_match(af_palette)]] else custom_palette)
+  colour_palette <- (if (all(!is.null(custom_palette))) {
+    # Use custom palette if supplied
+    custom_palette
+  } else if (chart_type == "boxplot") {
+    # Filter out dark colours for boxplots
+    afcharts::af_colour_palettes[[arg_match(af_palette)]][!grepl("dark", names(afcharts::af_colour_palettes[[arg_match(af_palette)]]))]
+  } else {
+    afcharts::af_colour_palettes[[arg_match(af_palette)]]
+  }) %>% unname()
 
   ## Bar position ####
   bar_position <- if (chart_type %in% c("stacked", "distribution")) {
     "stack"
+  } else if (chart_type == "boxplot") {
+    position_dodge(width = 1)
   } else {
     position_dodge2(preserve = "single")
   }
@@ -168,17 +184,67 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
 
     gridlines <- if (is.null(gridlines)) "xy" else gridlines
 
-    p <- p_aes +
-      if ("colour" %in% names(aesthetics)) geom_line(linewidth = 1.5) else geom_line(linewidth = 1.5, colour = colour_palette[1])
+    if ("colour" %in% names(aesthetics)) {
+
+      p <- p_aes +
+        geom_line(linewidth = 1.5)
+
+    } else {
+
+      p <- p_aes +
+        geom_line(linewidth = 1.5, colour = colour_palette[1])
+
+    }
 
   } else {
 
-    gridlines <- if (is.null(gridlines) & chart_direction == "vertical") "y"
-    else if (is.null(gridlines) & chart_direction == "horizontal") "x"
-    else gridlines
+    gridlines <- if (is.null(gridlines) & chart_direction == "vertical") {
+      "y"
+    } else if (is.null(gridlines) & chart_direction == "horizontal") {
+      "x"
+    } else {
+      gridlines
+    }
 
-    p <- p_aes +
-      if ("fill" %in% names(aesthetics)) geom_col(position = bar_position) else geom_col(position = bar_position, fill = colour_palette[1])
+    if (chart_type == "boxplot") {
+
+      boxplot_stat <- if_else(all(c("ymin", "lower", "middle", "upper", "ymax") %in% names(aesthetics)),
+                              "identity", "boxplot")
+
+      if ("fill" %in% names(aesthetics)) {
+
+        p <- p_aes +
+          geom_boxplot(position = bar_position, stat = boxplot_stat, width = .75,
+                       median.colour = "black", box.colour = "black", box.linewidth = .8,
+                       staple.colour = "black", staplewidth = .4, staple.linewidth = .8,
+                       whisker.colour = "black", whisker.linewidth = .8)
+
+      } else {
+
+        p <- p_aes +
+          geom_boxplot(position = bar_position, fill = colour_palette[2],
+                       stat = boxplot_stat, width = .75, median.colour = "black",
+                       box.colour = "black", box.linewidth = .8,
+                       staple.colour = "black", staplewidth = .4, staple.linewidth = .8,
+                       whisker.colour = "black", whisker.linewidth = .8)
+
+      }
+
+    } else {
+
+      if ("fill" %in% names(aesthetics)) {
+
+        p <- p_aes +
+          geom_col(position = bar_position)
+
+      } else {
+
+        p <- p_aes +
+          geom_col(position = bar_position, fill = colour_palette[1])
+
+      }
+
+    }
 
   }
 
@@ -315,8 +381,8 @@ easy_plot <- function(plot_data, aesthetics, chart_type = c("stacked", "grouped"
   # Final adjustments ####
   p_final <- p +
     { if (zero_line) geom_hline(yintercept = 0) } +
-    scale_fill_manual(values = colour_palette) +
-    scale_colour_manual(values = colour_palette) +
+    { if ("fill" %in% names(aesthetics)) scale_fill_manual(values = colour_palette) } +
+    { if ("colour" %in% names(aesthetics)) scale_colour_manual(values = colour_palette) } +
     theme(text = element_text(family = font_family, size = font_size),
           plot.subtitle = element_text(vjust = case_when(subtitle_vjust == "wrapped" ~ -8,
                                                          subtitle_vjust == "legend" ~ -12,
