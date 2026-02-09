@@ -1,7 +1,7 @@
 Package: DefraUtils
 Type: Package
 Title: Utility functions for use by Defra analysts.
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     c(person(given = "Farming",
              family = "Stats",
