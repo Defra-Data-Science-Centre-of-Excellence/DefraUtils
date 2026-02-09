@@ -169,11 +169,24 @@ easy_plot <- function(plot_data, aesthetics,
     stop("The origin (y_min) must be either 0 or below 0")
   }
 
+  ## Check type of data in y axis
+  # If dates, use pretty_breaks
+  # If numeric, use breaks_extended
+  y_breaks_function <- if (class(pull(plot_data, !!aesthetics$y)) %in% c("Date", "POSIXt", "POSIXct")) {
+    scales::breaks_pretty(y_axis_breaks)
+  } else {
+    scales::breaks_extended(y_axis_breaks)
+  }
+
   # Base plot ####
   p_aes <- ggplot(plot_data, mapping = aesthetics) +
+    # If required, plot a zero line first so that it is layered behind any data
+    { if (zero_line) geom_hline(yintercept = 0) } +
+    # Create the Y axis
     scale_y_continuous(limits = c(y_min, y_max), expand = c(0, 0),
-                       breaks = scales::pretty_breaks(y_axis_breaks),
+                       breaks = y_breaks_function,
                        labels = y_label_function) +
+    # Add chart labels
     labs(colour = NULL, fill = NULL, linetype = NULL,
          x = if (chart_direction == "vertical") x_axis_title else NULL,
          y = if (chart_direction == "horizontal") y_axis_title else NULL,
@@ -350,6 +363,7 @@ easy_plot <- function(plot_data, aesthetics,
         data = filter(plot_data, !!aesthetics$x == max(!!aesthetics$x)),
         mapping = aes(label = !!aesthetics$colour), segment.color = NA,
         size = 8, hjust = "left", nudge_x = 0.2, lineheight = 0.7,
+        xlim = c(NA, nrow(distinct(plot_data, !!aesthetics$x)) + 100),
         show.legend = F, family = "GDS Transport Website", direction = "y")
 
   }
@@ -380,7 +394,6 @@ easy_plot <- function(plot_data, aesthetics,
 
   # Final adjustments ####
   p_final <- p +
-    { if (zero_line) geom_hline(yintercept = 0) } +
     { if ("fill" %in% names(aesthetics)) scale_fill_manual(values = colour_palette) } +
     { if ("colour" %in% names(aesthetics)) scale_colour_manual(values = colour_palette) } +
     theme(text = element_text(family = font_family, size = font_size),
