@@ -47,6 +47,7 @@ LazyData: true
 Imports: 
     afcharts,
     aftables,
+    arrow,
     bestNormalize,
     brickster,
     cli,
