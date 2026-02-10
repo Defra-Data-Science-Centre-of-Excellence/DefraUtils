@@ -52,6 +52,7 @@
 #'     \item **.xlsx** - [openxlsx::saveWorkbook()]
 #'     \item **.Rds** - [base::saveRDS()]
 #'     \item **.md** - [base::cat()]
+#'     \item **.parquet** - [arrow::write_parquet()]
 #'   }
 #'
 #'   In order for these functions to work, you must be working on the Defra DASH
@@ -107,9 +108,15 @@
 #'   data = my_data_frame
 #' )
 #' 
-#' #' # write markdown file
+#' # write markdown file
 #' write_text_to_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.md",
+#'   data = my_data
+#' )
+#' 
+#' # write markdown file
+#' write_parquet_to_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.parquet",
 #'   data = my_data
 #' )
 #' }
@@ -117,7 +124,8 @@
 #' @seealso [brickster::db_volume_write()], [readr::write_csv()],
 #'   [openxlsx::saveWorkbook()], [base::saveRDS()],
 #'   [DefraUtils::write_xlsx_to_volume()], [DefraUtils::write_csv_to_volume()],
-#'   [DefraUtils::write_rds_to_volume()]
+#'   [DefraUtils::write_rds_to_volume()], 
+#'   [DefraUtils::write_parquet_to_volume()]
 #'
 #' @name write_files_to_volume
 #'
@@ -164,10 +172,10 @@ write_xlsx_to_volume <- function(data, path, ...) {
 #' @rdname write_files_to_volume
 #' @export
 write_rds_to_volume <- function(data, path, ...) {
-  # Create a temporary .xlsx file
+  # Create a temporary .rds file
   temp <- tempfile(fileext = ".rds")
 
-  # Save the workbook to the temporary file
+  # Save the rds to the temporary file
   saveRDS(data, file = temp)
 
   # Write the file to Brickster volume
@@ -181,10 +189,10 @@ write_rds_to_volume <- function(data, path, ...) {
 #' @rdname write_files_to_volume
 #' @export
 write_csv_to_volume <- function(data, path, ...) {
-  # Create a temporary .xlsx file
+  # Create a temporary .csv file
   temp <- tempfile(fileext = ".csv")
 
-  # Save the workbook to the temporary file
+  # Save the csv to the temporary file
   readr::write_csv(
     data,
     file = temp
@@ -217,6 +225,26 @@ write_text_to_volume <- function(data, path, ...) {
     sep = "\n"
   )
   
+  
+  # Write the file to Brickster volume
+  DefraUtils::dash_volume_write(
+    path = path,
+    file = temp,
+    ...
+  )
+}
+
+#' @rdname write_files_to_volume
+#' @export
+write_parquet_to_volume <- function(data, path, ...) {
+  # Create a temporary .parquet file
+  temp <- tempfile(fileext = ".parquet")
+  
+  # Save the workbook to the temporary file
+  arrow::write_parquet(
+    data,
+    temp
+  )
   
   # Write the file to Brickster volume
   DefraUtils::dash_volume_write(

@@ -45,6 +45,7 @@
 #'     \item **.ods** - [readODS::read_ods()]
 #'     \item **.xlsx (single worksheet)** - [readxl::read_xlsx()]
 #'     \item **.xlsx (whole workbook)** - [rio::import_list()]
+#'     \item **.parquet** - [arrow::read_parquet]
 #'   }
 #'
 #' @param path A string containing the path to data to be read in. Should be the
@@ -66,40 +67,44 @@
 #' @examples
 #' \dontrun{
 #' # read Rds file
-#' read_rds_from_volume(
+#' dat <- read_rds_from_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.Rds"
 #' )
 #'
 #' # read csv file
-#' read_csv_from_volume(
+#' dat <- read_csv_from_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.csv",
 #'   show_col_types = FALSE
 #' )
 #'
 #' # read ods file
-#' read_ods_from_volume(
+#' dat <- read_ods_from_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.ods",
 #'   sheet = "sheet-name"
 #' )
 #' 
 #' # read xlsx single woksheet 
-#' read_xlsx_from_volume(
+#' dat <- read_xlsx_from_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
 #'   sheet = "sheet-name"
 #' )
 #' 
 # read xlsx whole workbook
-#' read_rio_from_volume(
+#' dat <- read_rio_from_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx"
 #' )
 #' 
+# read parquet
+#' dat <- read_parquet_from_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.parquet"
+#' )
 #' }
 #'
 #' @seealso [brickster::db_volume_read()], [readr::read_csv()],
 #'   [readr::read_rds()], [readxl::read_xlsx()], [readODS::read_ods()],
 #'   [DefraUtils::read_csv_from_volume()],
 #'   [DefraUtils::read_xlsx_from_volume()], [DefraUtils::read_rds_from_volume()]
-#'   [rio::import_list()]
+#'   [rio::import_list()], [DefraUtils::read_parquet_from_volume()]
 #'
 #' @name read_file_from_volume
 #'
@@ -216,6 +221,22 @@ read_rio_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
   )
   
   result <- rio::import_list(tmp, ...)
+  
+  return(result)
+}
+
+#' @rdname read_file_from_volume
+#' @export
+read_parquet_from_volume <- function(path, ..., max_tries = 5, interval = 2) {
+  # read in data using general function set to Rds
+  tmp <- DefraUtils::read_file_from_volume(
+    path = path,
+    ext = ".parquet",
+    max_tries = max_tries,
+    interval = interval
+  )
+  
+  result <- arrow::read_parquet(tmp, ...)
   
   return(result)
 }

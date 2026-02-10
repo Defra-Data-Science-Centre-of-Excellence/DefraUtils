@@ -7,6 +7,7 @@
 \alias{write_rds_to_volume}
 \alias{write_csv_to_volume}
 \alias{write_text_to_volume}
+\alias{write_parquet_to_volume}
 \title{Write files to the DASH Unity Catalog}
 \usage{
 dash_volume_write(..., max_tries = 5, interval = 2)
@@ -18,6 +19,8 @@ write_rds_to_volume(data, path, ...)
 write_csv_to_volume(data, path, ...)
 
 write_text_to_volume(data, path, ...)
+
+write_parquet_to_volume(data, path, ...)
 }
 \arguments{
 \item{...}{Additional arguments passed to \code{\link[brickster:db_volume_write]{brickster::db_volume_write()}}.}
@@ -94,6 +97,7 @@ Reader functions used are as follows:
 \item \strong{.xlsx} - \code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}
 \item \strong{.Rds} - \code{\link[base:readRDS]{base::saveRDS()}}
 \item \strong{.md} - \code{\link[base:cat]{base::cat()}}
+\item \strong{.parquet} - \code{\link[arrow:write_parquet]{arrow::write_parquet()}}
 }
 
 In order for these functions to work, you must be working on the Defra DASH
@@ -127,9 +131,15 @@ write_rds_to_volume(
   data = my_data_frame
 )
 
-#' # write markdown file
+# write markdown file
 write_text_to_volume(
   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.md",
+  data = my_data
+)
+
+# write markdown file
+write_parquet_to_volume(
+  path = "/Volumes/prd_dash_lab/<path-to-file>/filename.parquet",
   data = my_data
 )
 }
@@ -139,7 +149,8 @@ write_text_to_volume(
 \code{\link[brickster:db_volume_write]{brickster::db_volume_write()}}, \code{\link[readr:write_delim]{readr::write_csv()}},
 \code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}, \code{\link[base:readRDS]{base::saveRDS()}},
 \code{\link[=write_xlsx_to_volume]{write_xlsx_to_volume()}}, \code{\link[=write_csv_to_volume]{write_csv_to_volume()}},
-\code{\link[=write_rds_to_volume]{write_rds_to_volume()}}
+\code{\link[=write_rds_to_volume]{write_rds_to_volume()}},
+\code{\link[=write_parquet_to_volume]{write_parquet_to_volume()}}
 }
 \author{
 Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})

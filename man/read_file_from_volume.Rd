@@ -7,6 +7,7 @@
 \alias{read_xlsx_from_volume}
 \alias{read_ods_from_volume}
 \alias{read_rio_from_volume}
+\alias{read_parquet_from_volume}
 \title{Read data of various file types from the DASH data lake}
 \usage{
 read_file_from_volume(path, ext, max_tries = 5, interval = 2)
@@ -20,6 +21,8 @@ read_xlsx_from_volume(path, ..., max_tries = 5, interval = 2)
 read_ods_from_volume(path, ..., max_tries = 5, interval = 2)
 
 read_rio_from_volume(path, ..., max_tries = 5, interval = 2)
+
+read_parquet_from_volume(path, ..., max_tries = 5, interval = 2)
 }
 \arguments{
 \item{path}{A string containing the path to data to be read in. Should be the
@@ -84,37 +87,41 @@ Reader functions used are as follows:
 \item \strong{.ods} - \code{\link[readODS:read_ods]{readODS::read_ods()}}
 \item \strong{.xlsx (single worksheet)} - \code{\link[readxl:read_excel]{readxl::read_xlsx()}}
 \item \strong{.xlsx (whole workbook)} - \code{\link[rio:import_list]{rio::import_list()}}
+\item \strong{.parquet} - \link[arrow:read_parquet]{arrow::read_parquet}
 }
 }
 \examples{
 \dontrun{
 # read Rds file
-read_rds_from_volume(
+dat <- read_rds_from_volume(
   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.Rds"
 )
 
 # read csv file
-read_csv_from_volume(
+dat <- read_csv_from_volume(
   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.csv",
   show_col_types = FALSE
 )
 
 # read ods file
-read_ods_from_volume(
+dat <- read_ods_from_volume(
   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.ods",
   sheet = "sheet-name"
 )
 
 # read xlsx single woksheet 
-read_xlsx_from_volume(
+dat <- read_xlsx_from_volume(
   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
   sheet = "sheet-name"
 )
 
-read_rio_from_volume(
+dat <- read_rio_from_volume(
   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx"
 )
 
+dat <- read_parquet_from_volume(
+  path = "/Volumes/prd_dash_lab/<path-to-file>/filename.parquet"
+)
 }
 
 }
@@ -123,7 +130,7 @@ read_rio_from_volume(
 \code{\link[readr:read_rds]{readr::read_rds()}}, \code{\link[readxl:read_excel]{readxl::read_xlsx()}}, \code{\link[readODS:read_ods]{readODS::read_ods()}},
 \code{\link[=read_csv_from_volume]{read_csv_from_volume()}},
 \code{\link[=read_xlsx_from_volume]{read_xlsx_from_volume()}}, \code{\link[=read_rds_from_volume]{read_rds_from_volume()}}
-\code{\link[rio:import_list]{rio::import_list()}}
+\code{\link[rio:import_list]{rio::import_list()}}, \code{\link[=read_parquet_from_volume]{read_parquet_from_volume()}}
 }
 \author{
 Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})
