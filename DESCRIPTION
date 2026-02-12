@@ -65,6 +65,7 @@ Imports:
     httr,
     httr2,
     janitor,
+    labeling,
     lubridate,
     magrittr,
     modelr,
