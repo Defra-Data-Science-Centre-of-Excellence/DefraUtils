@@ -6,6 +6,8 @@
 #'
 #' @import ggplot2
 #' @import afcharts
+#' @importFrom scales breaks_pretty breaks_extended
+#' @importFrom labeling extended
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom pacman p_load
 #'
@@ -170,12 +172,30 @@ easy_plot <- function(plot_data, aesthetics,
   }
 
   ## Check type of data in y axis
-  # If dates, use pretty_breaks
-  # If numeric, use breaks_extended
-  y_breaks_function <- if (class(pull(plot_data, !!aesthetics$y)) %in% c("Date", "POSIXt", "POSIXct")) {
-    scales::breaks_pretty(y_axis_breaks)
+  # If dates, use scales::pretty_breaks (for identity boxplots, use pretty)
+  # If numeric, use scales::breaks_extended (for identity boxplots, use labeling::extended)
+  y_breaks <- if ("y" %in% names(aesthetics)) {
+
+    if (class(pull(plot_data, !!aesthetics$y)) %in% c("Date", "POSIXt", "POSIXct")) {
+      breaks_pretty(y_axis_breaks)
+    } else {
+      breaks_extended(y_axis_breaks)
+    }
+
+  } else if (all(c("ymin", "ymax") %in% names(aesthetics))) {
+
+    min_y_value <- if_else(is.null(y_min), 0, y_min)
+    max_y_value <- max(pull(plot_data, !!aesthetics$ymax))
+
+    if (class(pull(plot_data, !!aesthetics$ymin)) %in% c("Date", "POSIXt", "POSIXct")) {
+      pretty(min_y_value, max_y_value, y_axis_breaks)
+    } else {
+      extended(min_y_value, max_y_value, y_axis_breaks)
+    }
+
   } else {
-    scales::breaks_extended(y_axis_breaks)
+    # If no y values are in aesthetics, use default of ggplot2::waiver()
+    waiver()
   }
 
   # Base plot ####
@@ -184,7 +204,7 @@ easy_plot <- function(plot_data, aesthetics,
     { if (zero_line) geom_hline(yintercept = 0) } +
     # Create the Y axis
     scale_y_continuous(limits = c(y_min, y_max), expand = c(0, 0),
-                       breaks = y_breaks_function,
+                       breaks = y_breaks,
                        labels = y_label_function) +
     # Add chart labels
     labs(colour = NULL, fill = NULL, linetype = NULL,

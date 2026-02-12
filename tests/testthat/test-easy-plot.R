@@ -7,7 +7,9 @@ test_that("default behaviour is as expected", {
     easy_plot(test_df, aes(x = letters, y = numbers, fill = letters)))
 
   # It's a bar plot
-  expect_true(names(default_plot$plot$layers)[1] == "geom_col")
+  expect_true("geom_col" %in% names(default_plot$plot$layers))
+
+  default_plot_data <- set_names(default_plot$data, names(default_plot$plot$layers))
 
   # The x axis is correct
   expect_true(any(class(default_plot$layout$panel_params[[1]]$x$scale) == "ScaleDiscrete"))
@@ -38,10 +40,10 @@ test_that("default behaviour is as expected", {
   expect_equal(default_plot$plot$theme$text$size, 24)
 
   # The palette is correct
-  expect_true(all(default_plot$data[[1]]$fill == afcharts::af_colour_values[1:4]))
+  expect_true(all(default_plot_data$geom_col$fill == afcharts::af_colour_values[1:4]))
 
-  # Zero line is there
-  expect_true(names(default_plot$plot$layers)[2] == "geom_hline")
+  # Zero line is there, and is the first layer
+  expect_true(names(default_plot$plot$layers)[1] == "geom_hline")
   expect_equal(default_plot$plot$layers$geom_hline$data$yintercept, 0)
 
   # Gridlines are only on the y-axis
@@ -58,7 +60,7 @@ test_that("default behaviour is as expected", {
 
 })
 
-test_that("chart_type argument works", {
+test_that("chart_type argument works to create line plot", {
 
   line_chart <- ggplot2::ggplot_build(
     easy_plot(bind_rows(mutate(test_df, numbers = numbers - 500, l = "1"),
@@ -68,16 +70,18 @@ test_that("chart_type argument works", {
               chart_type = "line"))
 
   # It's a line chart
-  expect_true(names(line_chart$plot$layers)[1] == "geom_line")
+  expect_true("geom_line" %in% names(line_chart$plot$layers))
+
+  line_chart_data <- set_names(line_chart$data, names(line_chart$plot$layers))
 
   # Axes are correct
   expect_true(any(class(line_chart$layout$panel_params[[1]]$x$scale) == "ScaleDiscrete"))
   expect_true(all(line_chart$layout$panel_params[[1]]$x$breaks == test_df$letters))
   expect_true(any(class(line_chart$layout$panel_params[[1]]$y$scale) == "ScaleContinuous"))
-  expect_true(all(unique(line_chart$data[[1]]$colour) == afcharts::af_colour_values[1:3]))
+  expect_true(all(unique(line_chart_data$geom_line$colour) == afcharts::af_colour_values[1:3]))
 
   # Correct annotations have been added
-  expect_true(names(line_chart$plot$layers)[2] == "geom_text_repel")
+  expect_true("geom_text_repel" %in% names(line_chart$plot$layers))
   expect_equal(unique(line_chart$plot$layers$geom_text_repel$data$l), c("1", "2", "3"))
 
   # Legend is not included
@@ -103,6 +107,51 @@ test_that("annotate_lines argument works", {
 
 })
 
+test_that("chart_type argument works to create boxplots", {
+
+  # Normal boxplot method
+  boxplot <- ggplot2::ggplot_build(
+    easy_plot(tibble(letters = rep(LETTERS[1:4], 10),
+                     value = runif(40, min = -15, max = 50)),
+              aes(x = letters, y = value),
+              chart_type = "boxplot", y_min = -15, y_max = 50))
+
+  # It's a boxplot
+  expect_true("geom_boxplot" %in% names(boxplot$plot$layers))
+
+  boxplot_data <- set_names(boxplot$data, names(boxplot$plot$layers))
+
+  # Axes are correct
+  expect_true(any(class(boxplot$layout$panel_params[[1]]$x$scale) == "ScaleDiscrete"))
+  expect_true(all(boxplot$layout$panel_params[[1]]$x$breaks == LETTERS[1:4]))
+  expect_true(any(class(boxplot$layout$panel_params[[1]]$y$scale) == "ScaleContinuous"))
+  expect_true(all(unique(boxplot_data$geom_boxplot$fill) == afcharts::af_colour_values["orange"]))
+
+  # Using the 'identity' argument
+  identity_boxplot <- ggplot2::ggplot_build(
+    easy_plot(tibble(letters = LETTERS[1:4],
+                     ymin = c(-1, -3, 4, 0),
+                     lower = c(2, -1, 6, 3),
+                     middle = c(4, 2, 7, 5),
+                     upper = c(7, 4, 11, 8),
+                     ymax = c(10, 8, 13, 11)),
+              aes(x = letters, ymin = ymin, lower = lower,
+                  middle = middle, upper = upper, ymax = ymax),
+              chart_type = "boxplot", y_min = -5))
+
+  # It's a boxplot
+  expect_true("geom_boxplot" %in% names(identity_boxplot$plot$layers))
+
+  identity_boxplot_data <- set_names(identity_boxplot$data, names(identity_boxplot$plot$layers))
+
+  # Axes are correct
+  expect_true(any(class(identity_boxplot$layout$panel_params[[1]]$x$scale) == "ScaleDiscrete"))
+  expect_true(all(identity_boxplot$layout$panel_params[[1]]$x$breaks == LETTERS[1:4]))
+  expect_true(any(class(identity_boxplot$layout$panel_params[[1]]$y$scale) == "ScaleContinuous"))
+  expect_true(all(unique(identity_boxplot$geom_boxplot$fill) == afcharts::af_colour_values["orange"]))
+
+})
+
 test_that("chart_direction argument works", {
 
   horizontal_chart <- ggplot2::ggplot_build(
@@ -110,7 +159,7 @@ test_that("chart_direction argument works", {
               chart_direction = "horizontal"))
 
   # Axes are correct
-  expect_true(names(horizontal_chart$plot$layers)[1] == "geom_col")
+  expect_true("geom_col" %in% names(horizontal_chart$plot$layers))
   expect_true(any(class(horizontal_chart$layout$panel_params[[1]]$x$scale) == "ScaleContinuous"))
   expect_true(any(class(horizontal_chart$layout$panel_params[[1]]$y$scale) == "ScaleDiscrete"))
 
@@ -165,22 +214,26 @@ test_that("adding labels works", {
   add_labels <- ggplot2::ggplot_build(
     easy_plot(test_df, aes(x = letters, y = numbers, label = letters), labels = TRUE))
 
+  add_labels_data <- set_names(add_labels$data, names(add_labels$plot$layers))
+
   expect_true("geom_text" %in% names(add_labels$plot$layers))
-  expect_equal(add_labels$data[[2]]$label, LETTERS[1:4])
-  expect_equal(unique(add_labels$data[[2]]$hjust), 0.5)
-  expect_equal(unique(add_labels$data[[2]]$vjust), 0.5)
-  expect_equal(unique(add_labels$data[[2]]$size), 8)
-  expect_equal(unique(add_labels$data[[2]]$colour), "white")
+  expect_equal(add_labels_data$geom_text$label, LETTERS[1:4])
+  expect_equal(unique(add_labels_data$geom_text$hjust), 0.5)
+  expect_equal(unique(add_labels_data$geom_text$vjust), 0.5)
+  expect_equal(unique(add_labels_data$geom_text$size), 8)
+  expect_equal(unique(add_labels_data$geom_text$colour), "white")
 
   alter_labels <- ggplot2::ggplot_build(
     easy_plot(test_df, aes(x = letters, y = numbers, label = letters),
               labels = TRUE, label_size = 10, label_colour = "black",
               label_position = c(0, 1)))
 
-  expect_equal(unique(alter_labels$data[[2]]$hjust), 0)
-  expect_equal(unique(alter_labels$data[[2]]$vjust), 1)
-  expect_equal(unique(alter_labels$data[[2]]$size), 10)
-  expect_equal(unique(alter_labels$data[[2]]$colour), "black")
+  alter_labels_data <- set_names(alter_labels$data, names(alter_labels$plot$layers))
+
+  expect_equal(unique(alter_labels_data$geom_text$hjust), 0)
+  expect_equal(unique(alter_labels_data$geom_text$vjust), 1)
+  expect_equal(unique(alter_labels_data$geom_text$size), 10)
+  expect_equal(unique(alter_labels_data$geom_text$colour), "black")
 
 })
 
@@ -192,15 +245,18 @@ test_that("adding error bars works", {
 
   expect_true("geom_errorbar" %in% names(add_error_bars$plot$layers))
 
-  expect_equal(add_error_bars$data[[2]]$ymin, seq(900, 3900, 1000))
-  expect_equal(add_error_bars$data[[2]]$ymax, seq(1100, 4100, 1000))
-  expect_equal(unique(add_error_bars$data[[2]]$colour), "white")
-  expect_equal(unique(add_error_bars$data[[2]]$linewidth), 3)
+  add_error_bars_data <- set_names(add_error_bars$data, names(add_error_bars$plot$layers))
+  add_error_bars_data_eb <- add_error_bars_data[grepl("error", names(add_error_bars_data))]
 
-  expect_equal(add_error_bars$data[[3]]$ymin, seq(900, 3900, 1000))
-  expect_equal(add_error_bars$data[[3]]$ymax, seq(1100, 4100, 1000))
-  expect_equal(unique(add_error_bars$data[[3]]$colour), "black")
-  expect_equal(unique(add_error_bars$data[[3]]$linewidth), 1)
+  expect_equal(add_error_bars_data_eb[[1]]$ymin, seq(900, 3900, 1000))
+  expect_equal(add_error_bars_data_eb[[1]]$ymax, seq(1100, 4100, 1000))
+  expect_equal(unique(add_error_bars_data_eb[[1]]$colour), "white")
+  expect_equal(unique(add_error_bars_data_eb[[1]]$linewidth), 3)
+
+  expect_equal(add_error_bars_data_eb[[2]]$ymin, seq(900, 3900, 1000))
+  expect_equal(add_error_bars_data_eb[[2]]$ymax, seq(1100, 4100, 1000))
+  expect_equal(unique(add_error_bars_data_eb[[2]]$colour), "black")
+  expect_equal(unique(add_error_bars_data_eb[[2]]$linewidth), 1)
 
 })
 
@@ -214,10 +270,13 @@ test_that("adding series breaks works", {
               series_breaks = c("B", "C"), annotate_lines = F))
 
   expect_true("geom_vline" %in% names(add_series_breaks$plot$layers))
+
+  add_series_breaks_data <- set_names(add_series_breaks$data, names(add_series_breaks$plot$layers))
+
   expect_equal(add_series_breaks$plot$layers$geom_vline$data$xintercept, c("B", "C"))
-  expect_equal(unique(add_series_breaks$data[[1]]$group), 1:3)
-  expect_equal(unique(add_series_breaks$data[[2]]$colour), "#333333")
-  expect_equal(unique(add_series_breaks$data[[2]]$linetype), "longdash")
+  expect_equal(unique(add_series_breaks_data$geom_line$group), 1:3)
+  expect_equal(unique(add_series_breaks_data$geom_vline$colour), "#333333")
+  expect_equal(unique(add_series_breaks_data$geom_vline$linetype), "longdash")
 
 })
 
@@ -296,13 +355,17 @@ test_that("arguments to alter the palette work", {
               aes(x = letters, y = numbers, fill = letters),
               af_palette = "sequential"))
 
-  expect_true(all(change_palette$data[[1]]$fill == afcharts::af_colour_palettes$sequential))
+  change_palette_data <- set_names(change_palette$data, names(change_palette$plot$layers))
+
+  expect_true(all(change_palette_data$geom_col$fill == afcharts::af_colour_palettes$sequential))
 
   custom_palette <- ggplot2::ggplot_build(
     easy_plot(test_df, aes(x = letters, y = numbers, fill = letters),
               custom_palette = c("wheat", "tomato", "forestgreen", "plum")))
 
-  expect_equal(custom_palette$data[[1]]$fill, c("wheat", "tomato", "forestgreen", "plum"))
+  custom_palette_data <- set_names(custom_palette$data, names(custom_palette$plot$layers))
+
+  expect_equal(custom_palette_data$geom_col$fill, c("wheat", "tomato", "forestgreen", "plum"))
 
 })
 
