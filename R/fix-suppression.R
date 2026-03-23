@@ -28,7 +28,7 @@
 #' @param file_name What should the checking file be called? Don't include file extension
 #' @param pivot_col String; If you want the manual checking table to be pivoted, which
 #' column should it be pivoted on?
-#' @param save_excel_file, default is TRUE, set to FALSE when one does not wish to save an excel file
+#' @param save_excel_file Logical, default = TRUE; will save an excel file when circular suppression is required
 #'
 #' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
 #'

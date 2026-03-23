@@ -47,7 +47,7 @@ An additional feature of this function (not mentioned in the Defra
 instructions) is to add the \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}} function call
 to an .Rprofile. This will ensure your PAT is set for every R session,
 meaning you won't need to provide your PAT when running functions such as
-\code{\link[devtools:remote-reexports]{devtools::install_github()}}. The function will check if an .Rprofile file
+\code{\link[devtools:install-deprecated]{devtools::install_github()}}. The function will check if an .Rprofile file
 already exists, if one does it will add the code to the bottom of the
 existing profile. If the .Rprofile file does not exist, the function will
 create one and add the code to it.

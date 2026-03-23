@@ -30,7 +30,7 @@ would group by the \code{group} column in the first dimension and by the \code{b
 \item{pivot_col}{String; If you want the manual checking table to be pivoted, which
 column should it be pivoted on?}
 
-\item{save_excel_file, }{default is TRUE, set to FALSE when one does not wish to save an excel file}
+\item{save_excel_file}{Logical, default = TRUE; will save an excel file when circular suppression is required}
 }
 \description{
 This function finds which figures need to be secondarily suppressed and
