@@ -179,12 +179,22 @@ decode_multi_choice_column <- function(input_data,
              `512` = ifelse(grepl("\\b512\\b", chosen_codes), 1, 0),
              `1024` = ifelse(grepl("\\b1024\\b", chosen_codes), 1, 0),
              `2048` = ifelse(grepl("\\b2048\\b", chosen_codes), 1, 0),
-             across(c("0", "1", "2", "4", "8", "16", "32", "64",
-                      "128", "256", "512", "1024", "2048"),
+             `4096` = ifelse(grepl("\\b4096\\b", chosen_codes), 1, 0),
+             `8192` = ifelse(grepl("\\b8192\\b", chosen_codes), 1, 0),
+             `16384` = ifelse(grepl("\\b16384\\b", chosen_codes), 1, 0),
+             `32768` = ifelse(grepl("\\b32768\\b", chosen_codes), 1, 0),
+             `65536` = ifelse(grepl("\\b65536\\b", chosen_codes), 1, 0),
+             `131072` = ifelse(grepl("\\b131072\\b", chosen_codes), 1, 0),
+             `262144` = ifelse(grepl("\\b262144\\b", chosen_codes), 1, 0),
+             `524288` = ifelse(grepl("\\b524288\\b", chosen_codes), 1, 0),
+             across(c("0", "1", "2", "4", "8", "16", "32", "64", "128", "256",
+                      "512", "1024", "2048", "4096", "8192", "16384",
+                      "32768", "65536", "131072", "262144", "524288"),
                     ~as.numeric(na_if(.x, 0)))) %>%
       select(-all_of(c(var[z], "chosen_codes"))) %>%
-      pivot_longer(c("0", "1", "2", "4", "8", "16", "32", "64",
-                     "128", "256", "512", "1024", "2048"),
+      pivot_longer(c("0", "1", "2", "4", "8", "16", "32", "64", "128", "256",
+                     "512", "1024", "2048", "4096", "8192", "16384",
+                     "32768", "65536", "131072", "262144", "524288"),
                    names_to = "code") %>%
       filter(!is.na(value)) %>%
       select(-value) %>%
