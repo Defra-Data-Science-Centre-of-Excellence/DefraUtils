@@ -146,10 +146,7 @@ get_ons_series <- function(series_years, index = c("", "GDP", "CPIH"), ons_url =
     nod(series_url, verbose = T)
 
   # Download the file and read in
-  temp_destination <- tempfile()
-  download.file(series_url, temp_destination)
-
-  series_data <- read_csv(temp_destination, show_col_types = FALSE)
+  series_data <- read_csv(series_url, show_col_types = FALSE)
 
   if (!is.null(save_path)) {
 
@@ -205,12 +202,14 @@ get_ons_series <- function(series_years, index = c("", "GDP", "CPIH"), ons_url =
 
   # Get the indices for all years in the publication
   adjust_series_data <- full_series_data %>%
+    rowwise() %>%
     mutate(
       # Use the index from the latest year as the base
       year_index_rebase = year_index / latest_index * 100,
       # If financial years were chosen, fix year column
       year = case_when(year_end_q == 1 ~ year - 1, TRUE ~ year),
       year_end = yearqtr) %>%
+    ungroup() %>%
     # Filter for only the years we are interested in
     filter(year >= min(series_years), year <= max(series_years),
            qtr == year_end_q) %>%
