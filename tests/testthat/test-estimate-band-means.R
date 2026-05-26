@@ -141,10 +141,11 @@ test_that("open top band results in different estimate", {
 ## Testing all estimates ####
 test_that("expected data is returned", {
   expect_named(estimate_band_means(test_df, bands_df_closed, "question"),
-               c("year", "n", "n_pop", "lower_limit",
+               c("year", "question_code", "n", "n_pop", "lower_limit",
                  "upper_limit", "question", "total", "mean"))
   expect_named(estimate_band_means(test_df, bands_df_closed, "question", grouping_cols = NULL),
-               c("n", "n_pop", "lower_limit", "upper_limit", "question", "total", "mean"))
+               c("question_code", "n", "n_pop", "lower_limit",
+                 "upper_limit", "question", "total", "mean"))
 })
 
 test_that("'all' rows have been calculated correctly", {

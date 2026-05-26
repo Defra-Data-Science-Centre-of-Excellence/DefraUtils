@@ -92,7 +92,7 @@ compute_band_counts <- function(df, bands_df, band_col,
     # Recode any values below the first lower limit to the first band
     # This is required if negative values are recorded using the negative
     # version of the positive band, like in the FBS
-    mutate(across(all_of(band_col), ~if_else(.x < bands_df$lower_limit[1],
+    mutate(across(all_of(band_col), ~if_else(.x < bands_df$code[1],
                                              bands_df$code[1], .x))) %>%
     # Count the observations by band and grouping
     group_by(across(all_of(c(grouping_cols, band_col)))) %>%
@@ -366,7 +366,7 @@ estimate_band_means <- function(df, bands_df, band_col,
               mean = total / n_pop) %>%
       fill(all_of(grouping_cols))
   }) %>% bind_rows() %>%
-    select(-all_of(band_col)) %>%
+    rename_with(~paste0(band_col, "_code"), {{ band_col }}) %>%
     rename_with(~band_col, band)
 
   return(band_estimates)
