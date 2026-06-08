@@ -32,8 +32,7 @@
 #' Source: Defra, Farm Business Survey England 2023/24
 #'
 #' @importFrom grDevices dev.off
-#' @importFrom grid grid.newpage pushViewport viewport grid.layout grid.rect
-#' grid.raster grid.text grid.draw gpar unit
+#' @importFrom grid grid.newpage pushViewport viewport grid.layout grid.rect grid.raster grid.text grid.draw gpar unit
 #' @importFrom gridtext richtext_grob
 #' @importFrom brickster db_volume_list db_volume_read
 #' @importFrom useful vplayout
@@ -43,8 +42,7 @@
 #' @param title The filepath to find the icons listed in the `icons` argument
 #' @param subtitle The filepath to find the icons listed in the `icons` argument
 #' @param source The source of the data within the infographic
-#' @param key_points List of key points (use markdown formatting); between 3 and
-#' 5 points works best
+#' @param key_points List of key points (use markdown formatting); between 3 and 5 points works best
 #' @param icons List of icons; the icons will go alongside each key point (for a
 #' list of the available icons, run [view_available_icons()])
 #'
@@ -133,8 +131,7 @@ create_defra_stats_infographic <- function(title, subtitle, source, key_points, 
 #' @importFrom stringr str_remove
 #' @importFrom tidyr separate
 #' @importFrom grDevices dev.off
-#' @importFrom grid grid.newpage pushViewport viewport grid.layout grid.rect
-#' grid.raster grid.text grid.draw gpar unit
+#' @importFrom grid grid.newpage pushViewport viewport grid.layout grid.rect grid.raster grid.text grid.draw gpar unit
 #' @importFrom useful vplayout
 #' @importFrom png readPNG
 #'

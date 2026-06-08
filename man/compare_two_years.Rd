@@ -65,11 +65,11 @@ Data must contain the following four columns: survey_year, grouping_factor,
 group, value
 }
 \seealso{
-Other commentary functions: 
-\code{\link{create_list}()},
-\code{\link{get_address}()},
-\code{\link{get_diff_in_words}()},
-\code{\link{get_pc_in_words}()}
+Other commentary functions:
+\code{\link[=create_list]{create_list()}},
+\code{\link[=get_address]{get_address()}},
+\code{\link[=get_diff_in_words]{get_diff_in_words()}},
+\code{\link[=get_pc_in_words]{get_pc_in_words()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

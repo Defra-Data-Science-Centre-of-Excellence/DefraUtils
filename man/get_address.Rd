@@ -31,11 +31,11 @@ will return the link to the actual CSV when set to FALSE}
 Get full URL for file attachments or links on gov.uk
 }
 \seealso{
-Other commentary functions: 
-\code{\link{compare_two_years}()},
-\code{\link{create_list}()},
-\code{\link{get_diff_in_words}()},
-\code{\link{get_pc_in_words}()}
+Other commentary functions:
+\code{\link[=compare_two_years]{compare_two_years()}},
+\code{\link[=create_list]{create_list()}},
+\code{\link[=get_diff_in_words]{get_diff_in_words()}},
+\code{\link[=get_pc_in_words]{get_pc_in_words()}}
 }
 \author{
 Agriculture in the UK team (\href{mailto:AUK_stats_team@defra.gov.uk}{AUK_stats_team@defra.gov.uk})

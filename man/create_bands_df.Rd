@@ -40,12 +40,12 @@ create_bands_df(start = 0, upper_limits = c(10, 1000, 10000), open_ended = TRUE)
 
 }
 \seealso{
-Other functions for estimating means of banded data: 
-\code{\link{calculate_mcib}()},
-\code{\link{calculate_riob}()},
-\code{\link{calculate_rpme}()},
-\code{\link{compute_band_counts}()},
-\code{\link{estimate_band_means}()}
+Other functions for estimating means of banded data:
+\code{\link[=calculate_mcib]{calculate_mcib()}},
+\code{\link[=calculate_riob]{calculate_riob()}},
+\code{\link[=calculate_rpme]{calculate_rpme()}},
+\code{\link[=compute_band_counts]{compute_band_counts()}},
+\code{\link[=estimate_band_means]{estimate_band_means()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

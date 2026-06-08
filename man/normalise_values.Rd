@@ -26,10 +26,10 @@ name of the transformation used and the skewness value of the result. If
 \code{save_path} is set, the plot will be saved as a PNG to the specified directory.
 }
 \seealso{
-Other survey modelling functions: 
-\code{\link{run_wald_test}()},
-\code{\link{summarise_variables}()},
-\code{\link{test_model_performance}()}
+Other survey modelling functions:
+\code{\link[=run_wald_test]{run_wald_test()}},
+\code{\link[=summarise_variables]{summarise_variables()}},
+\code{\link[=test_model_performance]{test_model_performance()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

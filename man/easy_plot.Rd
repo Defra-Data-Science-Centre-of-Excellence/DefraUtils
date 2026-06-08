@@ -71,11 +71,11 @@ horizontal and vertical justification, respectively, e.g. \code{c(0, 0.5)} or
 \code{c(NULL, 1)}}
 
 \item{error_bars}{If TRUE, adds confidence intervals; for bar charts uses
-\code{\link[ggplot2:geom_linerange]{ggplot2::geom_errorbar()}}, and for line charts uses \code{\link[ggplot2:geom_ribbon]{ggplot2::geom_ribbon()}}}
+\code{\link[ggplot2:geom_errorbar]{ggplot2::geom_errorbar()}}, and for line charts uses \code{\link[ggplot2:geom_ribbon]{ggplot2::geom_ribbon()}}}
 
 \item{series_breaks}{If supplied, will use the xintercept argument of
-\code{\link[ggplot2:geom_abline]{ggplot2::geom_vline()}} to add breaks to the x-axis at the specified points;
-for line charts, remember to set the \code{group} argument in \code{\link[ggplot2:aes]{ggplot2::aes()}} to ensure
+\code{\link[ggplot2:geom_vline]{ggplot2::geom_vline()}} to add breaks to the x-axis at the specified points;
+for line charts, remember to set the \code{group} argument in \code{\link[ggplot2:aes]{aes()}} to ensure
 the lines break properly (for a single group, use the column containing the
 series names, or for multiple groups, an \code{\link[=interaction]{interaction()}} between the grouping
 column and the series column)}
@@ -84,8 +84,8 @@ column and the series column)}
 
 \item{y_axis_title}{If supplied, adds a title to the y-axis}
 
-\item{y_label_function}{Default = \code{\link[scales:label_number]{scales::label_comma()}}; a function which
-is applied to the y-axis labels within the \code{\link[ggplot2:scale_continuous]{ggplot2::scale_y_continuous()}}
+\item{y_label_function}{Default = \code{\link[scales:label_comma]{scales::label_comma()}}; a function which
+is applied to the y-axis labels within the \code{\link[ggplot2:scale_y_continuous]{ggplot2::scale_y_continuous()}}
 function (set to \code{NULL} to return the default labels)}
 
 \item{y_axis_breaks}{Default = 8; the number of breaks to show on the y-axis}
@@ -145,7 +145,7 @@ instead, noting that it is more accessible if the resulting legend is in the
 order of the lines (see examples for how to do this)}
 
 \item{top_margin}{Default = 10; Top margin of plot, fed into the plot.margin
-argument of \code{\link[ggplot2:theme]{ggplot2::theme()}} using \code{\link[ggplot2:element]{ggplot2::margin()}}}
+argument of \code{\link[ggplot2:theme]{ggplot2::theme()}} using \code{\link[ggplot2:margin]{ggplot2::margin()}}}
 
 \item{right_margin}{Default = 0; Right margin of plot}
 

@@ -10,5 +10,5 @@ cut_long_scale(lower = T, space = FALSE)
 Adapt scales::cut_long_scale to allow lower case
 }
 \seealso{
-\code{\link[scales:number]{scales::cut_long_scale()}}
+\code{\link[scales:cut_long_scale]{scales::cut_long_scale()}}
 }

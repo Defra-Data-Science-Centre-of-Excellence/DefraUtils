@@ -21,7 +21,7 @@ Addins menu. They open a new R script pre-populated with either:
 \item A Roxygen documentation skeleton
 }
 
-They use \code{\link[rstudioapi:rstudio-documents]{rstudioapi::documentNew()}} to open a new script pane in RStudio.
+They use \code{\link[rstudioapi:documentNew]{rstudioapi::documentNew()}} to open a new script pane in RStudio.
 Calling these functions directly will not work correctly outside the
 RStudio IDE.
 }
@@ -35,7 +35,7 @@ These functions are triggered through the \strong{RStudio Addins} menu and
 should not be called manually.
 }
 \seealso{
-\code{\link[rstudioapi:rstudio-documents]{rstudioapi::documentNew()}}
+\code{\link[rstudioapi:documentNew]{rstudioapi::documentNew()}}
 }
 \author{
 Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})

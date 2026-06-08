@@ -21,9 +21,9 @@ This function decodes these answers by taking an input value and
 returning separate values for each answer.
 }
 \seealso{
-Other functions for decoding multiple choice answers: 
-\code{\link{decode_multi_choice_column}()},
-\code{\link{decompose_multi_choice_column}()}
+Other functions for decoding multiple choice answers:
+\code{\link[=decode_multi_choice_column]{decode_multi_choice_column()}},
+\code{\link[=decompose_multi_choice_column]{decompose_multi_choice_column()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

@@ -19,10 +19,10 @@ could be adapted for models with categorical response variables. If
 \seealso{
 Tested on models created with \code{\link[survey:svyglm]{survey::svyglm()}}
 
-Other survey modelling functions: 
-\code{\link{normalise_values}()},
-\code{\link{run_wald_test}()},
-\code{\link{summarise_variables}()}
+Other survey modelling functions:
+\code{\link[=normalise_values]{normalise_values()}},
+\code{\link[=run_wald_test]{run_wald_test()}},
+\code{\link[=summarise_variables]{summarise_variables()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

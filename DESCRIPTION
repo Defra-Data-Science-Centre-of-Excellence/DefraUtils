@@ -32,7 +32,6 @@ Description: The DefraUtils package contains a variety of functions that
 License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Suggests: 
     futile.logger,
     mockery,
@@ -96,3 +95,4 @@ Imports:
     xfun,
     xml2,
     zoo
+Config/roxygen2/version: 8.0.0

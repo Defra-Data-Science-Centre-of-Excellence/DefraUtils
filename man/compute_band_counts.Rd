@@ -30,12 +30,12 @@ the weights}
 Used by \code{\link[=estimate_band_means]{estimate_band_means()}}
 }
 \seealso{
-Other functions for estimating means of banded data: 
-\code{\link{calculate_mcib}()},
-\code{\link{calculate_riob}()},
-\code{\link{calculate_rpme}()},
-\code{\link{create_bands_df}()},
-\code{\link{estimate_band_means}()}
+Other functions for estimating means of banded data:
+\code{\link[=calculate_mcib]{calculate_mcib()}},
+\code{\link[=calculate_riob]{calculate_riob()}},
+\code{\link[=calculate_rpme]{calculate_rpme()}},
+\code{\link[=create_bands_df]{create_bands_df()}},
+\code{\link[=estimate_band_means]{estimate_band_means()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

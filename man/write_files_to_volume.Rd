@@ -93,9 +93,9 @@ file is written to DASH as described above.
 Reader functions used are as follows:
 
 \itemize{
-\item \strong{.csv} - \code{\link[readr:write_delim]{readr::write_csv()}}
+\item \strong{.csv} - \code{\link[readr:write_csv]{readr::write_csv()}}
 \item \strong{.xlsx} - \code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}
-\item \strong{.Rds} - \code{\link[base:readRDS]{base::saveRDS()}}
+\item \strong{.Rds} - \code{\link[base:saveRDS]{base::saveRDS()}}
 \item \strong{.md} - \code{\link[base:cat]{base::cat()}}
 \item \strong{.parquet} - \code{\link[arrow:write_parquet]{arrow::write_parquet()}}
 }
@@ -146,8 +146,8 @@ write_parquet_to_volume(
 
 }
 \seealso{
-\code{\link[brickster:db_volume_write]{brickster::db_volume_write()}}, \code{\link[readr:write_delim]{readr::write_csv()}},
-\code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}, \code{\link[base:readRDS]{base::saveRDS()}},
+\code{\link[brickster:db_volume_write]{brickster::db_volume_write()}}, \code{\link[readr:write_csv]{readr::write_csv()}},
+\code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}, \code{\link[base:saveRDS]{base::saveRDS()}},
 \code{\link[=write_xlsx_to_volume]{write_xlsx_to_volume()}}, \code{\link[=write_csv_to_volume]{write_csv_to_volume()}},
 \code{\link[=write_rds_to_volume]{write_rds_to_volume()}},
 \code{\link[=write_parquet_to_volume]{write_parquet_to_volume()}}

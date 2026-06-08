@@ -15,10 +15,10 @@ Perform the Wald test on a survey model with \code{\link[survey:regTermTest]{sur
 \seealso{
 Tested on models created with \code{\link[survey:svyglm]{survey::svyglm()}}
 
-Other survey modelling functions: 
-\code{\link{normalise_values}()},
-\code{\link{summarise_variables}()},
-\code{\link{test_model_performance}()}
+Other survey modelling functions:
+\code{\link[=normalise_values]{normalise_values()}},
+\code{\link[=summarise_variables]{summarise_variables()}},
+\code{\link[=test_model_performance]{test_model_performance()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

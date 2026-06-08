@@ -48,9 +48,9 @@ This function decodes these answers by taking an input dataset with a column
 of values and returning separate columns for each answer.
 }
 \seealso{
-Other functions for decoding multiple choice answers: 
-\code{\link{decompose_multi_choice_column}()},
-\code{\link{decompose_multi_choice_value}()}
+Other functions for decoding multiple choice answers:
+\code{\link[=decompose_multi_choice_column]{decompose_multi_choice_column()}},
+\code{\link[=decompose_multi_choice_value]{decompose_multi_choice_value()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

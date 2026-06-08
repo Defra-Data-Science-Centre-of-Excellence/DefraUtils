@@ -82,10 +82,10 @@ For more information on how to do this, see the specific project README.
 Reader functions used are as follows:
 
 \itemize{
-\item \strong{.csv} - \code{\link[readr:read_delim]{readr::read_csv()}}
+\item \strong{.csv} - \code{\link[readr:read_csv]{readr::read_csv()}}
 \item \strong{.Rds} - \code{\link[readr:read_rds]{readr::read_rds()}}
 \item \strong{.ods} - \code{\link[readODS:read_ods]{readODS::read_ods()}}
-\item \strong{.xlsx (single worksheet)} - \code{\link[readxl:read_excel]{readxl::read_xlsx()}}
+\item \strong{.xlsx (single worksheet)} - \code{\link[readxl:read_xlsx]{readxl::read_xlsx()}}
 \item \strong{.xlsx (whole workbook)} - \code{\link[rio:import_list]{rio::import_list()}}
 \item \strong{.parquet} - \link[arrow:read_parquet]{arrow::read_parquet}
 }
@@ -126,8 +126,8 @@ dat <- read_parquet_from_volume(
 
 }
 \seealso{
-\code{\link[brickster:db_volume_read]{brickster::db_volume_read()}}, \code{\link[readr:read_delim]{readr::read_csv()}},
-\code{\link[readr:read_rds]{readr::read_rds()}}, \code{\link[readxl:read_excel]{readxl::read_xlsx()}}, \code{\link[readODS:read_ods]{readODS::read_ods()}},
+\code{\link[brickster:db_volume_read]{brickster::db_volume_read()}}, \code{\link[readr:read_csv]{readr::read_csv()}},
+\code{\link[readr:read_rds]{readr::read_rds()}}, \code{\link[readxl:read_xlsx]{readxl::read_xlsx()}}, \code{\link[readODS:read_ods]{readODS::read_ods()}},
 \code{\link[=read_csv_from_volume]{read_csv_from_volume()}},
 \code{\link[=read_xlsx_from_volume]{read_xlsx_from_volume()}}, \code{\link[=read_rds_from_volume]{read_rds_from_volume()}}
 \code{\link[rio:import_list]{rio::import_list()}}, \code{\link[=read_parquet_from_volume]{read_parquet_from_volume()}}

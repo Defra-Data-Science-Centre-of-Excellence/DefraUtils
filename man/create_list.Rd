@@ -39,11 +39,11 @@ create_list(string_vector = c("apple", "banana", "pear"), oxford_comma = T, desc
 
 }
 \seealso{
-Other commentary functions: 
-\code{\link{compare_two_years}()},
-\code{\link{get_address}()},
-\code{\link{get_diff_in_words}()},
-\code{\link{get_pc_in_words}()}
+Other commentary functions:
+\code{\link[=compare_two_years]{compare_two_years()}},
+\code{\link[=get_address]{get_address()}},
+\code{\link[=get_diff_in_words]{get_diff_in_words()}},
+\code{\link[=get_pc_in_words]{get_pc_in_words()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

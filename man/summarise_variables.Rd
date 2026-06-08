@@ -15,10 +15,10 @@ summarise_variables(df, column)
 Summarise variable to be modelled
 }
 \seealso{
-Other survey modelling functions: 
-\code{\link{normalise_values}()},
-\code{\link{run_wald_test}()},
-\code{\link{test_model_performance}()}
+Other survey modelling functions:
+\code{\link[=normalise_values]{normalise_values()}},
+\code{\link[=run_wald_test]{run_wald_test()}},
+\code{\link[=test_model_performance]{test_model_performance()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

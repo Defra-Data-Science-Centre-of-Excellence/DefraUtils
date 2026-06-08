@@ -21,7 +21,7 @@ If no Git repository is detected, the prompt defaults to \code{">"}.
 
 The prompt is added to your .Rprofile file and can be scoped either
 globally (\code{"user"}) or to the current project (\code{"project"}). You
-can manually edit the profile using \code{\link[usethis:edit]{usethis::edit_r_profile()}}.
+can manually edit the profile using \code{\link[usethis:edit_r_profile]{usethis::edit_r_profile()}}.
 }
 \details{
 This function modifies your R console prompt to reflect the current
@@ -43,7 +43,7 @@ set_console_prompt("project")
 
 }
 \seealso{
-\code{\link[usethis:edit]{usethis::edit_r_profile()}}
+\code{\link[usethis:edit_r_profile]{usethis::edit_r_profile()}}
 }
 \author{
 Josh Moatt (\href{mailto:Joshua.Moatt@defra.gov.uk}{Joshua.Moatt@defra.gov.uk})

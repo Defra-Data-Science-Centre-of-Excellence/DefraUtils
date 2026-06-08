@@ -15,11 +15,11 @@ get_pc_in_words(pc, pc_rnd)
 Converts percentages to text, e.g. \code{0.25} will be converted to \code{"a quarter"}
 }
 \seealso{
-Other commentary functions: 
-\code{\link{compare_two_years}()},
-\code{\link{create_list}()},
-\code{\link{get_address}()},
-\code{\link{get_diff_in_words}()}
+Other commentary functions:
+\code{\link[=compare_two_years]{compare_two_years()}},
+\code{\link[=create_list]{create_list()}},
+\code{\link[=get_address]{get_address()}},
+\code{\link[=get_diff_in_words]{get_diff_in_words()}}
 }
 \author{
 Farm Business Survey team (\href{mailto:fbs.queries@defra.gov.uk}{fbs.queries@defra.gov.uk})

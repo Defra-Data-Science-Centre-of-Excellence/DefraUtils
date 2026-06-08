@@ -27,10 +27,10 @@ Token (PAT) and connect RStudio to GitHub. This is essential if you want to
 work in RStudio in projects stored as GitHub repositories.
 
 It uses \code{\link[=system]{system()}} to run the code in the terminal to set your credentials,
-and \code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_set()}} and \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}} packages
+and \code{\link[gitcreds:gitcreds_set]{gitcreds::gitcreds_set()}} and \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}} packages
 to connect your RStudio to GitHub.
 
-\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_set()}} is an interactive function and will prompt users
+\code{\link[gitcreds:gitcreds_set]{gitcreds::gitcreds_set()}} is an interactive function and will prompt users
 for input. To replace existing credentials and PAT choose option 2. You
 will then be prompted for you PAT. Your PAT should be changed every 30 days
 to ensure security.
@@ -47,7 +47,7 @@ An additional feature of this function (not mentioned in the Defra
 instructions) is to add the \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}} function call
 to an .Rprofile. This will ensure your PAT is set for every R session,
 meaning you won't need to provide your PAT when running functions such as
-\code{\link[devtools:remote-reexports]{devtools::install_github()}}. The function will check if an .Rprofile file
+\code{\link[devtools:install_github]{devtools::install_github()}}. The function will check if an .Rprofile file
 already exists, if one does it will add the code to the bottom of the
 existing profile. If the .Rprofile file does not exist, the function will
 create one and add the code to it.
@@ -70,7 +70,7 @@ connect_github_pat(
 
 }
 \seealso{
-\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_set()}}, \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}},
+\code{\link[gitcreds:gitcreds_set]{gitcreds::gitcreds_set()}}, \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}},
 \code{\link[=connect_github_ssh]{connect_github_ssh()}}
 }
 \author{

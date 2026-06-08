@@ -13,8 +13,7 @@ create_defra_stats_infographic(title, subtitle, source, key_points, icons)
 
 \item{source}{The source of the data within the infographic}
 
-\item{key_points}{List of key points (use markdown formatting); between 3 and
-5 points works best}
+\item{key_points}{List of key points (use markdown formatting); between 3 and 5 points works best}
 
 \item{icons}{List of icons; the icons will go alongside each key point (for a
 list of the available icons, run \code{\link[=view_available_icons]{view_available_icons()}})}
