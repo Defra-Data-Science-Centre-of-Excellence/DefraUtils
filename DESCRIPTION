@@ -70,6 +70,7 @@ Imports:
     modelr,
     moments,
     openxlsx,
+    openxlsx2,
     pacman,
     plyr,
     png,

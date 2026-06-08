@@ -4,7 +4,7 @@
 \alias{overwrite_num_cols}
 \title{Fixes column where numbers are stored as text}
 \usage{
-overwrite_num_cols(excel_wb, sheet, cols, rows, df)
+overwrite_num_cols(excel_wb, sheet, cols, rows, df, num_format = "0")
 }
 \arguments{
 \item{excel_wb}{Openxlsx workbook name}
@@ -16,24 +16,30 @@ overwrite_num_cols(excel_wb, sheet, cols, rows, df)
 \item{rows}{Vector of row numbers to be overwritten}
 
 \item{df}{Data frame containing the data from the relevant worksheet}
+
+\item{num_format}{String, default = \code{"0"}; Excel-style cell format for the values}
 }
 \value{
 Updated workbook with modified columns
 }
 \description{
-Overwrites selected columns and rows that contain both numeric and character
-elements. Once this is run, you should add a new style to the modified
-columns and rows so that they are displayed correctly in the output file. Use
-\code{\link[openxlsx:addStyle]{openxlsx::addStyle()}} and \code{\link[=get_cell_style]{get_cell_style()}} to do this.
+If you have markers on your values (e.g. 'u' for low reliability, 'p' for
+provisional, see \href{https://analysisfunction.civilservice.gov.uk/policy-store/symbols-in-tables-definitions-and-help/#section-6}{AF guidance}
+for full list), you will still get 'numbers stored as text' errors on the
+unmarked values, even with the latest version of \link[aftables:aftables]{aftables}, which uses \link[openxlsx2:openxlsx2]{openxlsx2}.
 }
 \details{
-This function is adapted from \code{rapid.spreadsheets::overwrite_df()}, to work
-with \link[aftables:aftables]{aftables}; for the full rapid.spreadsheets code, see
+This function overwrites only cells that can be converted to numbers (i.e. the
+unmarked values), leaving the marked values and any suppressed values as-is.
+This function works with both \link[openxlsx:openxlsx]{openxlsx} \code{Workbook} objects and \link[openxlsx2:openxlsx2]{openxlsx2}
+\code{wbWorkbook} objects.
+
+This function is adapted from \code{rapid.spreadsheets::overwrite_df()}; for the
+full rapid.spreadsheets code, see
 \href{https://github.com/RAPID-ONS/rapid.spreadsheets/blob/main/R/create_data_table_tab.R}{the GitHub page}.
 }
 \examples{
 \dontrun{
-library(openxlsx)
 library(aftables)
 
 set.seed(1)
@@ -45,12 +51,17 @@ contents_df <- data.frame("Sheet name" = "Table",
                           "Sheet title" = "Example",
                           check.names = FALSE)
 
+dummy_data <- round_with_commas(rnorm(10) * 1e5)
+
+dummy_data_markers <- c(dummy_data[1:3],
+                        paste(dummy_data[4], "[u]"),
+                        dummy_data[5:10])
+
 table_df <- data.frame(
   Category = LETTERS[1:10],
-  "Suppressed" = c(1:4, "[c]", 6:9, "[x]"),
-  "Commas" = round_with_commas(rnorm(10) * 1e5, "optimise"),
-  check.names = FALSE
-)
+  "Dummy data" = dummy_data,
+  "Dummy data with markers" = dummy_data_markers,
+  check.names = FALSE)
 
 aftable <- create_aftable(
   tab_titles = c("Cover", "Contents", contents_df$`Sheet name`),
@@ -63,24 +74,14 @@ excel_wb <- generate_workbook(aftable)
 
 # Check the file
 # note the format errors on the table sheet
-openXL(excel_wb)
+openxlsx2::wb_open(excel_wb)
 
 # Fix the errors
 overwrite_num_cols(excel_wb, sheet = 3, cols = 2:3,
                    rows = 5:14, df = table_df)
 
 # Check the file again
-# the errors are gone, but the commas have disappeared
-openXL(excel_wb)
-
-# Add styling
-addStyle(excel_wb, sheet = 3, cols = 2:3,
-         rows = 5:14, gridExpand = TRUE,
-         style = get_cell_style("number", "body"))
-
-# Check the file a final time
-# formatting is back and errors are still gone
-openXL(excel_wb)
+openxlsx2::wb_open(excel_wb)
 }
 
 }

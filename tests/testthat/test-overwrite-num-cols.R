@@ -1,16 +1,21 @@
 set.seed(1)
 
-# Create an aftable
 cover_df <- list("Section" = c("Title", "Content"))
 
 contents_df <- data.frame("Sheet name" = "Table",
                           "Sheet title" = "Example",
                           check.names = FALSE)
 
+dummy_data <- round_with_commas(rnorm(10) * 1e5)
+
+dummy_data_markers <- c(dummy_data[1:3],
+                        paste(dummy_data[4], "[u]"),
+                        dummy_data[5:10])
+
 table_df <- data.frame(
   Category = LETTERS[1:10],
-  "Suppressed" = c(1:4, "[c]", 6:9, "[x]"),
-  "Commas" = round_with_commas(rnorm(10) * 1e5, "optimise"),
+  "Dummy data" = dummy_data,
+  "Dummy data with markers" = dummy_data_markers,
   check.names = FALSE
 )
 
@@ -25,10 +30,10 @@ excel_wb <- aftables::generate_workbook(aftable)
 
 test_that("not using overwrite_num_cols results in numbers stored as text", {
   excel_path <- tempfile(fileext = ".xlsx")
-  openxlsx::saveWorkbook(excel_wb, file = excel_path, overwrite = TRUE)
+  openxlsx2::wb_save(excel_wb, file = excel_path)
   table_sheet <- tidyxl::xlsx_cells(excel_path, sheets = "Table")
   expect_equal(
-    unique(table_sheet$data_type[table_sheet$col %in% 2:3 & table_sheet$row %in% 5:14]),
+    unique(table_sheet$data_type[table_sheet$col == 3 & table_sheet$row %in% 5:14]),
     "character"
   )
 })
@@ -36,10 +41,10 @@ test_that("not using overwrite_num_cols results in numbers stored as text", {
 test_that("overwrite_num_cols fixes numbers stored as text", {
   overwrite_num_cols(excel_wb, sheet = 3, cols = 2:3, rows = 5:14, df = table_df)
   excel_path <- tempfile(fileext = ".xlsx")
-  openxlsx::saveWorkbook(excel_wb, file = excel_path, overwrite = TRUE)
+  openxlsx2::wb_save(excel_wb, file = excel_path)
   table_sheet <- tidyxl::xlsx_cells(excel_path, sheets = "Table")
   expect_equal(
-    unique(table_sheet$data_type[table_sheet$col %in% 2:3 & table_sheet$row %in% 5:14]),
+    unique(table_sheet$data_type[table_sheet$col == 3 & table_sheet$row %in% 5:14]),
     c("numeric", "character")
   )
 })

@@ -1,12 +1,17 @@
 #' Fixes column where numbers are stored as text
 #'
-#' Overwrites selected columns and rows that contain both numeric and character
-#' elements. Once this is run, you should add a new style to the modified
-#' columns and rows so that they are displayed correctly in the output file. Use
-#' [openxlsx::addStyle()] and [get_cell_style()] to do this.
+#' If you have markers on your values (e.g. 'u' for low reliability, 'p' for
+#' provisional, see [AF guidance](https://analysisfunction.civilservice.gov.uk/policy-store/symbols-in-tables-definitions-and-help/#section-6)
+#' for full list), you will still get 'numbers stored as text' errors on the
+#' unmarked values, even with the latest version of [aftables], which uses [openxlsx2].
 #'
-#' This function is adapted from `rapid.spreadsheets::overwrite_df()`, to work
-#' with [aftables]; for the full rapid.spreadsheets code, see
+#' This function overwrites only cells that can be converted to numbers (i.e. the
+#' unmarked values), leaving the marked values and any suppressed values as-is.
+#' This function works with both [openxlsx] `Workbook` objects and [openxlsx2]
+#' `wbWorkbook` objects.
+#'
+#' This function is adapted from `rapid.spreadsheets::overwrite_df()`; for the
+#' full rapid.spreadsheets code, see
 #' [the GitHub page](https://github.com/RAPID-ONS/rapid.spreadsheets/blob/main/R/create_data_table_tab.R).
 #'
 #' @importFrom openxlsx writeData
@@ -18,11 +23,11 @@
 #' @param cols Vector of column numbers to be overwritten
 #' @param rows Vector of row numbers to be overwritten
 #' @param df Data frame containing the data from the relevant worksheet
+#' @param num_format String, default = `"0"`; Excel-style cell format for the values
 #'
 #' @return Updated workbook with modified columns
 #'
 #' @examples \dontrun{
-#' library(openxlsx)
 #' library(aftables)
 #'
 #' set.seed(1)
@@ -34,12 +39,17 @@
 #'                           "Sheet title" = "Example",
 #'                           check.names = FALSE)
 #'
+#' dummy_data <- round_with_commas(rnorm(10) * 1e5)
+#'
+#' dummy_data_markers <- c(dummy_data[1:3],
+#'                         paste(dummy_data[4], "[u]"),
+#'                         dummy_data[5:10])
+#'
 #' table_df <- data.frame(
 #'   Category = LETTERS[1:10],
-#'   "Suppressed" = c(1:4, "[c]", 6:9, "[x]"),
-#'   "Commas" = round_with_commas(rnorm(10) * 1e5, "optimise"),
-#'   check.names = FALSE
-#' )
+#'   "Dummy data" = dummy_data,
+#'   "Dummy data with markers" = dummy_data_markers,
+#'   check.names = FALSE)
 #'
 #' aftable <- create_aftable(
 #'   tab_titles = c("Cover", "Contents", contents_df$`Sheet name`),
@@ -52,37 +62,36 @@
 #'
 #' # Check the file
 #' # note the format errors on the table sheet
-#' openXL(excel_wb)
+#' openxlsx2::wb_open(excel_wb)
 #'
 #' # Fix the errors
 #' overwrite_num_cols(excel_wb, sheet = 3, cols = 2:3,
 #'                    rows = 5:14, df = table_df)
 #'
 #' # Check the file again
-#' # the errors are gone, but the commas have disappeared
-#' openXL(excel_wb)
-#'
-#' # Add styling
-#' addStyle(excel_wb, sheet = 3, cols = 2:3,
-#'          rows = 5:14, gridExpand = TRUE,
-#'          style = get_cell_style("number", "body"))
-#'
-#' # Check the file a final time
-#' # formatting is back and errors are still gone
-#' openXL(excel_wb)
+#' openxlsx2::wb_open(excel_wb)
 #' }
 #'
 #' @author Farm Business Survey team ([fbs.queries@defra.gov.uk](mailto:fbs.queries@defra.gov.uk))
 #'
 #' @export
 
-overwrite_num_cols <- function(excel_wb, sheet, cols, rows, df) {
+overwrite_num_cols <- function(excel_wb, sheet, cols, rows, df, num_format = "0") {
+
+  if (class(excel_wb)[1] == "Workbook") {
+    wb_class <- "openxlsx"
+  } else if (class(excel_wb)[1] == "wbWorkbook") {
+    wb_class <- "openxlsx2"
+  } else {
+    stop("Class of `excel_wb` does not match either openxlsx or openxlsx2")
+  }
 
   lapply(seq_along(cols), \(col) {
 
     full_col <- pull(df[cols], col)
-    # Only convert numbers to numeric if they aren't marked with [u]
-    full_col_num <- str_remove_all(full_col, "(,|%)(?!.*[u])")
+
+    # Only convert numbers to numeric if they aren't marked
+    full_col_num <- str_remove_all(full_col, "(,|%)(?!.*\\[.*\\])")
 
     lapply(seq_along(rows), \(row) {
 
@@ -101,9 +110,27 @@ overwrite_num_cols <- function(excel_wb, sheet, cols, rows, df) {
 
       }
 
-      openxlsx::writeData(excel_wb, sheet, new_value,
-                          startCol = cols[col],
-                          startRow = (row - 1) + rows[1])
+      # Write new cell value to workbook and add number formatting
+      if (wb_class == "openxlsx") {
+
+        openxlsx::writeData(excel_wb, sheet, new_value,
+                            startCol = cols[col],
+                            startRow = (row - 1) + rows[1])
+
+        openxlsx::addStyle(excel_wb, sheet,
+                           cols = cols[col], rows = (row - 1) + rows[1],
+                           openxlsx::createStyle(numFmt = num_format))
+
+      } else if (wb_class == "openxlsx2") {
+
+        excel_wb$add_data(sheet, new_value,
+                          start_col = cols[col],
+                          start_row = (row - 1) + rows[1])
+
+        excel_wb$add_numfmt(sheet, numfmt = num_format,
+                            dims = paste0(LETTERS[cols[col]], (row - 1) + rows[1]))
+
+      }
 
     })
   })
