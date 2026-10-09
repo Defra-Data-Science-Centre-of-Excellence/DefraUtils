@@ -26,12 +26,12 @@ Updated workbook with modified columns
 If you have markers on your values (e.g. 'u' for low reliability, 'p' for
 provisional, see \href{https://analysisfunction.civilservice.gov.uk/policy-store/symbols-in-tables-definitions-and-help/#section-6}{AF guidance}
 for full list), you will still get 'numbers stored as text' errors on the
-unmarked values, even with the latest version of \link[aftables:aftables]{aftables}, which uses \link[openxlsx2:openxlsx2]{openxlsx2}.
+unmarked values, even with the latest version of \link[aftables:aftables-package]{aftables::aftables}, which uses \link[openxlsx2:openxlsx2-package]{openxlsx2::openxlsx2}.
 }
 \details{
 This function overwrites only cells that can be converted to numbers (i.e. the
 unmarked values), leaving the marked values and any suppressed values as-is.
-This function works with both \link[openxlsx:openxlsx]{openxlsx} \code{Workbook} objects and \link[openxlsx2:openxlsx2]{openxlsx2}
+This function works with both \link[openxlsx:openxlsx]{openxlsx::openxlsx} \code{Workbook} objects and \link[openxlsx2:openxlsx2-package]{openxlsx2::openxlsx2}
 \code{wbWorkbook} objects.
 
 This function is adapted from \code{rapid.spreadsheets::overwrite_df()}; for the

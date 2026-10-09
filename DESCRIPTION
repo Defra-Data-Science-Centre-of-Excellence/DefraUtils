@@ -1,7 +1,7 @@
 Package: DefraUtils
 Type: Package
 Title: Utility functions for use by Defra analysts.
-Version: 1.0.7
+Version: 1.0.8
 Authors@R: 
     c(person(given = "Farming",
              family = "Stats",
@@ -97,3 +97,4 @@ Imports:
     xml2,
     zoo
 Config/roxygen2/version: 8.0.0
+RoxygenNote: 7.3.3

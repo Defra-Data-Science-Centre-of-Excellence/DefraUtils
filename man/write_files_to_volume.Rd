@@ -4,6 +4,7 @@
 \alias{write_files_to_volume}
 \alias{dash_volume_write}
 \alias{write_xlsx_to_volume}
+\alias{write_xlsx2_to_volume}
 \alias{write_rds_to_volume}
 \alias{write_csv_to_volume}
 \alias{write_text_to_volume}
@@ -13,6 +14,8 @@
 dash_volume_write(..., max_tries = 5, interval = 2)
 
 write_xlsx_to_volume(data, path, ...)
+
+write_xlsx2_to_volume(data, path, ...)
 
 write_rds_to_volume(data, path, ...)
 
@@ -93,9 +96,10 @@ file is written to DASH as described above.
 Reader functions used are as follows:
 
 \itemize{
-\item \strong{.csv} - \code{\link[readr:write_csv]{readr::write_csv()}}
+\item \strong{.csv} - \code{\link[readr:write_delim]{readr::write_csv()}}
 \item \strong{.xlsx} - \code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}
-\item \strong{.Rds} - \code{\link[base:saveRDS]{base::saveRDS()}}
+\item \strong{.xlsx} - \code{\link[openxlsx2:wb_save]{openxlsx2::wb_save()}}
+\item \strong{.Rds} - \code{\link[base:readRDS]{base::saveRDS()}}
 \item \strong{.md} - \code{\link[base:cat]{base::cat()}}
 \item \strong{.parquet} - \code{\link[arrow:write_parquet]{arrow::write_parquet()}}
 }
@@ -119,8 +123,14 @@ write_csv_to_volume(
   data = my_data_frame
 )
 
-# write xlsx file
+# write xlsx file (using openxlsx)
 write_xlsx_to_volume(
+  path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
+  data = my_data_frame
+)
+
+# write xlsx file (using openxlsx2)
+write_xlsx2_to_volume(
   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
   data = my_data_frame
 )
@@ -146,8 +156,8 @@ write_parquet_to_volume(
 
 }
 \seealso{
-\code{\link[brickster:db_volume_write]{brickster::db_volume_write()}}, \code{\link[readr:write_csv]{readr::write_csv()}},
-\code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}, \code{\link[base:saveRDS]{base::saveRDS()}},
+\code{\link[brickster:db_volume_write]{brickster::db_volume_write()}}, \code{\link[readr:write_delim]{readr::write_csv()}},
+\code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}, \code{\link[base:readRDS]{base::saveRDS()}}, \code{\link[openxlsx2:wb_save]{openxlsx2::wb_save()}},
 \code{\link[=write_xlsx_to_volume]{write_xlsx_to_volume()}}, \code{\link[=write_csv_to_volume]{write_csv_to_volume()}},
 \code{\link[=write_rds_to_volume]{write_rds_to_volume()}},
 \code{\link[=write_parquet_to_volume]{write_parquet_to_volume()}}

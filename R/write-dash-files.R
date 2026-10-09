@@ -50,6 +50,7 @@
 #'   \itemize{
 #'     \item **.csv** - [readr::write_csv()]
 #'     \item **.xlsx** - [openxlsx::saveWorkbook()]
+#'     \item **.xlsx** - [openxlsx2::wb_save()]
 #'     \item **.Rds** - [base::saveRDS()]
 #'     \item **.md** - [base::cat()]
 #'     \item **.parquet** - [arrow::write_parquet()]
@@ -96,8 +97,14 @@
 #'   data = my_data_frame
 #' )
 #'
-#' # write xlsx file
+#' # write xlsx file (using openxlsx)
 #' write_xlsx_to_volume(
+#'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
+#'   data = my_data_frame
+#' )
+#'
+#' # write xlsx file (using openxlsx2)
+#' write_xlsx2_to_volume(
 #'   path = "/Volumes/prd_dash_lab/<path-to-file>/filename.xlsx",
 #'   data = my_data_frame
 #' )
@@ -122,7 +129,7 @@
 #' }
 #'
 #' @seealso [brickster::db_volume_write()], [readr::write_csv()],
-#'   [openxlsx::saveWorkbook()], [base::saveRDS()],
+#'   [openxlsx::saveWorkbook()], [base::saveRDS()], [openxlsx2::wb_save()],
 #'   [DefraUtils::write_xlsx_to_volume()], [DefraUtils::write_csv_to_volume()],
 #'   [DefraUtils::write_rds_to_volume()], 
 #'   [DefraUtils::write_parquet_to_volume()]
@@ -161,6 +168,23 @@ write_xlsx_to_volume <- function(data, path, ...) {
   # Save the workbook to the temporary file
   openxlsx::saveWorkbook(data, file = temp)
 
+  # Write the file to Brickster volume
+  DefraUtils::dash_volume_write(
+    path = path,
+    file = temp,
+    ...
+  )
+}
+
+#' @rdname write_files_to_volume
+#' @export
+write_xlsx2_to_volume <- function(data, path, ...) {
+  # Create a temporary .xlsx file
+  temp <- tempfile(fileext = ".xlsx")
+  
+  # Save the workbook to the temporary file
+  openxlsx2::wb_save(data, file = temp)
+  
   # Write the file to Brickster volume
   DefraUtils::dash_volume_write(
     path = path,
